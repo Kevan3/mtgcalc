@@ -1,6 +1,6 @@
 [package]
 name = "mtgcalc-native"
-version = "0.4.0"
+version = "0.4.1"
 edition = "2021"
 rust-version = "1.80"
 description = "Native exact engine for mtgcalc: draw and mulligan probabilities for Magic: The Gathering"
@@ -21,13 +21,11 @@ python = ["dep:pyo3"]
 num-bigint = "0.4"
 num-traits = "0.2"
 rustc-hash = "2"
-pyo3 = { version = "0.22", features = ["num-bigint", "abi3-py312"], optional = true }
+pyo3 = { version = "0.30", features = ["num-bigint", "abi3-py312"], optional = true }
 
 [lints.rust]
 unsafe_code = "forbid"
 missing_docs = "warn"
-# PyO3 0.22's macros test a `gil-refs` feature this crate does not define (recommended fix).
-unexpected_cfgs = { level = "warn", check-cfg = ['cfg(feature, values("gil-refs"))'] }
 
 [lints.clippy]
 pedantic = { level = "warn", priority = -1 }

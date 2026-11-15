@@ -4,7 +4,7 @@ build-backend = "maturin"
 
 [project]
 name = "mtgcalc-native"
-version = "0.4.0"
+version = "0.4.1"
 description = "Optional native (Rust) exact engine for mtgcalc"
 requires-python = ">=3.12"
 
