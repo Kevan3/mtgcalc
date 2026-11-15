@@ -1,0 +1,97 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mtgcalc"
+version = "0.5.0"
+description = "Exact draw/mulligan probability engine for Magic: The Gathering decks"
+requires-python = ">=3.12"
+dependencies = []
+
+[project.scripts]
+mtgcalc-gui = "mtgcalc_gui.app:main"
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "pytest-cov>=5", "hypothesis>=6.100", "mypy>=1.10", "ruff>=0.5", "scipy>=1.11", "import-linter>=2.0"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+mtgcalc = ["py.typed"]
+mtgcalc_gui = ["py.typed"]
+mtgcalc_online = ["py.typed"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src", "."]
+addopts = "-m 'not perf and not network' --strict-markers"
+markers = [
+    "slow: takes more than ~1s",
+    "perf: performance budget tests (NFR-03..05)",
+    "mc: Monte Carlo statistical tests",
+    "gui: needs a display (Tk window smoke tests)",
+    "network: talks to real deck websites (run explicitly with -m network)",
+]
+
+[tool.coverage.run]
+source = ["mtgcalc", "mtgcalc_gui", "mtgcalc_online"]
+branch = true
+
+[tool.coverage.report]
+fail_under = 95
+show_missing = true
+exclude_also = ["if TYPE_CHECKING:", "raise AssertionError", "\\.\\.\\."]
+
+[tool.mypy]
+strict = true
+python_version = "3.12"
+mypy_path = "src"
+
+[[tool.mypy.overrides]]
+module = ["scipy.*"]
+ignore_missing_imports = true
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "N", "UP", "B", "SIM", "RUF", "PLE", "PLW"]
+ignore = ["N802", "N803", "N806", "RUF001", "RUF002", "RUF003"]
+
+[tool.importlinter]
+root_packages = ["mtgcalc", "mtgcalc_gui", "mtgcalc_online"]
+
+[[tool.importlinter.contracts]]
+name = "Layered architecture (HLD §3)"
+type = "layers"
+layers = [
+    "mtgcalc.api",
+    "mtgcalc.analysis",
+    "mtgcalc.engine",
+    "mtgcalc.compile",
+    "mtgcalc.io",
+    "mtgcalc.model",
+    "mtgcalc.math",
+]
+ignore_imports = ["mtgcalc.* -> mtgcalc.errors"]
+
+[[tool.importlinter.contracts]]
+name = "IO depends only on model"
+type = "forbidden"
+source_modules = ["mtgcalc.io"]
+forbidden_modules = ["mtgcalc.compile", "mtgcalc.engine", "mtgcalc.analysis", "mtgcalc.api"]
+
+[[tool.importlinter.contracts]]
+name = "Core never depends on the GUI or on network code (NFR-07)"
+type = "forbidden"
+source_modules = ["mtgcalc"]
+forbidden_modules = ["mtgcalc_gui", "mtgcalc_online"]
+
+[[tool.importlinter.contracts]]
+name = "Online import is usable without the GUI"
+type = "forbidden"
+source_modules = ["mtgcalc_online"]
+forbidden_modules = ["mtgcalc_gui"]

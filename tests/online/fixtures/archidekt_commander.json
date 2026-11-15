@@ -1,0 +1,626 @@
+{
+ "id": 5000003,
+ "name": "Example commander deck",
+ "categories": [
+  {
+   "name": "Sideboard",
+   "isPremier": false,
+   "includedInDeck": true
+  },
+  {
+   "name": "Commander",
+   "isPremier": true,
+   "includedInDeck": true
+  },
+  {
+   "name": "Ramp",
+   "isPremier": false,
+   "includedInDeck": true
+  },
+  {
+   "name": "Land",
+   "isPremier": false,
+   "includedInDeck": true
+  },
+  {
+   "name": "Drain",
+   "isPremier": false,
+   "includedInDeck": true
+  },
+  {
+   "name": "Enchantment",
+   "isPremier": false,
+   "includedInDeck": true
+  },
+  {
+   "name": "Tokens",
+   "isPremier": false,
+   "includedInDeck": true
+  },
+  {
+   "name": "Removal",
+   "isPremier": false,
+   "includedInDeck": true
+  },
+  {
+   "name": "Protection",
+   "isPremier": false,
+   "includedInDeck": true
+  },
+  {
+   "name": "Draw",
+   "isPremier": false,
+   "includedInDeck": true
+  },
+  {
+   "name": "Evasion",
+   "isPremier": false,
+   "includedInDeck": true
+  },
+  {
+   "name": "Sac Outlet",
+   "isPremier": false,
+   "includedInDeck": true
+  },
+  {
+   "name": "Infect",
+   "isPremier": false,
+   "includedInDeck": true
+  },
+  {
+   "name": "Pump",
+   "isPremier": false,
+   "includedInDeck": true
+  },
+  {
+   "name": "Copy",
+   "isPremier": false,
+   "includedInDeck": true
+  },
+  {
+   "name": "Creature",
+   "isPremier": false,
+   "includedInDeck": true
+  },
+  {
+   "name": "Maybeboard",
+   "isPremier": false,
+   "includedInDeck": false
+  },
+  {
+   "name": "Recursion",
+   "isPremier": false,
+   "includedInDeck": true
+  }
+ ],
+ "cards": [
+  {
+   "quantity": 1,
+   "categories": [
+    "Commander"
+   ],
+   "deletedAt": null,
+   "card": {
+    "oracleCard": {
+     "name": "Sauron, the Dark Lord"
+    }
+   }
+  },
+  {
+   "quantity": 1,
+   "categories": [
+    "Sac Outlet"
+   ],
+   "deletedAt": null,
+   "card": {
+    "oracleCard": {
+     "name": "Ashnod's Altar"
+    }
+   }
+  },
+  {
+   "quantity": 1,
+   "categories": [
+    "Removal"
+   ],
+   "deletedAt": null,
+   "card": {
+    "oracleCard": {
+     "name": "Foray of Orcs"
+    }
+   }
+  },
+  {
+   "quantity": 1,
+   "categories": [
+    "Protection"
+   ],
+   "deletedAt": null,
+   "card": {
+    "oracleCard": {
+     "name": "Kaya's Ghostform"
+    }
+   }
+  },
+  {
+   "quantity": 1,
+   "categories": [
+    "Tokens"
+   ],
+   "deletedAt": null,
+   "card": {
+    "oracleCard": {
+     "name": "Lazotep Chancellor"
+    }
+   }
+  },
+  {
+   "quantity": 1,
+   "categories": [
+    "Protection"
+   ],
+   "deletedAt": null,
+   "card": {
+    "oracleCard": {
+     "name": "Lazotep Plating"
+    }
+   }
+  },
+  {
+   "quantity": 1,
+   "categories": [
+    "Removal"
+   ],
+   "deletedAt": null,
+   "card": {
+    "oracleCard": {
+     "name": "Mayhem Devil"
+    }
+   }
+  },
+  {
+   "quantity": 1,
+   "categories": [
+    "Draw"
+   ],
+   "deletedAt": null,
+   "card": {
+    "oracleCard": {
+     "name": "Teferi's Ageless Insight"
+    }
+   }
+  },
+  {
+   "quantity": 1,
+   "categories": [
+    "Recursion"
+   ],
+   "deletedAt": null,
+   "card": {
+    "oracleCard": {
+     "name": "Treason of Isengard"
+    }
+   }
+  },
+  {
+   "quantity": 1,
+   "categories": [
+    "Draw"
+   ],
+   "deletedAt": null,
+   "card": {
+    "oracleCard": {
+     "name": "Alhammarret's Archive"
+    }
+   }
+  },
+  {
+   "quantity": 1,
+   "categories": [
+    "Evasion"
+   ],
+   "deletedAt": null,
+   "card": {
+    "oracleCard": {
+     "name": "Angrath, Captain of Chaos"
+    }
+   }
+  },
+  {
+   "quantity": 1,
+   "categories": [
+    "Copy"
+   ],
+   "deletedAt": null,
+   "card": {
+    "oracleCard": {
+     "name": "Anhelo, the Painter"
+    }
+   }
+  },
+  {
+   "quantity": 1,
+   "categories": [
+    "Land"
+   ],
+   "deletedAt": null,
+   "card": {
+    "oracleCard": {
+     "name": "Barad-d\u00fbr"
+    }
+   }
+  },
+  {
+   "quantity": 1,
+   "categories": [
+    "Removal"
+   ],
+   "deletedAt": null,
+   "card": {
+    "oracleCard": {
+     "name": "Big Game Hunter"
+    }
+   }
+  },
+  {
+   "quantity": 1,
+   "categories": [
+    "Drain"
+   ],
+   "deletedAt": null,
+   "card": {
+    "oracleCard": {
+     "name": "Blood Artist"
+    }
+   }
+  },
+  {
+   "quantity": 1,
+   "categories": [
+    "Enchantment"
+   ],
+   "deletedAt": null,
+   "card": {
+    "oracleCard": {
+     "name": "Book of Mazarbul"
+    }
+   }
+  },
+  {
+   "quantity": 1,
+   "categories": [
+    "Draw"
+   ],
+   "deletedAt": null,
+   "card": {
+    "oracleCard": {
+     "name": "Call of the Ring"
+    }
+   }
+  },
+  {
+   "quantity": 1,
+   "categories": [
+    "Protection"
+   ],
+   "deletedAt": null,
+   "card": {
+    "oracleCard": {
+     "name": "Dark Privilege"
+    }
+   }
+  },
+  {
+   "quantity": 1,
+   "categories": [
+    "Removal"
+   ],
+   "deletedAt": null,
+   "card": {
+    "oracleCard": {
+     "name": "Dark Withering"
+    }
+   }
+  },
+  {
+   "quantity": 1,
+   "categories": [
+    "Draw"
+   ],
+   "deletedAt": null,
+   "card": {
+    "oracleCard": {
+     "name": "Disciple of Bolas"
+    }
+   }
+  },
+  {
+   "quantity": 1,
+   "categories": [
+    "Tokens"
+   ],
+   "deletedAt": null,
+   "card": {
+    "oracleCard": {
+     "name": "Dreadhorde Invasion"
+    }
+   }
+  },
+  {
+   "quantity": 1,
+   "categories": [
+    "Tokens"
+   ],
+   "deletedAt": null,
+   "card": {
+    "oracleCard": {
+     "name": "Eternal Skylord"
+    }
+   }
+  },
+  {
+   "quantity": 1,
+   "categories": [
+    "Removal"
+   ],
+   "deletedAt": null,
+   "card": {
+    "oracleCard": {
+     "name": "Fling"
+    }
+   }
+  },
+  {
+   "quantity": 1,
+   "categories": [
+    "Sac Outlet"
+   ],
+   "deletedAt": null,
+   "card": {
+    "oracleCard": {
+     "name": "Goblin Bombardment"
+    }
+   }
+  },
+  {
+   "quantity": 1,
+   "categories": [
+    "Removal"
+   ],
+   "deletedAt": null,
+   "card": {
+    "oracleCard": {
+     "name": "Kazuul's Fury // Kazuul's Cliffs"
+    }
+   }
+  },
+  {
+   "quantity": 1,
+   "categories": [
+    "Protection"
+   ],
+   "deletedAt": null,
+   "card": {
+    "oracleCard": {
+     "name": "Malakir Rebirth // Malakir Mire"
+    }
+   }
+  },
+  {
+   "quantity": 1,
+   "categories": [
+    "Drain"
+   ],
+   "deletedAt": null,
+   "card": {
+    "oracleCard": {
+     "name": "Mirkwood Bats"
+    }
+   }
+  },
+  {
+   "quantity": 1,
+   "categories": [
+    "Draw"
+   ],
+   "deletedAt": null,
+   "card": {
+    "oracleCard": {
+     "name": "Ob Nixilis, the Adversary"
+    }
+   }
+  },
+  {
+   "quantity": 1,
+   "categories": [
+    "Removal"
+   ],
+   "deletedAt": null,
+   "card": {
+    "oracleCard": {
+     "name": "Retribution of the Ancients"
+    }
+   }
+  },
+  {
+   "quantity": 1,
+   "categories": [
+    "Removal"
+   ],
+   "deletedAt": null,
+   "card": {
+    "oracleCard": {
+     "name": "Saruman's Trickery"
+    }
+   }
+  },
+  {
+   "quantity": 1,
+   "categories": [
+    "Recursion"
+   ],
+   "deletedAt": null,
+   "card": {
+    "oracleCard": {
+     "name": "Sauron, the Necromancer"
+    }
+   }
+  },
+  {
+   "quantity": 1,
+   "categories": [
+    "Removal"
+   ],
+   "deletedAt": null,
+   "card": {
+    "oracleCard": {
+     "name": "Shadowgrange Archfiend"
+    }
+   }
+  },
+  {
+   "quantity": 1,
+   "categories": [
+    "Draw"
+   ],
+   "deletedAt": null,
+   "card": {
+    "oracleCard": {
+     "name": "Shadowheart, Dark Justiciar"
+    }
+   }
+  },
+  {
+   "quantity": 1,
+   "categories": [
+    "Draw"
+   ],
+   "deletedAt": null,
+   "card": {
+    "oracleCard": {
+     "name": "Smothering Abomination"
+    }
+   }
+  },
+  {
+   "quantity": 1,
+   "categories": [
+    "Protection"
+   ],
+   "deletedAt": null,
+   "card": {
+    "oracleCard": {
+     "name": "Supernatural Stamina"
+    }
+   }
+  },
+  {
+   "quantity": 1,
+   "categories": [
+    "Infect"
+   ],
+   "deletedAt": null,
+   "card": {
+    "oracleCard": {
+     "name": "Tainted Strike"
+    }
+   }
+  },
+  {
+   "quantity": 1,
+   "categories": [
+    "Pump"
+   ],
+   "deletedAt": null,
+   "card": {
+    "oracleCard": {
+     "name": "Temur Battle Rage"
+    }
+   }
+  },
+  {
+   "quantity": 1,
+   "categories": [
+    "Sac Outlet"
+   ],
+   "deletedAt": null,
+   "card": {
+    "oracleCard": {
+     "name": "Viscera Seer"
+    }
+   }
+  },
+  {
+   "quantity": 1,
+   "categories": [
+    "Removal"
+   ],
+   "deletedAt": null,
+   "card": {
+    "oracleCard": {
+     "name": "Widespread Brutality"
+    }
+   }
+  },
+  {
+   "quantity": 1,
+   "categories": [
+    "Sac Outlet"
+   ],
+   "deletedAt": null,
+   "card": {
+    "oracleCard": {
+     "name": "Woe Strider"
+    }
+   }
+  },
+  {
+   "quantity": 1,
+   "categories": [
+    "Drain"
+   ],
+   "deletedAt": null,
+   "card": {
+    "oracleCard": {
+     "name": "Zulaport Cutthroat"
+    }
+   }
+  },
+  {
+   "quantity": 1,
+   "categories": [
+    "Enchantment"
+   ],
+   "deletedAt": null,
+   "card": {
+    "oracleCard": {
+     "name": "March from the Black Gate"
+    }
+   }
+  },
+  {
+   "quantity": 1,
+   "categories": [
+    "Draw"
+   ],
+   "deletedAt": null,
+   "card": {
+    "oracleCard": {
+     "name": "Mask of Griselbrand"
+    }
+   }
+  },
+  {
+   "quantity": 1,
+   "categories": [
+    "Creature"
+   ],
+   "deletedAt": null,
+   "card": {
+    "oracleCard": {
+     "name": "Mauh\u00far, Uruk-hai Captain"
+    }
+   }
+  }
+ ]
+}

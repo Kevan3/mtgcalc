@@ -1,0 +1,13 @@
+[build-system]
+requires = ["maturin>=1.5,<2"]
+build-backend = "maturin"
+
+[project]
+name = "mtgcalc-native"
+version = "0.4.0"
+description = "Optional native (Rust) exact engine for mtgcalc"
+requires-python = ">=3.12"
+
+[tool.maturin]
+features = ["python", "pyo3/extension-module"]
+module-name = "mtgcalc_native"

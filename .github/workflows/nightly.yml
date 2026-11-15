@@ -1,0 +1,44 @@
+# Slower or environment-sensitive checks (docs/04-test-plan.md): deep property testing,
+# performance budgets, and the live deck-site check. Failures here are investigated,
+# not merge-blocking.
+name: Nightly
+
+on:
+  schedule:
+    - cron: "17 4 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deep:
+    name: Deep property tests, performance, live import
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: native
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e ".[dev]" ./native
+      - name: Deep property and conformance tests (1500 examples each)
+        run: python -m pytest -q tests/oracle tests/property tests/engine
+        env:
+          HYPOTHESIS_PROFILE: ci-deep
+      - name: Same oracles against the pure-Python engine
+        run: python -m pytest -q tests/oracle tests/property
+        env:
+          HYPOTHESIS_PROFILE: ci-deep
+          MTGCALC_ENGINE: python
+      - name: Performance budgets (NFR-03..05)
+        run: python -m pytest -q -m perf tests/performance
+      - name: Live deck-site check (detects API format changes)
+        run: python -m pytest -q -m network tests/online

@@ -1,0 +1,42 @@
+[package]
+name = "mtgcalc-native"
+version = "0.4.0"
+edition = "2021"
+rust-version = "1.80"
+description = "Native exact engine for mtgcalc: draw and mulligan probabilities for Magic: The Gathering"
+publish = false
+
+[lib]
+name = "mtgcalc_native"
+# cdylib: the Python extension module; rlib: lets `cargo test` and other Rust code use the crate.
+crate-type = ["cdylib", "rlib"]
+
+[features]
+default = []
+# The PyO3 bindings. Off by default so the pure-Rust core builds and tests without Python;
+# maturin enables it (see pyproject.toml).
+python = ["dep:pyo3"]
+
+[dependencies]
+num-bigint = "0.4"
+num-traits = "0.2"
+rustc-hash = "2"
+pyo3 = { version = "0.22", features = ["num-bigint", "abi3-py312"], optional = true }
+
+[lints.rust]
+unsafe_code = "forbid"
+missing_docs = "warn"
+# PyO3 0.22's macros test a `gil-refs` feature this crate does not define (recommended fix).
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(feature, values("gil-refs"))'] }
+
+[lints.clippy]
+pedantic = { level = "warn", priority = -1 }
+# Counts are validated to fit u16/u32 at the API boundary (see engine::Query::validate),
+# so the narrowing casts inside the hot loops are lossless by construction.
+cast_possible_truncation = "allow"
+module_name_repetitions = "allow"
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1

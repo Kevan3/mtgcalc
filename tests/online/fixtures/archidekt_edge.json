@@ -1,0 +1,129 @@
+{
+ "id": 42,
+ "name": "Edge cases",
+ "categories": [
+  {
+   "name": "Commander",
+   "isPremier": true,
+   "includedInDeck": true
+  },
+  {
+   "name": "Land",
+   "isPremier": false,
+   "includedInDeck": true
+  },
+  {
+   "name": "Mana Rock",
+   "isPremier": false,
+   "includedInDeck": true
+  },
+  {
+   "name": "Maybeboard",
+   "isPremier": false,
+   "includedInDeck": false
+  },
+  {
+   "name": "Sideboard",
+   "isPremier": false,
+   "includedInDeck": true
+  }
+ ],
+ "cards": [
+  {
+   "quantity": 1,
+   "categories": [
+    "Commander"
+   ],
+   "deletedAt": null,
+   "card": {
+    "oracleCard": {
+     "name": "Atraxa, Praetors' Voice"
+    }
+   }
+  },
+  {
+   "quantity": 30,
+   "categories": [
+    "Land"
+   ],
+   "deletedAt": null,
+   "card": {
+    "oracleCard": {
+     "name": "Forest"
+    }
+   }
+  },
+  {
+   "quantity": 5,
+   "categories": [
+    "Land"
+   ],
+   "deletedAt": null,
+   "card": {
+    "oracleCard": {
+     "name": "Forest"
+    }
+   }
+  },
+  {
+   "quantity": 1,
+   "categories": [
+    "Mana Rock",
+    "Ramp"
+   ],
+   "deletedAt": null,
+   "card": {
+    "oracleCard": {
+     "name": "Sol Ring"
+    }
+   }
+  },
+  {
+   "quantity": 1,
+   "categories": [],
+   "deletedAt": null,
+   "card": {
+    "oracleCard": {
+     "name": "Llanowar Elves"
+    }
+   }
+  },
+  {
+   "quantity": 1,
+   "categories": [
+    "Maybeboard"
+   ],
+   "deletedAt": null,
+   "card": {
+    "oracleCard": {
+     "name": "Black Lotus"
+    }
+   }
+  },
+  {
+   "quantity": 2,
+   "categories": [
+    "Land"
+   ],
+   "deletedAt": "2024-01-01T00:00:00Z",
+   "card": {
+    "oracleCard": {
+     "name": "Swamp"
+    }
+   }
+  },
+  {
+   "quantity": 1,
+   "categories": [
+    "Sideboard",
+    "Removal"
+   ],
+   "deletedAt": null,
+   "card": {
+    "oracleCard": {
+     "name": "Swords to Plowshares"
+    }
+   }
+  }
+ ]
+}
