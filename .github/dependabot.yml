@@ -9,6 +9,12 @@ updates:
     directory: /native
     schedule:
       interval: weekly
+    ignore:
+      # PyO3 converts big integers with num-bigint 0.4.x only (pyo3 0.30 depends on
+      # "0.4.4"). Moving our crate to 0.5 would make its BigUint a different type from the
+      # one PyO3 converts. Remove this once PyO3 supports num-bigint 0.5.
+      - dependency-name: num-bigint
+        update-types: ["version-update:semver-major", "version-update:semver-minor"]
   - package-ecosystem: pip
     directory: /
     schedule:
