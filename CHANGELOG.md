@@ -14,6 +14,13 @@ All notable changes to this project are documented here. The format follows
   - A nightly workflow: deep property tests, performance budgets, the live import check.
 - Dependabot for actions, cargo and pip.
 
+### Changed
+- Native engine 0.4.1: PyO3 0.22 → 0.30:
+  - `allow_threads` → `detach`, `get_type_bound` → `get_type`.
+  - Two PyO3-0.22 workarounds removed: the `gil-refs` cfg declaration and the `useless_conversion` allow.
+  - Bit-identical results (deep conformance) and the same speed.
+- num-bigint stays on 0.4: PyO3 0.30 only converts num-bigint 0.4.x. Dependabot now skips num-bigint 0.5+ until PyO3 supports it.
+
 ## [0.5.0] - 2026-11-14
 
 ### Added

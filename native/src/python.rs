@@ -1,13 +1,8 @@
 //! `PyO3` bindings: the `mtgcalc_native` extension module (feature `python`).
 //!
-//! `clippy::useless_conversion` is allowed module-wide: it is a known false positive on
-//! the code `#[pyfunction]` generates for `PyResult` return values (`PyO3` 0.22).
-//!
 //! Converts the flat tuples produced by `mtgcalc.engine.native` into validated Rust
-//! types, releases the GIL for the computation, and maps errors to Python exceptions:
+//! types, releases the GIL for the computation (`Python::detach`), and maps errors to Python exceptions:
 //! [`Error::Invalid`] becomes `ValueError`, [`Error::Limit`] becomes `StateLimitExceeded`.
-
-#![allow(clippy::useless_conversion)]
 
 use num_bigint::BigUint;
 use pyo3::exceptions::{PyException, PyValueError};
@@ -167,7 +162,7 @@ fn run(
     });
     let opts = Options::from(options);
     let out = py
-        .allow_threads(|| api::run(&q, start.as_ref(), &opts))
+        .detach(|| api::run(&q, start.as_ref(), &opts))
         .map_err(to_py)?;
     let snapshots = out
         .snapshots
@@ -190,7 +185,7 @@ fn mulligan(
     let plan = plan.into_plan(q.counts.len()).map_err(to_py)?;
     let opts = Options::from(options);
     let depths = py
-        .allow_threads(|| api::mulligan_depths(&q, &plan, &opts))
+        .detach(|| api::mulligan_depths(&q, &plan, &opts))
         .map_err(to_py)?;
     Ok(depths
         .into_iter()
@@ -212,7 +207,7 @@ fn hand_values(
     let plan = plan.into_plan(q.counts.len()).map_err(to_py)?;
     let opts = Options::from(options);
     let values = py
-        .allow_threads(|| api::hand_values(&q, &plan, output, &opts))
+        .detach(|| api::hand_values(&q, &plan, output, &opts))
         .map_err(to_py)?;
     Ok(values
         .into_iter()
@@ -233,7 +228,7 @@ fn mtgcalc_native(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(hand_values, m)?)?;
     m.add(
         "StateLimitExceeded",
-        m.py().get_type_bound::<StateLimitExceeded>(),
+        m.py().get_type::<StateLimitExceeded>(),
     )?;
     m.add("__version__", env!("CARGO_PKG_VERSION"))?;
     Ok(())
