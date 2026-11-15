@@ -21,7 +21,7 @@ python = ["dep:pyo3"]
 num-bigint = "0.4"
 num-traits = "0.2"
 rustc-hash = "2"
-pyo3 = { version = "0.22", features = ["num-bigint", "abi3-py312"], optional = true }
+pyo3 = { version = "0.30", features = ["num-bigint", "abi3-py312"], optional = true }
 
 [lints.rust]
 unsafe_code = "forbid"
