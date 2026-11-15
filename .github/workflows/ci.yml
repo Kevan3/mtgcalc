@@ -35,7 +35,7 @@ jobs:
           workspaces: native
       - run: cargo fmt --check
       - run: cargo clippy --release --all-targets -- -D warnings
-      - uses: actions/setup-python@v5  # the PyO3 bindings need a Python to build against
+      - uses: actions/setup-python@v7  # the PyO3 bindings need a Python to build against
         with:
           python-version: "3.12"
       - run: cargo clippy --release --features python -- -D warnings
@@ -49,7 +49,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.12"
           cache: pip
@@ -78,7 +78,7 @@ jobs:
       MTGCALC_ENGINE: ${{ matrix.engine == 'python' && 'python' || 'auto' }}
     steps:
       - uses: actions/checkout@v7
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v7
         with:
           python-version: ${{ matrix.python }}
           cache: pip
