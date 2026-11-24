@@ -42,6 +42,13 @@ def test_pct_and_in_words() -> None:
     assert forms.in_words(0.001) == "almost never"
     assert forms.in_words(0.54) == "about 5 games in 10"
     assert forms.in_words(0.04) == "about 1 game in 25"
+    assert forms.in_words(0.12) == "about 1 game in 8"
+    assert forms.in_words(0.15) == "about 2 games in 10"
+    assert forms.in_words(0.8) == "about 8 games in 10"
+    assert forms.in_words(0.86) == "all but about 1 game in 7"
+    assert forms.in_words(0.978) == "all but about 1 game in 45"  # not "10 games in 10"
+    assert forms.in_words(Fraction(0)) == "never"  # exact, not "almost"
+    assert forms.in_words(Fraction(1)) == "every game"
     assert forms.turn_words(0) == "in your opening hand"
     assert forms.turn_words(3) == "by turn 3"
 

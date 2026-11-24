@@ -1,0 +1,93 @@
+import { describe, expect, it } from "vitest";
+
+import { initialState } from "./state.ts";
+import { isAppState, loadState, saveState, STORAGE_KEY } from "./storage.ts";
+
+function memory(initial: Record<string, string> = {}) {
+  const data = { ...initial };
+  return {
+    data,
+    getItem: (k: string) => data[k] ?? null,
+    setItem: (k: string, v: string) => {
+      data[k] = v;
+    },
+  };
+}
+
+describe("storage", () => {
+  it("round-trips the app state", () => {
+    const store = memory();
+    saveState(initialState(), store);
+    expect(loadState(store)).toEqual(initialState());
+  });
+
+  it.each([
+    ["nothing saved", undefined],
+    ["not JSON", "{oops"],
+    ["wrong shape", JSON.stringify({ form: { deckSize: 60 }, nextId: 3 })],
+    [
+      "bad row",
+      JSON.stringify({
+        ...initialState(),
+        form: { ...initialState().form, goal: [{ id: "1", kind: "maybe" }] },
+      }),
+    ],
+    ["bad id counter", JSON.stringify({ ...initialState(), nextId: -1 })],
+    [
+      "huge list",
+      JSON.stringify({
+        ...initialState(),
+        form: { ...initialState().form, types: Array(51).fill({ id: "x", name: "", count: "0", also: "" }) },
+      }),
+    ],
+  ])("ignores %s", (_, text) => {
+    const store = memory(text === undefined ? {} : { [STORAGE_KEY]: text });
+    expect(loadState(store)).toBeNull();
+  });
+
+  it("never throws when storage is blocked or full", () => {
+    const blocked = {
+      getItem: () => {
+        throw new Error("SecurityError");
+      },
+      setItem: () => {
+        throw new Error("QuotaExceededError");
+      },
+    };
+    expect(loadState(blocked)).toBeNull();
+    expect(() => {
+      saveState(initialState(), blocked);
+    }).not.toThrow();
+    expect(isAppState(null)).toBe(false);
+  });
+
+  it("upgrades a setup saved by the first version (before decklists and rules)", () => {
+    const old = { ...initialState(), form: { ...initialState().form } } as Record<string, unknown>;
+    const form = old["form"] as Record<string, unknown>;
+    for (const key of ["deckMode", "decklist", "useRule", "rule"]) Reflect.deleteProperty(form, key);
+    const store = memory({ [STORAGE_KEY]: JSON.stringify(old) });
+    expect(loadState(store)?.form).toMatchObject({
+      deckMode: "types",
+      decklist: "",
+      useRule: false,
+      rule: "",
+    });
+  });
+
+  it.each([
+    ["a bad keep-first row", { protect: [{ id: "1", cardType: 3, upTo: "1" }] }],
+    ["a keep-first row that is not an object", { protect: ["land"] }],
+    ["an unknown question", { question: "optimize" }],
+    ["a type row that is not an object", { types: [null] }],
+    ["a goal row that is not an object", { goal: [1] }],
+  ])("ignores a saved setup with %s", (_, patch) => {
+    const state = { ...initialState(), form: { ...initialState().form, ...patch } };
+    expect(loadState(memory({ [STORAGE_KEY]: JSON.stringify(state) }))).toBeNull();
+  });
+
+  it("ignores saved data without a form", () => {
+    expect(loadState(memory({ [STORAGE_KEY]: JSON.stringify({ nextId: 3 }) }))).toBeNull();
+    expect(loadState(memory({ [STORAGE_KEY]: JSON.stringify(7) }))).toBeNull();
+    expect(loadState(memory({ [STORAGE_KEY]: JSON.stringify({ form: 1, nextId: 3 }) }))).toBeNull();
+  });
+});

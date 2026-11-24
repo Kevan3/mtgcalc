@@ -93,6 +93,16 @@ def test_decklist_errors_report_lines(text: str, line: int) -> None:
     assert e.value.line == line
 
 
+def test_decklist_sections_match_like_the_regex() -> None:
+    """Regression: a header with a dotless i (matched by (?i)) used to raise KeyError."""
+    deck = parse_decklist("ma\u0131n\n1 A\n\u017fideboard\n1 B\nDEC\u212a\n1 C")
+    assert [(c.name, c.zone) for c in deck.cards] == [
+        ("A", "library"),
+        ("B", "sideboard"),
+        ("C", "library"),
+    ]
+
+
 def test_decklist_size_limit() -> None:
     with pytest.raises(ParseError):
         parse_decklist("1 A\n" * 300_000)

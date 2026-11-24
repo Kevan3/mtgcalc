@@ -5,6 +5,8 @@ Flat tuple formats are produced by ``mtgcalc.engine.native`` (``_flatten``,
 """
 
 __version__: str
+#: Unicode version of the text-normalization tables (Python's ``unicodedata`` at generation).
+UNICODE_VERSION: str
 
 class StateLimitExceeded(Exception):
     """More live states than the limit; ``args[0]`` is the state count."""
@@ -45,3 +47,18 @@ def hand_values(
     query: _Query, plan: _Plan, output: int, options: _Options
 ) -> list[list[tuple[list[int], int, int, int]]]:
     """Per depth, per drawn hand: ``(hand, weight, success, denominator)``."""
+
+def probability_json(request: str) -> str:
+    """A ``Probability`` / ``ConditionalResult`` / ``Error`` as JSON (ADR-0013 §3)."""
+
+def normalize_text(text: str) -> str:
+    """``" ".join(text.split()).casefold()``, as the Rust core computes it."""
+
+def parse_deck_json(text: str) -> str:
+    """``to_dict(parse_decklist(text))`` or an error object, as JSON (ADR-0013 §2)."""
+
+def parse_rule_json(text: str, turn: int) -> str:
+    """``to_dict(parse_query(text, turn))`` or an error object, as JSON."""
+
+def format_rule_json(query: str) -> str:
+    """``{"type": "Rule", "text": format_query(q)}`` for a ``to_dict`` query, as JSON."""

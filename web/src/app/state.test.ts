@@ -1,0 +1,186 @@
+import { describe, expect, it } from "vitest";
+
+import { EXAMPLES, fromExample, initialState, reducer, type AppState } from "./state.ts";
+
+const start = initialState();
+const landId = start.form.types[0]?.id ?? "";
+
+function apply(state: AppState, ...actions: Parameters<typeof reducer>[1][]): AppState {
+  return actions.reduce(reducer, state);
+}
+
+describe("reducer", () => {
+  it("opens with the first example", () => {
+    expect(start.form.deckSize).toBe("60");
+    expect(start.form.goal.map((g) => g.cardType)).toEqual(["land", "removal"]);
+  });
+
+  it("applies format presets", () => {
+    const s = apply(start, { type: "format", name: "Commander" });
+    expect([s.form.deckSize, s.form.goFirst]).toEqual(["99", false]);
+  });
+
+  it("renames a card type everywhere it was chosen", () => {
+    const s = apply(
+      start,
+      { type: "drawsType", value: "land" },
+      { type: "typeChanged", id: landId, patch: { name: "Forest" } },
+    );
+    expect(s.form.goal[0]?.cardType).toBe("forest");
+    expect(s.form.protect[0]?.cardType).toBe("forest");
+    expect(s.form.hmVary[0]?.cardType).toBe("forest");
+    expect(s.form.keepType).toBe("forest");
+    expect(s.form.drawsType).toBe("forest");
+  });
+
+  it("fills in 'How many should I play?' from the good game, so the first press answers", () => {
+    let s = apply(start, { type: "question", value: "howmany" });
+    expect(s.form.hmVary.map((v) => [v.cardType, v.low, v.high])).toEqual([["land", "14", "40"]]);
+    s = apply(s, { type: "howManyChanged", patch: { hmMode: "split" } });
+    // The land row the player had is kept; removal is added around its step-1 count.
+    expect(s.form.hmVary.map((v) => [v.cardType, v.low, v.high])).toEqual([
+      ["land", "14", "40"],
+      ["removal", "0", "30"],
+    ]);
+    expect(s.form.hmSlots).toBe("30");
+    s = apply(s, { type: "howManyChanged", patch: { hmMode: "fewest" } });
+    expect(s.form.hmVary.map((v) => v.cardType)).toEqual(["land", "removal"]);
+    s = apply(s, { type: "howManyChanged", patch: { hmMode: "need" } });
+    expect(s.form.hmVary.map((v) => v.cardType)).toEqual(["land"]);
+    // Choosing the same mode again, or a target, changes nothing else.
+    expect(apply(s, { type: "howManyChanged", patch: { hmMode: "need", hmTarget: "70" } }).form.hmVary).toBe(
+      s.form.hmVary,
+    );
+  });
+
+  it("fills in fresh ranges for card types not tried yet", () => {
+    const s = apply(
+      start,
+      { type: "howManyChanged", patch: { hmMode: "fewest" } },
+      { type: "question", value: "howmany" },
+    );
+    expect(s.form.hmVary.map((v) => [v.cardType, v.low, v.high])).toEqual([
+      ["land", "14", "40"],
+      ["removal", "0", "16"],
+    ]);
+    expect(new Set(s.form.hmVary.map((v) => v.id)).size).toBe(2);
+  });
+
+  it("uses the first card type when the good game names none, and leaves rows alone without types", () => {
+    const anyGoal = apply(start, {
+      type: "goalChanged",
+      id: start.form.goal[0]?.id ?? "",
+      patch: { cardType: "any card" },
+    });
+    const noRemoval = apply(anyGoal, { type: "goalRemoved", id: start.form.goal[1]?.id ?? "" });
+    const s = apply(noRemoval, { type: "howManyChanged", patch: { hmMode: "split" } });
+    expect(s.form.hmVary.map((v) => v.cardType)).toEqual(["land"]);
+    expect(s.form.hmSlots).toBe("24");
+    const empty = { ...start, form: { ...start.form, types: [], hmVary: [] } };
+    const t = apply(empty, { type: "howManyChanged", patch: { hmMode: "split" } });
+    expect([t.form.hmMode, t.form.hmVary]).toEqual(["split", []]);
+  });
+
+  it("chooses card counts: rows can be added, changed and removed", () => {
+    // A value given with the change wins over the filled-in one.
+    let s = apply(start, { type: "howManyChanged", patch: { hmMode: "split", hmSlots: "26" } });
+    expect([s.form.hmMode, s.form.hmSlots]).toEqual(["split", "26"]);
+    s = apply(s, { type: "varyAdded" });
+    expect(s.form.hmVary[2]?.cardType).toBe("");
+    const second = s.form.hmVary[1]?.id ?? "";
+    s = apply(s, { type: "varyChanged", id: second, patch: { low: "2", high: "6" } });
+    expect(s.form.hmVary[1]).toMatchObject({ low: "2", high: "6" });
+    s = apply(s, { type: "varyRemoved", id: second });
+    expect(s.form.hmVary.map((v) => v.id)).not.toContain(second);
+  });
+
+  it("renames goal lines along with a card type, keystroke by keystroke", () => {
+    let s = start;
+    for (const name of ["lan", "la", "", "M", "Mana", "Mana rock"]) {
+      s = apply(s, { type: "typeChanged", id: landId, patch: { name } });
+    }
+    expect(s.form.goal[0]?.cardType).toBe("mana rock");
+    expect(s.form.goal[1]?.cardType).toBe("removal");
+  });
+
+  it("does not rename lines when another type still has the old name", () => {
+    const s = apply(
+      start,
+      { type: "typeChanged", id: start.form.types[1]?.id ?? "", patch: { name: "land" } },
+      { type: "typeChanged", id: landId, patch: { name: "forest" } },
+    );
+    expect(s.form.goal[0]?.cardType).toBe("land");
+  });
+
+  it("adds rows with fresh ids and sensible defaults", () => {
+    const s = apply(start, { type: "typeAdded" }, { type: "goalAdded" });
+    const ids = [...s.form.types, ...s.form.goal].map((r) => r.id);
+    expect(new Set(ids).size).toBe(ids.length);
+    expect(s.form.types.at(-1)).toMatchObject({ name: "", count: "0", also: "" });
+    expect(s.form.goal.at(-1)).toMatchObject({
+      kind: "at least",
+      amount: "1",
+      cardType: "removal",
+      turn: "3",
+    });
+  });
+
+  it("a first goal line uses the first card type", () => {
+    const empty = apply(start, ...start.form.goal.map((g) => ({ type: "goalRemoved" as const, id: g.id })));
+    expect(apply(empty, { type: "goalAdded" }).form.goal[0]).toMatchObject({ cardType: "land", turn: "0" });
+  });
+
+  it("removes rows and edits fields", () => {
+    const s = apply(
+      start,
+      { type: "typeRemoved", id: landId },
+      { type: "deckSize", value: "40" },
+      { type: "goFirst", value: false },
+      { type: "drawsPerTurn", value: "2" },
+      { type: "combine", value: "any" },
+      { type: "goalChanged", id: start.form.goal[0]?.id ?? "", patch: { kind: "none" } },
+    );
+    expect(s.form.types.map((t) => t.name)).toEqual(["removal"]);
+    expect([s.form.deckSize, s.form.goFirst, s.form.drawsPerTurn, s.form.combine]).toEqual([
+      "40",
+      false,
+      "2",
+      "any",
+    ]);
+    expect(s.form.goal[0]?.kind).toBe("none");
+  });
+
+  it("loads examples without reusing ids", () => {
+    const commander = EXAMPLES.find((e) => e.title.startsWith("Commander"));
+    if (commander === undefined) throw new Error("missing example");
+    const s = apply(start, { type: "load", example: commander });
+    expect(s.form.types.find((t) => t.name === "land and removal")?.also).toBe("land, removal");
+    const before = new Set([...start.form.types, ...start.form.goal].map((r) => r.id));
+    expect([...s.form.types, ...s.form.goal].some((r) => before.has(r.id))).toBe(false);
+    expect(fromExample(commander).form.goFirst).toBe(false);
+  });
+
+  it("switches deck mode, edits the decklist and the rule", () => {
+    const s = apply(start, { type: "deckMode", value: "list" }, { type: "decklist", value: "60 Forest" });
+    expect([s.form.deckMode, s.form.decklist]).toEqual(["list", "60 Forest"]);
+    expect(apply(s, { type: "rule", value: "land >= 1" }).form.rule).toBe("land >= 1");
+  });
+
+  it("starts the rule box from the lines once, and keeps a rule already written", () => {
+    const on = apply(start, { type: "useRule", value: true, prefill: "land >= 3 @T3" });
+    expect([on.form.useRule, on.form.rule]).toEqual([true, "land >= 3 @T3"]);
+    const edited = apply(on, { type: "rule", value: "ramp >= 1" }, { type: "useRule", value: false });
+    expect(edited.form.rule).toBe("ramp >= 1");
+    const again = apply(edited, { type: "useRule", value: true, prefill: "other" });
+    expect(again.form.rule).toBe("ramp >= 1");
+    expect(apply(start, { type: "useRule", value: true }).form.rule).toBe("");
+  });
+
+  it("loads the decklist example", () => {
+    const example = EXAMPLES.find((e) => e.decklist !== undefined);
+    if (example === undefined) throw new Error("no decklist example");
+    const s = apply(start, { type: "load", example });
+    expect(s.form.deckMode).toBe("list");
+    expect(s.form.decklist).toContain("#ramp");
+  });
+});

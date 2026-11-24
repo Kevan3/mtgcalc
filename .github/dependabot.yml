@@ -1,4 +1,4 @@
-# Weekly update PRs for CI actions and the native engine's Rust dependencies.
+# Weekly update PRs for CI actions, the Rust workspace, Python and the web app.
 version: 2
 updates:
   - package-ecosystem: github-actions
@@ -15,6 +15,22 @@ updates:
       # one PyO3 converts. Remove this once PyO3 supports num-bigint 0.5.
       - dependency-name: num-bigint
         update-types: ["version-update:semver-major", "version-update:semver-minor"]
+  - package-ecosystem: npm
+    directory: /web
+    schedule:
+      interval: weekly
+    ignore:
+      # typescript-eslint supports TypeScript < 6.1; move on when it supports 7.
+      - dependency-name: typescript
+        update-types: ["version-update:semver-major", "version-update:semver-minor"]
+      # eslint-plugin-jsx-a11y does not support ESLint 10 yet.
+      - dependency-name: eslint
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@eslint/js"
+        update-types: ["version-update:semver-major"]
+    groups:
+      web-dev:
+        dependency-type: development
   - package-ecosystem: pip
     directory: /
     schedule:

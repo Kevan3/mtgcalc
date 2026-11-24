@@ -1,33 +1,27 @@
-[package]
-name = "mtgcalc-native"
-version = "0.4.1"
+# The Rust side of mtgcalc (ADR-0009, ADR-0011, ADR-0013): one pure core and two bindings.
+[workspace]
+members = ["core", "python", "wasm"]
+resolver = "2"
+
+[workspace.package]
 edition = "2021"
 rust-version = "1.80"
-description = "Native exact engine for mtgcalc: draw and mulligan probabilities for Magic: The Gathering"
 publish = false
 
-[lib]
-name = "mtgcalc_native"
-# cdylib: the Python extension module; rlib: lets `cargo test` and other Rust code use the crate.
-crate-type = ["cdylib", "rlib"]
-
-[features]
-default = []
-# The PyO3 bindings. Off by default so the pure-Rust core builds and tests without Python;
-# maturin enables it (see pyproject.toml).
-python = ["dep:pyo3"]
-
-[dependencies]
-num-bigint = "0.4"
+[workspace.dependencies]
+mtgcalc-core = { path = "core" }
+num-bigint = "0.4"   # PyO3 0.30 only converts num-bigint 0.4.x (see .github/dependabot.yml)
+num-integer = "0.1"
 num-traits = "0.2"
 rustc-hash = "2"
-pyo3 = { version = "0.30", features = ["num-bigint", "abi3-py312"], optional = true }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
 
-[lints.rust]
+[workspace.lints.rust]
 unsafe_code = "forbid"
 missing_docs = "warn"
 
-[lints.clippy]
+[workspace.lints.clippy]
 pedantic = { level = "warn", priority = -1 }
 # Counts are validated to fit u16/u32 at the API boundary (see engine::Query::validate),
 # so the narrowing casts inside the hot loops are lossless by construction.

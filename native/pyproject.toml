@@ -4,10 +4,12 @@ build-backend = "maturin"
 
 [project]
 name = "mtgcalc-native"
-version = "0.4.1"
+version = "0.5.0"
 description = "Optional native (Rust) exact engine for mtgcalc"
 requires-python = ">=3.12"
 
 [tool.maturin]
-features = ["python", "pyo3/extension-module"]
+# The extension lives in the `python` crate of the workspace (ADR-0013 §1).
+manifest-path = "python/Cargo.toml"
+features = ["pyo3/extension-module"]
 module-name = "mtgcalc_native"

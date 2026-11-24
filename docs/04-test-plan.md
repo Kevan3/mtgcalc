@@ -3,9 +3,9 @@
 | | |
 |---|---|
 | Document ID | TP-04 |
-| Version | 0.6 (synchronized with 0.4.0) |
+| Version | 0.7 (synchronized with the Unreleased changes after 0.5.0) |
 | Covers | SRS-01 v0.3, LLD-03 v0.3 |
-| Tooling | pytest, Hypothesis, pytest-cov, SciPy (dev-only oracle), mutmut (increment 2), import-linter, mypy, ruff |
+| Tooling | pytest, Hypothesis, pytest-cov, SciPy (dev-only oracle), mutmut (increment 2), import-linter, mypy, ruff; cargo test/clippy; Vitest, fast-check, Testing Library, Playwright, axe-core (web) |
 
 ---
 
@@ -47,7 +47,11 @@ tests/
   online/test_live.py                          # marker `network` (opt-in): the real Archidekt API, to catch format changes
   docs/test_usage_numbers.py                   # recomputes every number quoted in docs/USAGE.md (FR-84)
   engine/test_native_conformance.py            # Rust == Python, bit for bit: run, mulligan, hand_values, errors (NFR-09; skipped if not built)
-native/src/*.rs  #[cfg(test)]                 # 22 Rust unit tests (cargo test): A1, A3, A4, bottom order, Hall, Kleene, overflow, validation
+  engine/test_core_conformance.py              # Rust model/compiler/probability == Python via JSON; same errors; Unicode (FR-90, FR-91)
+  web/make_fixtures.py, web/test_fixtures.py   # golden cases for the web app, generated from Python; must be fresh
+native/core/src/**/*.rs  #[cfg(test)]          # Rust unit tests (cargo test): engine (22) + ported model, compiler, probability, json
+web/src/**/*.test.ts(x)                        # Vitest: parity with Python, WebAssembly conformance, forms, scheduler, components (§16)
+web/e2e/*.spec.ts                              # Playwright: new-user journeys, accessibility, keyboard, privacy, speed (§16)
 ```
 
 pytest markers:
@@ -197,6 +201,15 @@ Peak state counts are recorded to catch algorithmic regressions independently of
 | FR-84 | docs/test_reference_examples, docs/test_usage_numbers |
 | FR-65 | online/*, gui/test_forms (import_deck), gui/test_app_smoke (import flow and errors) |
 | FR-66 | unit/test_io (round-trip property, layout) |
+| FR-90, FR-91 | engine/test_core_conformance, Rust unit tests (core), web/src/forms/wasm.test.ts |
+| FR-92, FR-95, FR-97 | web/src/forms/parity.test.ts, web/src/App.test.tsx, e2e/newcomer |
+| FR-93 | web/src/engine/scheduler.test.ts (incl. property), transport.test.ts, App.test.tsx (slow worker), e2e/quality (typing) |
+| FR-94, FR-96 | web/src/forms/parse.test.ts, App.test.tsx, e2e/newcomer (mistakes, jargon), e2e/quality (axe, keyboard) |
+| FR-98 | CI `pages.yml` (build) |
+| FR-99 | web/src/forms/answer.test.ts, App.test.tsx (too big) |
+| NFR-16 | e2e/quality (first answer, typing pause + budget), WebAssembly size check in `npm run wasm` |
+| NFR-17 | e2e/quality (axe WCAG 2.2 AA light/dark, with problems; keyboard; descriptions) |
+| NFR-18 | e2e/quality (no requests after load) |
 
 ## 13. Statistical test hygiene
 
@@ -280,3 +293,119 @@ Pure engine work gains about 20×. Mulligan-heavy work gains less, because hand 
 
 Lesson for this test plan: every oracle-based suite also needs a planted-defect check that
 shows it can fail. Increment 2 automates this with `mutmut` (§11).
+
+## 16. Web app (Phase 3, increment 1, ADR-0013)
+
+### 16.1 What is tested, and against what
+
+| Level | Oracle | Where |
+|---|---|---|
+| Rust core unit tests | Hand-derived values (A1, a hypergeometric tail), Python's messages, closed form vs. turn-by-turn sum | `native/core` |
+| Core conformance | The pure-Python reference (`MTGCALC_ENGINE=python`) on the same JSON: generated plain, multi-checkpoint and web-shaped cases; A1, A4–A8; identical state-limit behaviour; 26 kinds of invalid input with identical field and message; every Unicode code point | `tests/engine/test_core_conformance.py` |
+| WebAssembly conformance | Python's answers in `web/fixtures/forms.json` | `web/src/forms/wasm.test.ts` |
+| Form-layer parity | Python's `build_scenario`, `goal_condition`, `chances`, `pct`, `in_words` (64 cases, 325 percentages) | `web/src/forms/parity.test.ts` |
+| Form validation | Hand-written expectations per message; property test: every accepted form gets an answer in [0, 1] from the real `.wasm` | `web/src/forms/parse.test.ts` |
+| Live scheduler | A fake clock; property test over random interleavings of typing, time, replies and crashes | `web/src/engine/scheduler.test.ts` |
+| Components | The real app with the real WebAssembly in-process (no worker) | `web/src/App.test.tsx` |
+| End to end | The production build on Chromium, Firefox and a phone | `web/e2e/` |
+| New users | Scripted first-time journeys (no jargon at any step), and an exploratory session by a reviewer who had never seen the app (§16.3) | `web/e2e/newcomer.spec.ts` |
+
+### 16.1a Port stage 2 (rule language, decklists)
+
+| Level | Oracle | Where |
+|---|---|---|
+| Rust unit tests | Python's outputs for every line shape, error, Unicode case (`ı`, `ſ`, Kelvin sign, Arabic-Indic digits) | `native/core/src/io`, `model/text.rs` |
+| Text conformance | Python's `parse_query`/`format_query`/`parse_decklist` on hand-picked texts, fragment-generated texts (600 + 800 examples), arbitrary Unicode text, printed generated conditions, and whole text questions | `tests/engine/test_text_conformance.py` |
+| Web pipeline parity | 35 golden form cases (pasted decklists, typed rules): raw form → read → request → `.wasm` → sentence, equal to Python's `chances` | `web/src/forms/parity.test.ts` |
+| Messages | Every decklist and rule message, hand-checked | `web/src/forms/text.test.ts` |
+| Journeys | Pasting a real Moxfield export; a wrong line; writing a rule from the lines; axe with both | `web/e2e/` |
+
+Results: 76 Rust unit tests; 90 text-conformance tests; 8 of 8 planted parser defects caught (newline escape, arrow token, "found" message, `#!` backtracking, set-code length, CRLF, `repr` quotes, `x` quantity). The conformance suite found a bug in the Python reference: a section header matched by `(?i)` with a dotless `ı` raised `KeyError`; fixed, with a regression test in both languages.
+
+### 16.1b Port stage 3 (distributions, turn tables)
+
+- Rust: observer compilation (atomization order, checkpoints, retirement), the A2 PMF, turn rows equal to separate probabilities.
+- Conformance: 300 generated distributions and 300 turn tables equal Python's (`to_dict`), a realistic 99-card case, the state limit, malformed questions, `GIVEN` refused. 2 of 2 planted defects caught (observers ignored by retirement, unsorted turns).
+- Web: 12 golden question cases equal the desktop app's table rows string for string (averages, exactly/at least/at most, cards seen, chance, words); component and E2E journeys for both questions; axe with the tables (which found that sideways-scrolling tables must be keyboard-focusable: fixed).
+
+### 16.1c Port stage 4 (mulligans)
+
+- Rust: A3 (one mulligan), the best plan never worse than the configured one, validation messages, lower bounds.
+- Conformance: 250 strategy-level probabilities, 200 mulligan reports, 200 optimal-keep reports, 100 mulligan-aware tables (or the same error), a realistic Commander plan, A3 through the boundary, 8 invalid configurations with Python's field and message, and 4 derived-quota cases with 7-card draws and 3 mulligans. Those last cases were added because 2 of 6 planted defects (strict bound without +1, quota from min) survived the generated cases; with them, 6 of 6 are caught.
+- Web: 10 golden mulligan cases (chances with a plan, and "Should I mulligan?" rows, hand by hand) equal the desktop app; component tests for settings, problems, focus and the free first mulligan; E2E journey and axe.
+
+### 16.1d Port stage 5 (the card-count optimizer)
+
+- Conformance (`tests/engine/test_optimizer_conformance.py`): 250 generated problems (1–3 variables, every objective, fixed categories, mulligans, budgets, exhaustive limits 0/3/5000, monotonicity forced or detected, 16 rule shapes) give Python's `to_dict(OptimizeResult)` exactly, including `evaluations` and the frontier, or the same infeasible/validation error. Also: 8 invalid problems with Python's field and message, three realistic cases (exhaustive, bisection, local search), and `one_fewer` checked against the desktop app's `_one_fewer` on 60 generated problems.
+- Planted defects: 7 of 7 caught (ties prefer more cards, local search accepting equal moves, bisection midpoint, `>` treated as not monotone, exhaustive limit off by one, pruning that stops instead of skipping, frontier length). "`>` not monotone" first survived, because every generated rule used `>=`. Rules with `>`, `NOT`, `->` and `atleast` were added; the defect is now caught.
+- Web: 6 golden how-many cases (each mode, answered and out of reach) equal the desktop app's headline, details and rows. Reducer tests cover the pre-filled rows. Component tests cover each mode, the run-on-request button, focus, and problems (bounds against the deck size, a pasted decklist). E2E journeys and axe, before and after running.
+- Results (2026-11-24): Rust 91 tests; Python 536 passed, 97% coverage; Vitest 750 passed (97.5% statements, 91.8% branches); Playwright 76 passed, 11 skipped. The WebAssembly is 352 kB gzipped (budget 500 kB).
+
+### 16.2 Results (2026-11-23)
+
+- **Rust:** 65 unit tests. `fmt`, `clippy::pedantic` (every crate, including the wasm32 target) and `doc` are clean.
+- **Python:** 402 tests pass, with 97% coverage. The 44 core-conformance tests are included.
+- **Web:** 589 Vitest tests pass, with 99% line, 93.5% branch and 97% function coverage. Playwright: 40 passed and 5 skipped (the axe scans on Firefox, where axe crashes Playwright's Firefox build; keyboard tests on the phone; phone tests on desktops).
+- **Size and speed:** the WebAssembly file is 201 kB gzipped. Typical questions take 0.4–43 ms in WebAssembly (60-card, 2 types: 0.4 ms; 99-card, 4 types to turn 10: 43 ms; 8 lines to turn 20: 31 ms).
+- **Planted defects** (each must make a test fail):
+  - Rust port: 9 of 9 were caught: on-play draw, bit order, region check, case folding, retirement, `At` turns, quantity zero, `none_of`, at-least off by one.
+  - Scheduler: 6 of 6 were caught after one test was added. Before that, "busy ignores computing" survived, which exposed a missing busy update when the debounce fires; it is fixed.
+  - The jargon check fails when a technical word is planted in the page text.
+  - The first run of the invalid-input suite sampled mutation kinds unevenly, so some kinds were never exercised. Each kind is now its own test case.
+- **Bugs found by the tests and fixed:**
+  - The form accepted decks smaller than an opening hand (found by the property test).
+  - The out-of-date answer was dimmed with opacity, below WCAG AA contrast (found by axe).
+  - The answer stayed grey after it arrived (found by review of screenshots).
+  - On phones, the answer scrolled out of view (found by review of screenshots).
+  - The wording said "about 1 games in 10" and "at least 1 cards", and exact 0 read as "almost never". Fixed in both apps.
+
+### 16.3 New-user review (exploratory, 2026-11-23)
+
+A reviewer who had never seen the app played a brand-new player. They used only the running page (Playwright and screenshots, no source code) and worked through tasks in character: a first impression, four questions of their own, the usual mistakes, keyboard only, and a phone.
+
+**Correctness:** every answer they checked matched their own calculation. Examples: 23 lands, at least 2 in the opening hand, 83.5%; at least 4 lands by turn 4 on the draw, 68.3%; a Commander "3 lands or 1 ramp by turn 2", 90.7%; a 40-card "3 lands by turn 3 but at most 6 by turn 7", 54.9%.
+
+**Round 1 findings, and what changed:**
+
+| Finding | Severity | Change (with a test) |
+|---|---|---|
+| The card said only "Fix the highlighted field", and a section's problem waited a second | Blocker | The card states the problem ("To update the answer: …"). A section's problem shows as soon as the player leaves the section. A field's problem was already shown under the field; the reviewer's screenshot had cropped it out. |
+| On phones, the pinned card grew over the field being fixed | Blocker | While the form has a problem, the card collapses to "Out of date" plus the problem; fields reached by scrolling stop below the card. Test: `e2e/newcomer` "never covers", shown to fail without the fix |
+| The old answer looked current | Confusing | A red "Out of date: …" label |
+| "about 10 games in 10" | Confusing | "all but about 1 game in N" above 85%, "about 1 game in N" below 15% (both apps) |
+| Cards that count as two types were easy to double-count; "land ramp" without a comma silently made a new type | Confusing | An explicit hint, and a non-blocking note for "also counts as" names that are not card types |
+| Names were lowercased ("lightning bolt") | Confusing | Names are shown as typed |
+| Jargon in examples ("mdfc", "bomb"); format buttons kept old counts | Confusing | Plain names; a hint that the types stay as they are |
+| Exact numbers meant nothing to a beginner | Polish | Four decimals, plus a sentence explaining the fraction |
+| Half-typed answers flashed; the card changed height | Polish | A 250 ms pause (was 150 ms) and a fixed-height status line |
+| Focus fell to the page after removing a row, and stayed on the button after adding one | Polish | Focus moves into a new row, and to the add button after a removal |
+| A reload lost the setup | Polish | The setup is remembered in this browser |
+
+**Round 2** (same reviewer, fixed build): 8 of the 10 changes were confirmed fixed and 2 partly fixed; nothing got worse. Follow-ups made:
+- "Finish typing to update the answer" appeared after button presses, when nothing was being typed. Problems now show at once when no field has focus (regression test, shown to fail without the fix).
+- "before the last change" is now "an earlier version of your setup".
+- Table columns no longer resize when a message appears.
+- The example names "key card" and "land and removal" read naturally.
+- The examples say that they replace your setup.
+
+**"How many should I play?" review (2026-11-24, two rounds, same method):**
+
+| Finding | Severity | Change (with a test) |
+|---|---|---|
+| Pressing the button straight away said "cannot be reached": with removal fixed, the example could not reach the 90% default | Blocker | Choosing the question or a mode fills in the card types the good game uses, with ranges around their counts; the default target is 60%. Reducer tests, plus an E2E press on the starting values |
+| An unreachable target showed "Details for a bug report" | Blocker | It is an answer, not a fault: no details |
+| Share mode listed only land, sharing 20 cards | Blocker | Pre-filled with every card type of the good game, sharing their current total; a hint asks for a second card type when only one is listed |
+| "to" of 70 and 200 cards to share were accepted in a 60-card deck | Minor | "This can't be more than the 60 cards in your deck." |
+| "between 0 and 100" rejected 0 | Minor | "above 0 and up to 100 percent" |
+| The button was only in the answer card; focus was lost while it ran | Minor | A second button at the end of step 3; both keep focus while working |
+| Old answers and tables stayed on screen (also from another mode, or beside a problem) | Minor | A how-many result shows only while it matches the form |
+| A pasted decklist left the player stuck | Minor | A "Describe my deck as card types" button |
+| "best first" listed 40 land above the recommended count | Minor | "Options tried, highest chance first", and the answer's row says "(your answer)" |
+| Renaming a card type broke the how-many and mulligan rows (found while writing the tests) | Minor | A rename now follows everywhere the type was chosen |
+
+Accepted: the pinned answer card's height on phones (unchanged design, see above); a target shown as "99.990%" (the desktop app's format); names without automatic plurals.
+
+**Accepted as is:**
+- "at least 3 land": players say "3 land", and automatic plurals of names players choose would often be wrong.
+- A brief flash when typing slower than the pause.
+- "almost every game" above 99.5%.

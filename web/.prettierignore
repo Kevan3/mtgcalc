@@ -1,0 +1,7 @@
+dist
+coverage
+src/wasm-pkg
+fixtures
+playwright-report
+test-results
+package-lock.json

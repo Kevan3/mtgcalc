@@ -1,4 +1,4 @@
-//! `PyO3` bindings: the `mtgcalc_native` extension module (feature `python`).
+//! `PyO3` bindings: the `mtgcalc_native` extension module (ADR-0009, ADR-0013).
 //!
 //! Converts the flat tuples produced by `mtgcalc.engine.native` into validated Rust
 //! types, releases the GIL for the computation (`Python::detach`), and maps errors to Python exceptions:
@@ -8,11 +8,11 @@ use num_bigint::BigUint;
 use pyo3::exceptions::{PyException, PyValueError};
 use pyo3::prelude::*;
 
-use crate::api;
-use crate::engine::{Options, Query, Start, StartState};
-use crate::error::Error;
-use crate::logic::{Leaf, Program};
-use crate::policy::{MulliganPlan, Policy};
+use mtgcalc_core::api;
+use mtgcalc_core::engine::{Options, Query, Start, StartState};
+use mtgcalc_core::error::Error;
+use mtgcalc_core::logic::{Leaf, Program};
+use mtgcalc_core::policy::{MulliganPlan, Policy};
 
 pyo3::create_exception!(
     mtgcalc_native,
@@ -220,12 +220,53 @@ fn hand_values(
         .collect())
 }
 
+/// Answers a probability request in the JSON format of ADR-0013 §3 (the same format as
+/// `mtgcalc.model.serialization.to_dict`). Used by the conformance suite to check the
+/// Rust model and compiler, which the web app runs, against Python.
+#[pyfunction]
+fn probability_json(py: Python<'_>, request: &str) -> String {
+    let request = request.to_owned();
+    py.detach(move || mtgcalc_core::json::probability(&request))
+}
+
+/// A text decklist in Python's `to_dict` format, or an error object (conformance).
+#[pyfunction]
+fn parse_deck_json(py: Python<'_>, text: &str) -> String {
+    let text = text.to_owned();
+    py.detach(move || mtgcalc_core::json::parse_deck(&text))
+}
+
+/// A rule (with its default turn) in Python's `to_dict` format, or an error object.
+#[pyfunction]
+fn parse_rule_json(text: &str, turn: i64) -> String {
+    mtgcalc_core::json::parse_rule(text, turn)
+}
+
+/// The rule-language text of a `to_dict` query: `{"type": "Rule", "text": ...}`.
+#[pyfunction]
+fn format_rule_json(query: &str) -> String {
+    mtgcalc_core::json::format_rule(query)
+}
+
+/// The core's tag and card-name normalization (Python's
+/// `" ".join(s.split()).casefold()`), exposed for the Unicode conformance test.
+#[pyfunction]
+fn normalize_text(text: &str) -> String {
+    mtgcalc_core::model::text::normalize(text)
+}
+
 /// The `mtgcalc_native` module.
 #[pymodule]
 fn mtgcalc_native(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(run, m)?)?;
     m.add_function(wrap_pyfunction!(mulligan, m)?)?;
     m.add_function(wrap_pyfunction!(hand_values, m)?)?;
+    m.add_function(wrap_pyfunction!(probability_json, m)?)?;
+    m.add_function(wrap_pyfunction!(normalize_text, m)?)?;
+    m.add_function(wrap_pyfunction!(parse_deck_json, m)?)?;
+    m.add_function(wrap_pyfunction!(parse_rule_json, m)?)?;
+    m.add_function(wrap_pyfunction!(format_rule_json, m)?)?;
+    m.add("UNICODE_VERSION", mtgcalc_core::model::UNICODE_VERSION)?;
     m.add(
         "StateLimitExceeded",
         m.py().get_type::<StateLimitExceeded>(),

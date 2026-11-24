@@ -3,9 +3,9 @@
 | | |
 |---|---|
 | Document ID | SRS-01 |
-| Version | 0.7 |
+| Version | 0.8 |
 | Source | `plan.md` |
-| Phase covered | Phase 1: core calculation engine (no GUI, no web services) |
+| Phase covered | Phase 1: core calculation engine; Phase 3 (started): the web app (§5.11) |
 | Related | `00-math-foundations.md` (MATH), `02-high-level-design.md` (HLD), `03-low-level-design.md` (LLD), `04-test-plan.md` (TP), `05-engineering-process.md` (EP), `adr/` |
 
 ### Change history
@@ -14,6 +14,7 @@
 |---|---|
 | 0.1 | Initial draft from `plan.md` |
 | 0.2 | Resolved Q1–Q3 (Python; "by turn T" = after the draw; mulligan bottoming follows user-given groups) |
+| 0.8 | Added §5.11, the web app (FR-90 – FR-99, ADR-0013), and NFR-16 – NFR-18. Updated §2.2. |
 | 0.7 | Added FR-65 (import from a deck link) and FR-66 (write decklists). |
 | 0.6 | FR-84 split into beginner and reference docs; added FR-85 (beginner-first GUI) and FR-86 (examples and in-app help). |
 | 0.5 | Native engine (ADR-0009) made optional; FR-71 and NFR-06 reworded for limit-based fallback. |
@@ -55,10 +56,10 @@ Requirement keywords follow RFC 2119 / RFC 8174: **shall** = mandatory, **should
 | Item from plan.md | Deferred to | Phase 1 obligation |
 |---|---|---|
 | GUI elements (production) | Phase 3 | The API must be GUI-ready (NFR-08). A Tk **test GUI** ships in Phase 1 (§5.10). |
-| Web app refactor | Phase 3 | The core must be pure, with no I/O (NFR-07). |
+| Web app refactor | Phase 3, started: §5.11, ADR-0013 | The core must be pure, with no I/O (NFR-07). |
 | Network fetching from deck sites | Done for Archidekt (FR-65, ADR-0012); Moxfield blocks programs | Define the importer interface (FR-63). |
 | Native acceleration (Rust/C/C++) | Phase 2 | Put the engine behind an interface (NFR-09). |
-| GitHub setup and site publication | Phase 3 | The repo is CI-ready (EP). |
+| GitHub setup and site publication | GitHub: done. Site: Phase 3 (FR-98) | The repo is CI-ready (EP). |
 | Colour-fixing analysis, generic opening-hand analysis | Future | None |
 
 ## 3. Glossary
@@ -213,6 +214,28 @@ Every number quoted in `USAGE.md` and every code example in `REFERENCE.md` shall
 - technical options sit in a Settings dialog. | M | GUI |
 | FR-86 | The GUI shall provide complete example setups and in-app help: getting started, a glossary, and the rule language for advanced users. | S | GUI |
 
+### 5.11 Web app (Phase 3, ADR-0013)
+
+The web app runs entirely in the browser. Its calculations come from the Rust core compiled to WebAssembly. Increment 1 covers "What are my chances?" without mulligans; the other questions follow the port stages in ADR-0013 §2.
+
+| ID | Requirement | Pri | Trace |
+|---|---|---|---|
+| FR-90 | The Rust core shall implement `probability` (including conditional probability) for scenarios without mulligans, with results identical to the Python reference for every input both accept, and the same error kind for every input either rejects. | M | conformance |
+| FR-91 | The core shall accept and produce the JSON format of `mtgcalc.model.serialization` (ADR-0013 §3), and report errors as `{kind, field, message}` without ever panicking on input. | M | API |
+| FR-92 | The web app shall let a player describe a deck as a table of card types (name, how many, "also counts as"), choose a format preset, say whether they go first and how many cards they draw each turn, and build a goal from lines ("at least 3 land by turn 3") combined with "all" or "any". | M | web |
+| FR-93 | **Live answers.** The answer shall update by itself after any change, with no button press (except "How many should I play?", FR-104), without blocking typing, and shall never show an answer that belongs to an older version of the form. | M | web |
+| FR-94 | While the form is incomplete or invalid, the page shall keep the last good answer marked as out of date and say, next to the field, what to change in plain words. | M | web |
+| FR-95 | The answer shall lead with a plain sentence (as FR-85) and offer the exact fraction on request. Percentages shall be rounded from the exact value. | M | web |
+| FR-96 | Every field shall have a visible label and a short plain-language explanation; the page shall be usable with a keyboard alone and with a screen reader (announced answers). | M | web |
+| FR-97 | The page shall open with a complete example already answered, so a first-time visitor sees what the tool does before typing anything. | S | web |
+| FR-98 | The site shall be built and published by CI as static files (GitHub Pages). | S | ops |
+| FR-99 | Questions beyond the exact engine's limits shall get a plain "too big to work out exactly" message that says how to simplify. | M | web |
+| FR-100 | (Port stage 2) The web app shall accept a pasted decklist with `#tags` (Moxfield and Archidekt text), show what it read (cards, commander, tags), offer its tags as card types, and say which line is wrong in plain words. The Rust parser shall match `parse_decklist` exactly. | M | web |
+| FR-102 | (Port stage 3) The web app shall answer "How many will I draw?" (the average and the chance of at least 1, 2, … of a card type by each turn, with every exact/at least/at most number on request) and "Turn by turn" (the chance of a good game at each turn), matching `analysis.stats` and the desktop app's tables. Tables shall be keyboard-scrollable and labelled. | M | web |
+| FR-103 | (Port stage 4) The web app shall model the London mulligan (keep rule, cards to keep first with "up to" counts, most mulligans, free first mulligan), include it in every answer (saying so), and answer "Should I mulligan?" (your plan, never mulliganing, the best possible plan, and the hands the best plan keeps), matching `analysis.mulligan` and the desktop app's advice. | M | web |
+| FR-104 | (Port stage 5) The web app shall answer "How many should I play?" in its three forms (how many of one card type reach a target, how best to share a number of cards between card types, the fewest cards in total that reach a target), with the chance one card fewer would give, whether the answer is guaranteed best, the best options tried, and plain advice when a target cannot be reached. It runs when the player asks (a search may take seconds). The Rust optimizer shall match `analysis.optimizer` exactly (counts, probability, evaluations, frontier, errors). | M | web |
+| FR-101 | (Port stage 2) Experienced players may write the goal as a rule (the rule language, FR-37), starting from their lines written as a rule, with a short guide; problems name the character and say what is expected. The Rust parser and printer shall match `parse_query` and `format_query` exactly. | S | web |
+
 ## 6. Non-functional requirements
 
 | ID | Category | Requirement | Verification |
@@ -231,6 +254,9 @@ Every number quoted in `USAGE.md` and every code example in `REFERENCE.md` shall
 | NFR-12 | Usability | Errors identify the field (or line/column for parsers) and the reason. | TP §4 |
 | NFR-13 | Portability | Pure Python 3.12+. No required runtime dependencies. Optional extras for acceleration. | CI matrix |
 | NFR-14 | Security | Parsers never `eval` input. Input sizes are bounded (decklist ≤ 1 MB, expression ≤ 10 kB, nesting ≤ 64) to protect future web deployment. | TP §9 |
+| NFR-16 | Performance (web) | On a mid-range laptop, an increment-1 question on a 60- or 99-card deck with up to 4 card types and turn 10 answers within 100 ms of the last change, plus the 250 ms typing pause. The first answer appears within 2 s of opening the page. The WebAssembly file is under 500 kB (gzip). | TP §16 |
+| NFR-17 | Accessibility (web) | WCAG 2.2 AA: an automated axe scan finds no violations; every control is reachable and operable by keyboard; answers are announced through a polite live region. | TP §16 |
+| NFR-18 | Privacy (web) | The web app makes no network requests after loading and stores nothing about the user beyond, optionally, their own form in the browser. | TP §16 |
 | NFR-15 | Maintainability | `mypy --strict` and `ruff` are clean. Layer dependencies are enforced automatically (HLD §3). Public items have docstrings. | CI |
 
 ## 7. Assumptions and constraints
@@ -278,4 +304,4 @@ Every number quoted in `USAGE.md` and every code example in `REFERENCE.md` shall
 | establish unit tests | FR-70, NFR-01, NFR-10, TP |
 | optimize performance | NFR-03 – NFR-06, NFR-09, FR-71 |
 | implement gui elements | FR-80 – FR-83 (test GUI); production GUI deferred (§2.2) |
-| web app / GitHub / publish | Deferred (§2.2) |
+| web app / GitHub / publish | FR-90 – FR-99, NFR-16 – NFR-18 (ADR-0013) |
