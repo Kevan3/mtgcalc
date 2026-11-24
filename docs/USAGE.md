@@ -12,6 +12,20 @@ You describe your deck and what a good game looks like. The app tells you how of
 
 ---
 
+## The web version
+
+There is also a version that runs in your web browser. You don't need to install anything, and nothing you type leaves your computer.
+
+- It answers **"What are my chances?"**, **"How many will I draw?"**, **"Turn by turn"**, **"Should I mulligan?"** (with mulligans in step 2) and **"How many should I play?"**, for a deck described as card types or pasted as a decklist (with `#tags`). Experienced players can tick **Write my own rule instead**.
+- **The answer updates as you type.** There is no Answer button. The one exception is **"How many should I play?"**: trying many decks can take a few seconds, so it waits until you press **Find the best counts** (at the end of step 3, or in the answer card). It needs your deck described as card types. When you choose it, the card types your good game uses are filled in for you, with ranges around their current numbers, so you can press the button straight away.
+- If something you typed doesn't make sense (say, letters in a number box), the page says what to change, right next to that box and in the answer card. Your previous answer stays visible, marked **Out of date**, until you fix it.
+- It opens with an example already answered, so you can see how it works before typing anything.
+- It remembers your deck the next time you open it in the same browser.
+
+The steps are the same as in the desktop app below: **1. Your deck**, **2. How you play**, **3. A good game is…**
+
+---
+
 ## Opening the app
 
 In a terminal, from the project folder:

@@ -204,18 +204,28 @@ fn hall_feasible(demands: &[(Vec<usize>, u32)], seen: &[u16]) -> bool {
 }
 
 /// Opcodes of the postfix Boolean bytecode (must match `mtgcalc.compile.logic`).
-mod op {
+pub mod op {
+    /// `BIT i`: push predicate bit `i`.
     pub const BIT: i64 = 0;
+    /// `CONST b`: push a constant.
     pub const CONST: i64 = 1;
+    /// `NOT`: negate the top value.
     pub const NOT: i64 = 2;
+    /// `AND n`: conjunction of the top `n` values.
     pub const AND: i64 = 3;
+    /// `OR n`: disjunction of the top `n` values.
     pub const OR: i64 = 4;
+    /// `XOR`: exclusive or of the top two values.
     pub const XOR: i64 = 5;
+    /// `IMPLIES`: `a -> b` for the top two values `a`, `b`.
     pub const IMPLIES: i64 = 6;
+    /// `ATLEAST k n`: at least `k` of the top `n` values are true.
     pub const ATLEAST: i64 = 7;
+    /// `EXACTLY k n`: exactly `k` of the top `n` values are true.
     pub const EXACTLY: i64 = 8;
 
     /// Number of operands following an opcode.
+    #[must_use]
     pub fn arity(code: i64) -> usize {
         match code {
             BIT | CONST | AND | OR => 1,
@@ -282,6 +292,16 @@ impl Program {
             )));
         }
         Ok(Program(code))
+    }
+
+    /// `self AND BIT(bit)` (postfix concatenation, Python's `conjoin_bit`, ADR-0006).
+    ///
+    /// # Errors
+    /// [`crate::Error::Invalid`] if `bit` does not fit in 64 bits.
+    pub fn conjoin_bit(&self, bit: u32) -> Result<Program> {
+        let mut code = self.0.clone();
+        code.extend([op::BIT, i64::from(bit), op::AND, 2]);
+        Program::new(code)
     }
 
     /// Two-valued evaluation.

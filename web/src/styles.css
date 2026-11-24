@@ -1,0 +1,597 @@
+:root {
+  --bg: #f6f5f1;
+  --surface: #ffffff;
+  --text: #1d1d1f;
+  --muted: #545458;
+  --border: #c9c7c0;
+  --accent: #1f5f8b;
+  --accent-text: #ffffff;
+  --accent-soft: #e3eef6;
+  --problem: #a4161a;
+  --problem-soft: #fdecec;
+  --focus: #b35c00;
+  --radius: 8px;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #17181b;
+    --surface: #212327;
+    --text: #ececec;
+    --muted: #b4b4b8;
+    --border: #4a4c52;
+    --accent: #7fb6e0;
+    --accent-text: #0d1b26;
+    --accent-soft: #233545;
+    --problem: #ff8a8a;
+    --problem-soft: #3a1f21;
+    --focus: #ffb35c;
+    color-scheme: dark;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font:
+    16px/1.5 system-ui,
+    -apple-system,
+    "Segoe UI",
+    Roboto,
+    sans-serif;
+}
+.page {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 16px;
+}
+h1 {
+  font-size: 1.8rem;
+  margin: 0.5rem 0 0.25rem;
+}
+h2 {
+  font-size: 1.2rem;
+  margin: 0 0 0.75rem;
+}
+.intro {
+  margin: 0 0 1rem;
+  max-width: 60ch;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 380px);
+  grid-template-areas: "steps answer";
+  gap: 16px;
+  align-items: start;
+}
+.steps {
+  grid-area: steps;
+  display: grid;
+  gap: 16px;
+}
+.answer-column {
+  grid-area: answer;
+  position: sticky;
+  top: 16px;
+  /* Long tables scroll inside the column, so the answer stays in view. */
+  max-height: calc(100vh - 32px);
+  overflow-y: auto;
+}
+@media (max-width: 800px) {
+  /* One column; the answer stays pinned to the top of the screen while scrolling. */
+  .layout {
+    display: block;
+  }
+  /* The column dissolves, so only the card is pinned (its tables scroll away with the
+     page) and the card stays pinned all the way down to the last step. */
+  .answer-column {
+    display: contents;
+  }
+  .answer {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    padding: 10px 12px;
+    margin-bottom: 16px;
+  }
+  .answer h2 {
+    font-size: 0.95rem;
+    margin-bottom: 0.25rem;
+  }
+  .answer .headline {
+    font-size: 1rem;
+  }
+  .status-line {
+    min-height: 1.4em;
+  }
+}
+/* On phones the pinned card must never cover the field being fixed: while the form has a
+   problem, the old answer collapses to its "out of date" line and the card says only what
+   to change, so it gets smaller rather than taller. */
+@media (max-width: 800px) {
+  .answer-body.invalid .headline,
+  .answer-body.invalid details,
+  .answer-body.invalid .trouble {
+    display: none;
+  }
+}
+/* ...and fields reached by scrolling stop below the card (JS publishes its height). */
+@media (max-width: 800px) {
+  html {
+    scroll-padding-top: calc(var(--answer-height, 0px) + 12px);
+  }
+}
+
+.step,
+.answer {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+}
+.answer {
+  box-shadow: 0 2px 10px rgb(0 0 0 / 0.08);
+}
+.headline {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem;
+}
+/* An out-of-date answer turns grey (still readable: --muted keeps WCAG AA contrast)
+   with a dashed edge. Turning grey waits 0.3 s so fast answers never flicker; coming
+   back is immediate. */
+.answer-body {
+  border-left: 4px solid transparent;
+  padding-left: 8px;
+  margin-left: -12px;
+  transition:
+    color 0.15s ease,
+    border-color 0.15s ease;
+}
+.answer-body.stale {
+  color: var(--muted);
+  border-left: 4px dashed var(--border);
+  transition-delay: 0.3s;
+}
+.answer-body.invalid {
+  transition-delay: 0s;
+}
+.answer-body.stale summary {
+  color: var(--muted);
+}
+.out-of-date {
+  margin: 0 0 0.25rem;
+  font-weight: 600;
+  color: var(--problem);
+}
+.status-line {
+  position: relative;
+  min-height: 1.6em;
+  margin-top: 0.5rem;
+}
+.status-line .updating {
+  position: absolute;
+  inset: 0 auto auto 0;
+}
+.status {
+  margin: 0;
+  color: var(--muted);
+}
+.status-invalid {
+  color: var(--problem);
+  font-weight: 600;
+}
+.updating {
+  margin: 0;
+  color: var(--muted);
+  opacity: 0;
+  animation: appear 0.2s ease 0.3s forwards;
+}
+@keyframes appear {
+  to {
+    opacity: 1;
+  }
+}
+.trouble .headline {
+  color: var(--problem);
+}
+
+.field {
+  margin: 0 0 1rem;
+  border: 0;
+  padding: 0;
+  min-width: 0;
+}
+fieldset.field > legend,
+.label,
+label {
+  font-weight: 600;
+  display: block;
+  padding: 0;
+}
+label.radio {
+  font-weight: normal;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+.hint,
+.aside,
+.note {
+  color: var(--muted);
+  margin: 0.1rem 0 0.4rem;
+  font-size: 0.92rem;
+  max-width: 65ch;
+}
+.note {
+  margin-top: 0.5rem;
+}
+.problem {
+  color: var(--problem);
+  font-weight: 600;
+  margin: 0.25rem 0 0;
+  font-size: 0.92rem;
+}
+.problem::before {
+  content: "⚠ ";
+}
+
+input[type="text"],
+select {
+  font: inherit;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.4rem 0.5rem;
+  min-height: 44px;
+  max-width: 100%;
+}
+input.small {
+  width: 5.5rem;
+}
+input.wide {
+  width: 100%;
+  max-width: 24rem;
+}
+input[aria-invalid="true"],
+select[aria-invalid="true"] {
+  border-color: var(--problem);
+  background: var(--problem-soft);
+}
+input[type="radio"] {
+  width: 1.2rem;
+  height: 1.2rem;
+  accent-color: var(--accent);
+}
+
+button {
+  font: inherit;
+  min-height: 44px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  padding: 0.35rem 0.8rem;
+  cursor: pointer;
+}
+button.choice[aria-pressed="true"] {
+  background: var(--accent);
+  color: var(--accent-text);
+  border-color: var(--accent);
+}
+button.add {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  color: var(--text);
+}
+button.remove {
+  min-width: 44px;
+  font-size: 1.3rem;
+  line-height: 1;
+  padding: 0;
+}
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+table.types {
+  border-collapse: collapse;
+  width: 100%;
+  /* Fixed columns: a message under one row must not resize the others. */
+  table-layout: fixed;
+}
+table.types th:nth-child(1) {
+  width: 36%;
+}
+table.types th:nth-child(2) {
+  width: 6.5rem;
+}
+table.types th:nth-child(4) {
+  width: 52px;
+}
+table.types th {
+  text-align: left;
+  font-size: 0.9rem;
+  color: var(--muted);
+  padding: 0 0.4rem 0.25rem 0;
+}
+table.types td {
+  padding: 0 0.4rem 0.5rem 0;
+  vertical-align: top;
+}
+table.types td input:not(.small) {
+  width: 100%;
+  min-width: 7rem;
+}
+@media (max-width: 560px) {
+  table.types thead {
+    display: none;
+  }
+  table.types tr {
+    display: grid;
+    grid-template-columns: 1fr 5.5rem 44px;
+    gap: 0.4rem;
+    margin-bottom: 0.75rem;
+  }
+  table.types td {
+    padding: 0;
+  }
+  table.types td:nth-child(3) {
+    grid-column: 1 / 3;
+    grid-row: 2;
+  }
+  table.types td:nth-child(4) {
+    grid-column: 3;
+    grid-row: 1;
+  }
+}
+
+ol.goal {
+  list-style: none;
+  margin: 0 0 0.75rem;
+  padding: 0;
+}
+.goal-line {
+  margin-bottom: 0.75rem;
+}
+.line {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  align-items: center;
+}
+
+.examples {
+  margin: 0 0 1rem;
+}
+.examples > span {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+a {
+  color: var(--accent);
+}
+details summary {
+  cursor: pointer;
+  color: var(--accent);
+}
+.mono {
+  font-family: ui-monospace, monospace;
+  font-size: 0.85rem;
+  overflow-wrap: anywhere;
+}
+footer {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin-top: 2rem;
+}
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+@media (prefers-reduced-motion: reduce) {
+  .answer-body,
+  .updating {
+    transition: none;
+    animation: none;
+    opacity: 1;
+  }
+}
+
+textarea {
+  font:
+    0.95rem/1.4 ui-monospace,
+    monospace;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.5rem;
+  width: 100%;
+  max-width: 40rem;
+}
+textarea[aria-invalid="true"] {
+  border-color: var(--problem);
+  background: var(--problem-soft);
+}
+label.checkbox {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  font-weight: normal;
+  margin-top: 1rem;
+}
+label.checkbox input {
+  width: 1.2rem;
+  height: 1.2rem;
+  accent-color: var(--accent);
+}
+.rule-guide {
+  display: grid;
+  gap: 0.35rem;
+  margin: 0.5rem 0 0;
+}
+.rule-guide div {
+  display: grid;
+  grid-template-columns: minmax(0, 17rem) minmax(0, 1fr);
+  gap: 0.75rem;
+}
+.rule-guide dd {
+  margin: 0;
+  color: var(--muted);
+}
+@media (max-width: 560px) {
+  .rule-guide div {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+}
+
+h3 {
+  font-size: 1.05rem;
+  margin: 1rem 0 0.5rem;
+}
+.questions {
+  display: grid;
+  gap: 0.5rem;
+}
+label.radio.question {
+  align-items: flex-start;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.5rem 0.75rem;
+}
+label.radio.question:has(input:checked) {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+label.radio.question input {
+  margin-top: 0.2rem;
+}
+label.radio.question {
+  flex-wrap: wrap;
+}
+label.radio.question .about {
+  flex-basis: 100%;
+  padding-left: 1.7rem;
+}
+.about {
+  color: var(--muted);
+  font-weight: normal;
+}
+
+.answer-details {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 16px;
+  margin-top: 16px;
+}
+.answer-details.stale {
+  color: var(--muted);
+}
+/* Shadows at an edge appear only while there is more of the table that way (the
+   "local" layers cover them when scrolled to that end). */
+.table-scroll {
+  overflow-x: auto;
+  margin-bottom: 0.5rem;
+  background:
+    linear-gradient(to right, var(--surface) 30%, transparent),
+    linear-gradient(to left, var(--surface) 30%, transparent) 100% 0,
+    radial-gradient(farthest-side at 0 50%, rgb(0 0 0 / 0.22), transparent),
+    radial-gradient(farthest-side at 100% 50%, rgb(0 0 0 / 0.22), transparent) 100% 0;
+  background-repeat: no-repeat;
+  background-size:
+    40px 100%,
+    40px 100%,
+    14px 100%,
+    14px 100%;
+  background-attachment: local, local, scroll, scroll;
+}
+table.results {
+  border-collapse: collapse;
+  width: 100%;
+  font-variant-numeric: tabular-nums;
+}
+table.results caption {
+  text-align: left;
+  font-weight: 600;
+  padding-bottom: 0.25rem;
+}
+table.results th,
+table.results td {
+  padding: 0.25rem 0.5rem;
+  border-bottom: 1px solid var(--border);
+  text-align: right;
+  white-space: nowrap;
+}
+table.results th[scope="row"],
+table.results thead th:first-child {
+  text-align: left;
+}
+
+/* Table questions get a wider answer column (desktop). */
+@media (min-width: 801px) {
+  .layout.wide-answer {
+    grid-template-columns: minmax(0, 1fr) minmax(320px, 470px);
+  }
+}
+.table-title {
+  font-size: 0.95rem;
+  margin: 0.5rem 0 0.25rem;
+}
+.see-table {
+  margin: 0.25rem 0 0;
+}
+label.checkbox {
+  margin-bottom: 1rem;
+}
+
+.detail {
+  margin: 0.25rem 0 0;
+}
+.mulligan {
+  border-left: 3px solid var(--accent-soft);
+  padding-left: 12px;
+}
+
+button.run {
+  margin-top: 0.75rem;
+  background: var(--accent);
+  color: var(--accent-text);
+  border-color: var(--accent);
+  font-weight: 600;
+}
+button.run[aria-disabled="true"] {
+  opacity: 0.7;
+  cursor: progress;
+}
+
+.buttons.stacked {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.chosen {
+  font-weight: 600;
+}

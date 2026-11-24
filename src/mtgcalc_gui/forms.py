@@ -92,15 +92,25 @@ def pct(p: Fraction | float, settings: Settings = Settings()) -> str:
 
 
 def in_words(p: Fraction | float) -> str:
-    """Rough everyday phrasing of a probability."""
+    """Rough everyday phrasing of a probability.
+
+    Near the middle: "about 4 games in 10". Rare things: "about 1 game in 25". Near-certain
+    things: "all but about 1 game in 25" (never "about 10 games in 10").
+    """
+    if p == 0:
+        return "never"
+    if p == 1:
+        return "every game"
     x = float(p)
     if x >= 0.995:
         return "almost every game"
     if x <= 0.005:
         return "almost never"
-    if x >= 0.1:
-        return f"about {round(x * 10)} games in 10"
-    return f"about 1 game in {round(1 / x)}"
+    if x < 0.15:
+        return f"about 1 game in {round(1 / x)}"
+    if x > 0.85:
+        return f"all but about 1 game in {round(1 / (1 - x))}"
+    return f"about {round(x * 10)} games in 10"
 
 
 def turn_words(turn: int) -> str:
@@ -365,7 +375,9 @@ def describe_goal(goal: Goal, *, with_turns: bool = True) -> str:
         return f"your rule ({goal.custom.strip()})"
     words = []
     for r in goal.requirements:
-        what = "cards" if r.card_type == ANY_CARD else r.card_type
+        what = r.card_type
+        if r.card_type == ANY_CARD:
+            what = "card" if r.kind != "none" and r.amount == 1 else "cards"
         amount = "no" if r.kind == "none" else f"{r.kind} {r.amount}"
         text = f"{amount} {what}"
         if with_turns:

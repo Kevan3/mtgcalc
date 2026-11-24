@@ -7,6 +7,27 @@ All notable changes to this project are documented here. The format follows
 ## [Unreleased]
 
 ### Added
+- **The web app, increment 1** (ADR-0013, SRS §5.11):
+  - "What are my chances?" in the browser: card types with "also counts as", format presets, going first, draws per turn, and goal lines combined with "all" or "any".
+  - The answer updates as you type. A Web Worker runs the calculation; a scheduler waits for a pause in typing, keeps only the newest question, never shows an answer to an older version of the form, and restarts a calculation that blocks a newer one for more than a second.
+  - Problems are explained next to the field and in the answer card, never while you are still typing in that field. The last good answer stays on screen, labelled "Out of date". On phones, the pinned answer card shrinks so it never covers the field being fixed.
+  - The page opens with an example already answered. It remembers your setup in this browser, makes no network requests after loading, and passes axe (WCAG 2.2 AA) in light and dark themes.
+- **The web app, increment 5:** "How many should I play?": how many of one card type reach a target (and what one fewer would give), the best way to share some cards between card types, or the fewest cards that reach a target, with the best options tried. It runs when you press "Find the best counts". Renaming a card type now renames it everywhere it was chosen.
+- **Rust port stage 5:** the card-count optimizer, identical to Python's (with one worker) down to the number of evaluations.
+- **The web app, increment 4:** mulligans in step 2 (which hands you keep, what to keep first when bottoming, most mulligans, free first mulligan), included in every answer, and "Should I mulligan?" (your plan vs. never mulliganing vs. the best possible plan, with the hands the best plan keeps).
+- **Rust port stage 4:** the mulligan model, bottom policy, strategy-level probabilities and tables, the mulligan report and the optimal keep strategy.
+- **The web app, increment 3:** "How many will I draw?" (average and a chance-of-at-least table per turn, every number on request) and "Turn by turn". Step 3 now starts with the question.
+- **Rust port stage 3:** count distributions and turn tables (`stats`), with observers in the compiler.
+- **The web app, increment 2:** paste a decklist with `#tags` (Moxfield or Archidekt text) and see what was read; write your own rule (for experienced players), starting from your lines, with a short guide. Problems say which line or character and what to write.
+- **Rust port stage 2:** the rule language (parser and printer) and decklist parsing, identical to Python's including Unicode details, without a regex engine in the WebAssembly.
+- **A shared Rust core, `mtgcalc-core`:** the model, compiler and `probability` were ported from Python. They give identical answers and identical errors (field and message), including Python's Unicode rules for tag and card names. The JSON boundary uses Python's `to_dict` format.
+- `mtgcalc_native.probability_json` and `normalize_text`, for the conformance suite.
+- Tests:
+  - core conformance against the pure-Python reference (generated questions, reference values, state limits, 26 kinds of invalid input, every Unicode code point);
+  - golden cases generated from Python (`tests/web/make_fixtures.py`) for the TypeScript form layer and the `.wasm` build;
+  - Vitest unit, property and component tests;
+  - Playwright end-to-end tests on Chromium, Firefox and a phone, including first-time-user journeys and a check that no jargon appears on screen.
+- CI: a `web` job, a GitHub Pages workflow (`pages.yml`), and Dependabot for npm.
 - Git repository, and GitHub Actions CI:
   - Rust checks: fmt, clippy for the core and the bindings, tests, docs.
   - Python lint: ruff, mypy, import contracts.
@@ -14,7 +35,15 @@ All notable changes to this project are documented here. The format follows
   - A nightly workflow: deep property tests, performance budgets, the live import check.
 - Dependabot for actions, cargo and pip.
 
+### Fixed
+- A decklist section header that `(?i)` matches with a non-ASCII letter (e.g. `maın` with a dotless i) raised `KeyError` instead of switching section (found by the new conformance suite).
+
 ### Changed
+- `native/` is now a Cargo workspace with three crates: `core`, `python` (the extension, now 0.5.0) and `wasm`. Build the extension with `maturin develop -m native/python/Cargo.toml`. `pip install ./native` works as before.
+- Desktop app wording, kept identical to the web app:
+  - exact 0 and 1 read "never" and "every game";
+  - "at least 1 card" for any card (not "1 cards");
+  - near-certain chances read "all but about 1 game in N" (not "about 10 games in 10"), and chances below 15% read "about 1 game in N".
 - Native engine 0.4.1: PyO3 0.22 → 0.30:
   - `allow_threads` → `detach`, `get_type_bound` → `get_type`.
   - Two PyO3-0.22 workarounds removed: the `gil-refs` cfg declaration and the `useless_conversion` allow.

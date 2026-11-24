@@ -3,9 +3,9 @@
 | | |
 |---|---|
 | Document ID | LLD-03 |
-| Version | 0.9 (synchronized with 0.5.0) |
+| Version | 0.10 (synchronized with the Unreleased changes after 0.5.0) |
 | Implements | HLD-02 v0.3 |
-| Language | Python 3.12+, standard library only at runtime (ADR-0001) |
+| Language | Python 3.12+, standard library only at runtime (ADR-0001); Rust (`native/`) and TypeScript (`web/`) for the native engine and the web app (§11) |
 
 This document specifies each module: its types, contracts (pre- and postconditions), and algorithms. Signatures are typed Python stubs. Algorithms are pseudocode. The source code in `src/mtgcalc` is the authoritative implementation, and any divergence from this document is a defect in one of the two. MATH §n refers to `00-math-foundations.md`.
 
@@ -427,7 +427,7 @@ The simulator shares only the compiled leaves, programs, and policy with the exa
 
 ### 5.5 Native engine (`native/`, `engine/native.py`, `engine/select.py`, ADR-0009, ADR-0011)
 
-The native engine is a Rust crate, `native/` (PyO3, built with maturin into the module `mtgcalc_native`, type stubs in `mtgcalc_native.pyi`). It is a port of §5.2 and §5.6. `native/README.md` describes the modules.
+The native engine lives in the Rust workspace `native/` (ADR-0013 §1): the engine modules are in `mtgcalc-core` (`native/core`), and the PyO3 module `mtgcalc_native` is the crate `mtgcalc-native` (`native/python`, built with maturin, type stubs in `mtgcalc_native.pyi`). It is a port of §5.2 and §5.6. `native/README.md` describes the modules.
 
 **Exactness:** weights are generic over `trait Weight`. Each call runs first as `u128` with checked arithmetic; on any overflow, `api::*` repeats it with `BigUint`.
 
@@ -457,8 +457,8 @@ Arguments:
 
 **Rust quality gates:**
 - `cargo fmt --check`;
-- `cargo clippy -- -D warnings`, with `clippy::pedantic` on, in both the core and `python` feature configurations;
-- `cargo test`: 22 unit tests mirroring the Python reference cases (A1, A3, A4, bottom order, Hall, Kleene soundness, overflow fallback, validation);
+- `cargo clippy -- -D warnings`, with `clippy::pedantic` on, for every crate (the core with and without `json`, the PyO3 crate, the WebAssembly crate on its target);
+- `cargo test`: the engine's 22 unit tests mirroring the Python reference cases (A1, A3, A4, bottom order, Hall, Kleene soundness, overflow fallback, validation), plus the ported modules' tests (§11.1);
 - `cargo doc` with `missing_docs`;
 - `unsafe_code = "forbid"`.
 
@@ -709,6 +709,69 @@ MtgCalcError
 
 ---
 
+## 11. Web app (ADR-0013)
+
+### 11.1 Rust core, port stage 1 (`native/core/src`)
+
+Each module ports the named Python module. Constructors validate exactly as Python's `__post_init__` does, with the same field paths and messages (`Error::Validation { field, message }`). After that, values are trusted.
+
+| Module | Port of | Contract |
+|---|---|---|
+| `model::text` | `normalize_tag` | `normalize(s) = casefold(collapse_whitespace(s))`, using Python's whitespace set and full case folding. Tables are generated from Python's `unicodedata` by `tools/gen_unicode.py` and must be fresh (`--check`) |
+| `model::selectors` | `model/selectors.py` | `Selector` is opaque, built by `tag`, `card`, `any_of`, `all_of`, `none_of`, `everything`. Equality is Python's: tags are normalized, card names only have whitespace collapsed |
+| `model::deck` | `model/deck.py` | `Card::new(name, quantity: i64, tags, zone)`, `Deck::new(cards)`. Libraries above 65,535 cards are `Unsupported` (the engine counts in `u16`) |
+| `model::game` | `model/game.py` | `GameConfig::new(...)`. `draws_through(t)` is computed in closed form (O(overrides)), equal to Python's turn-by-turn sum (unit test) |
+| `model::conditions` | `model/conditions.py` | Condition constructors with Python's checks; `selectors()` in pre-order, `turns(default)` (the innermost `At` wins); `Query::new` |
+| `compile::atomizer` | `compile/atomizer.py` | Distinct selectors in first-reference order. Signatures are sorted descending (Python's `sorted(..., reverse=True)`), and the all-false group is the pool |
+| `compile::schedule` | `compile/schedule.py` | Checkpoints = turns ∪ {0}, `batches[j]` = draws between checkpoints |
+| `compile::compiler` | `compile/compiler.py` | As LLD §4.4. The default turn is always a checkpoint. Leaves are deduplicated by (turn, test with masks), and bits are numbered by checkpoint, then discovery. Numbers above 65,535 are clamped to 65,536 (an equivalent comparison, since counts never exceed the library). More than 64 bits or 16 demands → `Unsupported` |
+| `probability` | `api.probability` | Outputs `{"p"}` or `{"joint": And(c, given), "given"}`. Fractions are in lowest terms; P(c \| given) is `None` when P(given) = 0 |
+| `json` | `model/serialization.py` | `probability(text) -> text` (§11.2). Never panics |
+| `model::text` (stage 2) | Python's `str`/`re` | `split_lines` (`str.splitlines`), `strip`, `digit_value` (`\\d` + `int()`), `ignorecase_eq` (`(?i)`), `py_repr` (`repr`, for messages): all from generated tables |
+| `compile::compiler` (stage 3) | `compile_query(observe=...)` | Observers: their selectors atomized after the outputs', their turns added as checkpoints, their atoms kept from retirement until read |
+| `stats` | `analysis/stats.py` | `distributions(scenario, selector, turns)` from one run's observer snapshots; `turn_table(scenario, condition, turns)` as one run with outputs `At(t, condition)`; turns sorted, de-duplicated, non-negative, at most 200 |
+| `model::mulligan` (stage 4) | `model/mulligan.py` | `PriorityGroup`, `MulliganConfig::new` with Python's checks in order; `bottom_count`, `hand_size` |
+| `compile::policy` | `compile/policy.py` | `lower_bounds` (required bounds only), `build_plan` (explicit or derived quotas, keep rule via `compile_predicate`); bottoming runs in the engine's `policy` |
+| `analysis` | `analysis/prepare.py`, `analysis/mulligan.py` | `prepare` (draw size as the hand, reserved keep bit, `output AND kept` companions); `run_mulligan` (law of total probability), `exact_values`, `mulligan_report`, `optimal_keep` (backward induction; keep iff success ≥ continuation) |
+| `io::expr` | `io/expr.py` | Lexer with Python's alternatives in order; recursive descent with the same depth counting (max 64), messages and columns; numbers read as big integers and saturated to `i64` (no count or playable turn reaches it); printer = `format_query` |
+| `optimizer` (stage 5) | `analysis/optimizer.py` | `Variable`/`Category`/`OptimizeProblem` with Python's checks in order (`validate`); `optimize` = Python's with one worker: the same candidate order, memo, bisection (`min_count`), exhaustive or bounded search, local search from the same start, first-maximum-wins ties, the same `evaluations` count and top-20 frontier; `InfeasibleError` messages identical |
+| `io::decklist` | `io/decklist.py` | Each regex hand-written with Python's semantics (leftmost match, greedy `x?`/`!?` with backtracking, `$`-anchored set suffix), so no regex engine ships in the WebAssembly; `format_decklist` |
+
+### 11.2 JSON boundary (`mtgcalc_core::json`, feature `json`)
+
+```
+request  = {"scenario": <to_dict(Scenario)>, "query": <to_dict(Query)>, "limit"?: int}
+response = <to_dict(Probability)> | <to_dict(ConditionalResult)>
+         | {"type": "Error", "kind": K, "field": str, "message": str}
+K        = "validation" | "too_large" | "unsupported" | "malformed" | "internal"
+```
+
+- Data-transfer types use `serde` internally tagged enums with `deny_unknown_fields`. Missing fields take Python's dataclass defaults.
+- Limits: requests up to 4 MiB, serde's nesting limit of 128, integers of 64 bits. A non-null `mulligan` is `unsupported` until port stage 4.
+- Stage 5: `{"optimize": <to_dict(OptimizeProblem)>, "limit"?, "one_fewer"?: bool}` (nothing else) → `to_dict(OptimizeResult)`; an unreachable target is `{"kind": "infeasible", "message"}` with Python's message. `one_fewer` (one variable only) adds `"one_fewer": Fraction | null`: the chance with one card fewer than the answer (Python's `_one_fewer` in `mtgcalc_gui.forms`), `null` when the answer is already the lowest count tried.
+- Stage 4: `scenario.mulligan` (or, with a decklist, `"mulligan"`) is a `to_dict(MulliganConfig)`; probabilities and tables are then strategy-level. Questions `MulliganReport`, `OptimalKeep` (Python's `to_dict`) and `MulliganAdvice` (both, `{"report", "best"}`) take a query (no `given`) or a rule.
+- Stage 3: `"question": {"type": "Distributions", "selector", "turns"}` (no query) → `{"type": "Distributions", "items": [to_dict(Distribution)…]}`; `{"type": "TurnTable", "turns"}` with a query (no `given`) or a rule → `to_dict(TurnTable)`. No question means the probability.
+- Stage 2: the deck may be `"decklist": text` (+ optional `"game"`) instead of `"scenario"`, and the question `"rule": text` (+ optional `"turn"`) instead of `"query"`; exactly one of each, else `malformed`. Parse errors are `{"kind": "parse", "line", "column", "message"}`. `parse_deck`, `parse_rule` and `format_rule` return `to_dict` JSON (frozensets sorted by `repr`, as Python).
+- Exposed to Python as `mtgcalc_native.probability_json`, `parse_deck_json`, `parse_rule_json`, `format_rule_json` and `normalize_text` (for the conformance suite), and to the browser as `mtgcalc_wasm.probability`, `parse_deck`, `parse_rule`, `format_rule`.
+
+### 11.3 TypeScript (`web/src`)
+
+| Module | Contract |
+|---|---|
+| `forms/model.ts` | Raw form state (strings, as typed) and the checked `Setup` (mirrors `DeckSetup`, `PlaySetup`, `Goal`) |
+| `forms/parse.ts` | `parseForm(form) → {ok, setup} \| {ok: false, issues: [{field, message}]}`. Every rule is a plain sentence naming the fix. The deck needs ≥ 7 cards (an opening hand); a goal turn must be ≤ the last turn the deck has cards for |
+| `forms/request.ts` | `buildRequest(setup)` builds JSON equal to Python's `to_dict(build_scenario(...))` and `to_dict(Query(goal_condition(goal)))`, including the frozenset order (sorted by `repr`) |
+| `forms/words.ts` | `pct`, `inWords`, `describeGoal`, `headline`: ports of the Python functions, computed exactly with `BigInt` (ties to even). Exact 0 is "never", exact 1 is "every game" |
+| `forms/text.ts` | `readDecklist(core, text)` / `readRule(core, text)`: what the core read, or a plain message per known parse error ("Line 2: start the line with how many copies…", "At character 8: a number should come here…"); `ruleText` writes lines as a rule |
+| `engine/core.ts` | `loadCore()`: a second core instance on the page, for synchronous parsing while typing; calculations stay in the worker. `main.tsx` renders once it is ready |
+| Questions (stage 3) | `FormState.question` (`chances`/`draws`/`turns`), `drawsType`, `lastTurn`; `buildRequest` sends a `Distributions` or `TurnTable` question ("Turn by turn" uses the lines without their turns, as `goal_condition(with_turns=False)`); `readReply` builds `draws`/`turns` views (exact averages and tails with BigInt); `AnswerDetails` shows the tables in focusable, labelled scroll regions |
+| "How many should I play?" (stage 5) | `FormState.hmMode` (`need`/`split`/`fewest`), `hmVary` rows (card type, from, to), `hmTarget` (percent, read exactly as a decimal), `hmSlots`. `buildRequest` sends Python's `how_many` problem (other card types fixed). The question runs only when the player presses "Find the best counts" (at the end of step 3 or in the answer card; it keeps focus while working), via `useLiveAnswer` `manual`/`waiting`/`run`, since a search can take seconds. While waiting, the card shows no older answer. Choosing the question or a mode pre-fills the rows from the card types the good game uses (rows already set up are kept; "need": count −10 … +16; "split": 0 … their total, which also becomes the cards to share; "fewest": 0 … count +10, all capped at the deck size), so the first press answers. Ranges and cards to share may not exceed the deck size. An unreachable target gets the desktop app's advice, with no bug-report details. Renaming a card type renames it wherever it was chosen |
+| `forms/answer.ts` | `readReply(goal, text) → View`: an answer, or a problem with a plain headline and advice per error kind, plus technical details kept apart |
+| `engine/scheduler.ts` | `LiveScheduler(transport, listener, clock)`: `submit`, `cancel`, `receive`, `crashed`. Invariants (property-tested): only the newest request is ever answered, cancelled requests never are, no request is sent twice, and the newest request is eventually answered |
+| `engine/transport.ts` | Worker plumbing: `restart()` replaces the worker, messages from a replaced worker are ignored, and a crash becomes an `internal` error reply |
+| `app/useLiveAnswer.ts` | One `job` string holds the request and the goal it answers. A valid form submits it; an invalid form cancels. The reply is worded with its own request's goal |
+| `App.tsx` | A field's problem shows once typing has paused for 1 s, or once the field has lost focus, and never while the player is typing in it |
+
 ## 10. Traceability (requirement → LLD)
 
 | SRS | LLD |
@@ -723,9 +786,13 @@ MtgCalcError
 | FR-37 | §7.2 |
 | FR-40 – FR-47 | §3.5, §4.5, §6.2 |
 | FR-48 | §6.2 optimal keep |
-| FR-50 – FR-54 | §6.3 |
+| FR-50 – FR-54 | §6.3, §11.1 `optimizer` |
 | FR-60 – FR-64 | §3.3, §7.1 |
 | FR-70, FR-71 | §5.4, §8 |
 | NFR-06 | §5.3 |
 | NFR-07 | §0, §3.8 |
-| NFR-14 | §7 |
+| NFR-14 | §7, §11.2 |
+| FR-90, FR-91 | §11.1, §11.2 |
+| FR-92 – FR-97, FR-99 | §11.3 |
+| FR-98 | HLD §4.10 (`pages.yml`) |
+| FR-104 | §11.1 `optimizer`, §11.2 stage 5, §11.3 |

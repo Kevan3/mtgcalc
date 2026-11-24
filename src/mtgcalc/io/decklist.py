@@ -52,6 +52,15 @@ class DeckImporter(Protocol):
         ...
 
 
+def _section_zone(word: str) -> Zone:
+    """The zone of a section header word, matched as the regex matched it.
+
+    ``(?i)`` also matches non-ASCII letters (``ı`` as ``i``, ``ſ`` as ``s``, the Kelvin
+    sign as ``k``), which ``casefold`` does not map back, so look the name up the same way.
+    """
+    return next(z for name, z in _SECTION_ZONE.items() if re.fullmatch(name, word, re.IGNORECASE))
+
+
 def _strip_archidekt(rest: str, tags: set[str]) -> tuple[str, Zone | None]:
     zone: Zone | None = None
     for group in _BRACKETS.findall(rest):
@@ -86,7 +95,7 @@ def parse_decklist(text: str, fmt: Format = "auto") -> Deck:
             continue
         section = _SECTION.match(line)
         if section:
-            zone = _SECTION_ZONE[section.group(1).casefold()]
+            zone = _section_zone(section.group(1))
             continue
         if line.startswith("//"):
             continue

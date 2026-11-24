@@ -3,11 +3,11 @@
 | | |
 |---|---|
 | Document ID | HLD-02 |
-| Version | 0.8 |
+| Version | 0.9 |
 | Implements | SRS-01 v0.3 |
 | Grounded in | `00-math-foundations.md` (MATH) |
 | Detailed in | `03-low-level-design.md` (LLD) |
-| Decisions | `adr/0001` – `adr/0007` |
+| Decisions | `adr/0001` – `adr/0013` |
 
 ---
 
@@ -171,6 +171,26 @@ A standard-library-only package outside the core:
 
 Only recognized deck links are ever fetched. In the GUI, *Import* fetches once on a worker thread and fills the decklist box using `format_decklist`, so the player can review the result. Questions never use the network. Import-linter forbids `mtgcalc → mtgcalc_online` and `mtgcalc_online → mtgcalc_gui`.
 
+### 4.10 Web app (`native/core`, `native/wasm`, `web/`, ADR-0013)
+
+The web app runs the calculator entirely in the browser:
+
+```
+ React page (web/src)                       Web Worker                  Rust core (WebAssembly)
+ ┌───────────────────────────┐  request   ┌──────────────┐  JSON text  ┌─────────────────────────┐
+ │ form ─► forms/parse ─► forms/request ──►│ LiveScheduler│────────────►│ json ─► model ─► compile│
+ │  ▲                         │  (latest   │ (debounce,   │             │      ─► engine (DP)      │
+ │  └── forms/words ◄── answer│◄── wins) ──│  restart)    │◄────────────│ Probability / Error     │
+ └───────────────────────────┘            └──────────────┘             └─────────────────────────┘
+```
+
+- **The Rust core** (`mtgcalc-core`) is the single implementation the browser runs. The model, the compiler and `probability` are ports of the Python modules. The engine is shared with the Python extension (`mtgcalc-native`), and `mtgcalc-wasm` only forwards.
+- **The JSON boundary** is Python's `to_dict` format. The conformance suite sends the same JSON to Python and to Rust and compares the answers.
+- **`web/src/forms`** ports `mtgcalc_gui.forms`: player concepts become a request, and answers become sentences. Percentages are rounded from the exact fraction.
+- **Live updates:** a debounced, latest-wins scheduler in front of a Web Worker. Stale replies are dropped, and a calculation that blocks a newer question for 1 s is ended by restarting the worker.
+- **Problems** are shown next to the field once the player pauses or leaves it. The last good answer stays on screen, marked out of date.
+- **Static hosting:** GitHub Pages, built by `.github/workflows/pages.yml`. No server, no data leaves the browser.
+
 ## 5. Public API (summary)
 
 All entry points are pure functions in `mtgcalc.api`. They take a `Scenario` and a `Query` (or a condition / expression string) and return immutable result objects.
@@ -215,6 +235,7 @@ All entry points are pure functions in `mtgcalc.api`. They take a `Scenario` and
 | 0010 | Beginner-first GUI: guided steps, goal builder, questions instead of analyses |
 | 0011 | Native crate structure; mulligan enumeration moved into the engine (Rust) |
 | 0012 | Importing decks from deck-site links (separate package; Moxfield via text export) |
+| 0013 | Web app: the Python front half ported to Rust stage by stage, everything compiled to WebAssembly; React + TypeScript; live updates |
 
 ## 8. Repository layout
 
@@ -225,6 +246,13 @@ hyper2/
   src/mtgcalc/
     __init__.py api.py errors.py py.typed
     math/ model/ compile/ engine/ analysis/ io/
+  src/mtgcalc_gui/  src/mtgcalc_online/
+  native/                  Rust workspace (ADR-0013 §1)
+    core/                  mtgcalc-core: engine + ported model/compile/probability (+ json)
+    python/                mtgcalc-native: PyO3 module mtgcalc_native
+    wasm/                  mtgcalc-wasm: wasm-bindgen exports for the browser
+  web/                     React + TypeScript web app (Vite, Vitest, Playwright)
+    src/ e2e/ fixtures/ scripts/
   tests/
     conftest.py
     unit/ reference/ oracle/ property/ metamorphic/ differential/ performance/
@@ -237,7 +265,12 @@ hyper2/
 | 1 (prototype) | Everything in Phase 1 at prototype quality: full exact engine, mulligans, optimal keep, Monte Carlo, optimizer, parsers, facade | TP §5 – §9 green |
 | 2 | Hardening: mutation testing to target, performance tuning, API docs | NFR-03 – NFR-05, NFR-10 |
 | Phase 2 | Native engine (Rust/PyO3), network importers | Engine conformance suite |
-| Phase 3 | GUI, web app, hosting | E2E tests |
+| Phase 3, increment 5 (done) | Port stage 5: the card-count optimizer in Rust; "How many should I play?" in the web app, run on request | Optimizer conformance (fuzzed against Python), planted defects, parity with the desktop app, E2E |
+| Phase 3, increment 4 (done) | Port stage 4: the mulligan model, bottom policy, strategy-level answers, mulligan report and optimal keep in Rust; mulligan settings and "Should I mulligan?" in the web app | Mulligan conformance (incl. derived quotas), advice parity with the desktop app, E2E |
+| Phase 3, increment 3 (done) | Port stage 3: distributions and turn tables in Rust (compiler observers); "How many will I draw?" and "Turn by turn" in the web app | Stats conformance, table parity with the desktop app, E2E |
+| Phase 3, increment 2 (done) | Port stage 2: the rule language and decklists in Rust; pasted decklists and typed rules in the web app | Text conformance (fuzzed against Python), golden form cases, E2E journeys |
+| Phase 3, increment 1 (done) | Web app: "What are my chances?" without mulligans (port stage 1), live updates, Pages | Conformance, parity, E2E, new-user tests (TP §16) |
+
 
 ## 10. Risks
 

@@ -2,7 +2,8 @@
 
 Exact probabilities for drawing cards in Magic: The Gathering: opening hands, multi-turn
 curves, overlapping card groups, logical conditions, London mulligans, and deck-count
-optimization. It comes with a beginner-friendly desktop app; a web version comes later.
+optimization. It comes with a beginner-friendly desktop app and a web app that runs entirely
+in the browser (the Rust core compiled to WebAssembly; see [`web/README.md`](web/README.md)).
 
 ## Optional: native engine (Rust, faster)
 
@@ -10,10 +11,10 @@ optimization. It comes with a beginner-friendly desktop app; a web version comes
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal
 export PATH="$HOME/.cargo/bin:$PATH"
 .venv/bin/pip install maturin
-.venv/bin/maturin develop --release -m native/Cargo.toml     # builds and installs mtgcalc_native
+.venv/bin/maturin develop --release -m native/python/Cargo.toml   # builds and installs mtgcalc_native
 ```
 
-The native engine gives about 15–20× faster exact calculations and up to 14× faster mulligan questions, with identical results. See [`native/README.md`](native/README.md) for its layout and Rust checks.
+The native engine gives about 15–20× faster exact calculations and up to 14× faster mulligan questions, with identical results. See [`native/README.md`](native/README.md) for the Rust workspace (the shared core, the Python bindings and the WebAssembly bindings) and its checks.
 
 The native engine is used automatically when installed. Set `MTGCALC_ENGINE=python` to force the pure-Python engine.
 
@@ -24,6 +25,17 @@ The native engine is used automatically when installed. Set `MTGCALC_ENGINE=pyth
 ```
 
 **New here?** Read [`docs/USAGE.md`](docs/USAGE.md), a plain-language guide to the app. Rule-writers and Python users should read [`docs/REFERENCE.md`](docs/REFERENCE.md).
+
+## The web app
+
+```bash
+cd web && npm ci && npm run build && npm run preview    # then open http://localhost:4173
+```
+
+Building needs Node 20.19+ (or 22.12+), the `wasm32-unknown-unknown` Rust target and the
+`wasm-bindgen` CLI at the crate's exact version; [`web/README.md`](web/README.md) has the
+setup, the layout and the test commands. The answer updates as you type, and every number
+comes from the same Rust code that the conformance suite checks against Python.
 
 ## Quick start
 
@@ -72,8 +84,11 @@ GitHub Actions runs these on every push and pull request (`.github/workflows/ci.
 .venv/bin/pytest --cov                   # coverage gate: 95% (fail-under)
 .venv/bin/pytest -m perf tests/performance
 .venv/bin/pytest -m network tests/online     # opt-in: checks the live Archidekt API
-(cd native && cargo fmt --check && cargo clippy --release --all-targets -- -D warnings \
-  && cargo clippy --release --features python -- -D warnings && cargo test --release)   # Rust engine
+(cd native && cargo fmt --check \
+  && cargo clippy --release --all-targets --workspace --exclude mtgcalc-native -- -D warnings \
+  && cargo clippy --release -p mtgcalc-native -- -D warnings \
+  && cargo test --release --workspace --exclude mtgcalc-native --all-features)   # Rust workspace
+(cd web && npm run typecheck && npm run lint && npm run coverage && npm run e2e)  # web app
 MTGCALC_ENGINE=python .venv/bin/pytest -q    # also test the pure-Python engine
 HYPOTHESIS_PROFILE=ci-deep .venv/bin/pytest tests/oracle tests/property
 ```
@@ -90,4 +105,6 @@ HYPOTHESIS_PROFILE=ci-deep .venv/bin/pytest tests/oracle tests/property
 | `docs/03-low-level-design.md` | Module contracts and algorithms |
 | `docs/04-test-plan.md` | Test strategy, oracles, traceability |
 | `docs/05-engineering-process.md` | Lifecycle, standards, quality gates |
-| `docs/adr/` | Architecture decision records (0001-0012) |
+| `docs/adr/` | Architecture decision records (0001-0013) |
+| `web/README.md` | The web app: setup, layout, tests |
+| `native/README.md` | The Rust workspace: core, Python and WebAssembly bindings |
