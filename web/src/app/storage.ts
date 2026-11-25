@@ -66,18 +66,36 @@ const ADDED = {
   protect: [{ id: "p1", cardType: "land", upTo: "3" }],
   maxMulligans: "2",
   freeFirst: false,
-  hmMode: "need",
+  hmMode: "one",
+  hmAim: "target",
   hmVary: [{ id: "v1", cardType: "land", low: "14", high: "40" }],
   hmTarget: "60",
   hmSlots: "20",
 } as const;
+
+/**
+ * "How many should I play?" had three modes before the aim was added; each maps to a
+ * mode and an aim. "fewest" had no limit on the cards, so it gets the whole deck.
+ */
+function upgradeHowMany(form: Record<string, unknown>): Record<string, unknown> {
+  switch (form["hmMode"]) {
+    case "need":
+      return { ...form, hmMode: "one", hmAim: "target" };
+    case "split":
+      return { ...form, hmMode: "share", hmAim: "best" };
+    case "fewest":
+      return { ...form, hmMode: "share", hmAim: "target", hmSlots: form["deckSize"] };
+    default:
+      return form;
+  }
+}
 
 /** Fills in fields an older version of the page did not save. */
 function upgrade(x: unknown): unknown {
   if (typeof x !== "object" || x === null) return x;
   const s = x as { form?: unknown };
   if (typeof s.form !== "object" || s.form === null) return x;
-  return { ...s, form: { ...ADDED, ...s.form } };
+  return { ...s, form: upgradeHowMany({ ...ADDED, ...s.form }) };
 }
 
 /** Whether `x` is a complete, well-formed saved state (never trusts storage). */
@@ -96,7 +114,8 @@ export function isAppState(x: unknown): x is AppState {
     isString(f.keepMax) &&
     isString(f.maxMulligans) &&
     typeof f.freeFirst === "boolean" &&
-    (f.hmMode === "need" || f.hmMode === "split" || f.hmMode === "fewest") &&
+    (f.hmMode === "one" || f.hmMode === "share") &&
+    (f.hmAim === "best" || f.hmAim === "target") &&
     isString(f.hmTarget) &&
     isString(f.hmSlots) &&
     Array.isArray(f.hmVary) &&

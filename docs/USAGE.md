@@ -229,22 +229,31 @@ That 65.1% is what you'd get on average by mulliganing instead. Open a step to s
 
 ### 5. How many should I play?
 
-Let the app choose the counts. It tries different numbers for the card types you pick. **Every other card type keeps its number from step 1**, and the rest of the deck is other cards. Choose one of three questions:
+Let the app choose the counts. It tries different numbers for the card types you pick. **Every other card type keeps its number from step 1**, and the rest of the deck is other cards.
 
-| Question | Example answer |
-|---|---|
-| **How many of one card type do I need to reach a target chance?** | *Play 33 land: you then have at least 4 land by turn 4 in 91.8% of games, which reaches your 90.0% target. With 32 land it would be 89.9%.* |
-| **How should I share a number of card slots between card types?** You set *Card slots to share*: how many cards those types may use in total. | *Best use of 30 cards: 22 land, 8 removal.* |
-| **What is the fewest cards of these types that reach a target chance?** | *The fewest cards that reach 50.0%: ...* |
+First choose what may change:
+- **How many of one card type should I play?** One card type changes.
+- **How should I share cards between card types?** Several card types change. You set *Cards allowed between them*: the most cards those types may use in total.
 
 For each card type, *from ... to ...* sets the range to try.
+
+Then choose what to aim for:
+- **The best chance I can get.** You don't need a target. The app finds the counts with the highest chance.
+- **A target chance I choose.** The app finds the fewest cards that reach your target.
+
+| You choose | Example answer |
+|---|---|
+| One card type, a target | *Play 33 land: you then have at least 4 land by turn 4 in 91.8% of games, which reaches your 90.0% target. With 32 land it would be 89.9%.* |
+| One card type, the best chance | *Play 30 land: you then have ... the best chance from 14 to 30 land.* If the answer is your *to* number, the app says so: allowing more might do even better. |
+| Sharing, the best chance | *Best use of 30 cards: 22 land, 8 removal.* |
+| Sharing, a target | *The fewest cards that reach 50.0%: ...* |
 
 Under the answer you'll see one of two notes:
 - *This is guaranteed to be the best answer.* The app checked every option, or proved the others can't win.
 - *...the best one found by a smart search.* There were too many options to check them all, so the answer is very likely, but not certainly, the best.
 
 If you see **"cannot be reached"**, one of these will help:
-- Raise the *to* numbers.
+- Raise the *to* numbers (or the cards allowed, when sharing).
 - Lower the target.
 - Add the other card types your good game needs to the list. If your good game needs removal but only land may change, extra land can't help with the removal.
 

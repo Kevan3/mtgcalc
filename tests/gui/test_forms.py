@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from dataclasses import replace
 from fractions import Fraction
 
 import pytest
@@ -220,25 +221,60 @@ def test_mulligan_advice() -> None:
     assert all(h.values[0].endswith(("keep", "mulligan")) for h in best.children[0].children)
 
 
-def test_how_many_need_split_fewest() -> None:
-    sc = scenario()
-    need = forms.how_many(DECK, sc, HowMany())
+SHARE = (Vary("land", 14, 24), Vary("removal", 0, 8))
+
+
+def test_how_many_one_card_type_to_a_target() -> None:
+    need = forms.how_many(DECK, scenario(), HowMany())
     assert need.headline.startswith("Play 33 land") and "With 32 land" in need.details[0]
+    assert "reaches your 90.0% target" in need.headline
     assert "guaranteed" in need.details[-1]
+
+
+def test_how_many_one_card_type_best_chance_needs_no_target() -> None:
+    # No target at all: an out-of-range target is ignored, not an error.
+    q = HowMany(aim="best", vary=(Vary("land", 14, 30),), target_percent=150)
+    best = forms.how_many(DECK, scenario(), q)
+    # More land only helps "4 land by turn 4", so the best is the top of the range...
+    assert best.headline.startswith("Play 30 land: ")
+    assert best.headline.endswith("the best chance from 14 to 30 land.")
+    assert best.details[0].startswith("With 29 land it would be")
+    # ...and the player is told the range was the limit.
+    assert best.details[1] == (
+        "30 is your 'to' number: a higher 'to' number might give a better chance."
+    )
+
+
+def test_how_many_best_chance_finds_an_inner_maximum() -> None:
+    # "3 to 5 land in the opening hand": too few or too many land both fail, so the best
+    # count is inside the range and found by trying every count.
+    goal = Goal((Requirement("at least", 3, "land"), Requirement("at most", 5, "land")))
+    q = HowMany(aim="best", vary=(Vary("land", 10, 40),), goal=goal)
+    best = forms.how_many(DECK, scenario(), q)
+    chosen = int(best.headline.split()[1])
+    assert 10 < chosen < 40
+    assert "'to' number" not in " ".join(best.details)
+    assert best.rows[0].values[0] == f"{chosen} land"  # the answer heads the table
+    assert len(best.rows) > 1
+
+
+def test_how_many_share_best_chance() -> None:
     split = forms.how_many(
-        DECK,
-        sc,
-        HowMany("split", (Vary("land", 14, 24), Vary("removal", 0, 8)), slots=30, goal=GOAL),
+        DECK, scenario(), HowMany("share", "best", SHARE, target_percent=0, slots=30, goal=GOAL)
     )
     assert split.headline.startswith("Best use of 30 cards: 22 land, 8 removal")
-    fewest = forms.how_many(
-        DECK,
-        sc,
-        HowMany(
-            "fewest", (Vary("land", 14, 30), Vary("removal", 0, 12)), target_percent=50, goal=GOAL
-        ),
-    )
+
+
+def test_how_many_share_to_a_target_respects_the_cards_allowed() -> None:
+    wide = (Vary("land", 14, 30), Vary("removal", 0, 12))
+    q = HowMany("share", "target", wide, target_percent=50, slots=42, goal=GOAL)
+    fewest = forms.how_many(DECK, scenario(), q)
     assert fewest.headline.startswith("The fewest cards that reach 50.0%")
+    total = int(fewest.headline.split(": ")[1].split()[0])
+    assert total <= 42
+    # The same target with too few cards allowed is out of reach, and the advice says so.
+    with pytest.raises(ValidationError, match=r"at most 16 cards .*the cards allowed"):
+        forms.how_many(DECK, scenario(), replace(q, slots=16))
 
 
 @pytest.mark.parametrize(
@@ -250,6 +286,9 @@ def test_how_many_need_split_fewest() -> None:
         HowMany(vary=(Vary("land", 5, 2),)),
         HowMany(target_percent=150),
         HowMany(vary=(Vary("land", 14, 20),)),  # target out of reach
+        HowMany(aim="best", vary=(Vary("land", 55, 60),)),  # no room after 6 removal
+        HowMany("share", "best", SHARE, slots=10),  # 'from' numbers above the cards allowed
+        HowMany("share", "best", SHARE, slots=-1),
     ],
 )
 def test_how_many_errors_are_friendly(q: HowMany) -> None:

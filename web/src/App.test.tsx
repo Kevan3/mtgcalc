@@ -547,17 +547,18 @@ describe("App", () => {
   it("shares cards between card types, with focus following added and removed rows", async () => {
     const { user, answer } = setup();
     await user.click(screen.getByRole("radio", { name: /How many should I play\?/u }));
-    await user.click(screen.getByRole("radio", { name: /best way to share some cards/u }));
+    await user.click(screen.getByRole("radio", { name: /share cards between card types/u }));
+    await user.click(screen.getByRole("radio", { name: "The best chance I can get" }));
     expect(screen.queryByLabelText("Target: in what percent of games?")).not.toBeInTheDocument();
     // Filled in from the good game: both card types, sharing the 30 cards they use now.
     expect(screen.getByLabelText("Try 2: card type")).toHaveValue("removal");
-    expect(screen.getByLabelText("How many cards to share between them")).toHaveValue("30");
+    expect(screen.getByLabelText("Cards allowed between them")).toHaveValue("30");
     await user.click(screen.getByRole("button", { name: "+ Add a card type to try" }));
     expect(screen.getByLabelText("Try 3: card type")).toHaveFocus();
     await user.click(screen.getByRole("button", { name: "Remove card type to try 3" }));
     expect(screen.getByRole("button", { name: "+ Add a card type to try" })).toHaveFocus();
-    await user.clear(screen.getByLabelText("How many cards to share between them"));
-    await user.type(screen.getByLabelText("How many cards to share between them"), "26");
+    await user.clear(screen.getByLabelText("Cards allowed between them"));
+    await user.type(screen.getByLabelText("Cards allowed between them"), "26");
     // The button at the end of step 3 keeps focus, so keyboard players stay in place.
     const steps = screen.getAllByRole("button", { name: "Find the best counts" });
     const inForm = steps.find((b) => !answer().contains(b));
@@ -587,10 +588,29 @@ describe("App", () => {
     expect(within(answer()).queryByText(FIRST)).not.toBeInTheDocument();
   });
 
-  it("asks for the fewest cards in total that reach a target", async () => {
+  it("finds the best count of one card type with no target at all", async () => {
     const { user, answer } = setup();
     await user.click(screen.getByRole("radio", { name: /How many should I play\?/u }));
-    await user.click(screen.getByRole("radio", { name: /fewest cards/u }));
+    await user.click(screen.getByRole("radio", { name: "The best chance I can get" }));
+    expect(screen.queryByLabelText("Target: in what percent of games?")).not.toBeInTheDocument();
+    expect(screen.queryByLabelText("Cards allowed between them")).not.toBeInTheDocument();
+    await user.click(within(answer()).getByRole("button", { name: "Find the best counts" }));
+    expect(
+      await within(answer()).findByText(
+        /^Play 40 land: you then have .*, the best chance from 14 to 40 land\.$/u,
+      ),
+    ).toBeInTheDocument();
+    expect(
+      within(answer()).getByText("40 is your 'to' number: a higher 'to' number might give a better chance."),
+    ).toBeInTheDocument();
+  });
+
+  it("asks for the fewest cards in total that reach a target, within the cards allowed", async () => {
+    const { user, answer } = setup();
+    await user.click(screen.getByRole("radio", { name: /How many should I play\?/u }));
+    await user.click(screen.getByRole("radio", { name: /share cards between card types/u }));
+    expect(screen.getByRole("radio", { name: /A target chance I choose/u })).toBeChecked();
+    expect(screen.getByLabelText("Cards allowed between them")).toHaveValue("30");
     await user.clear(screen.getByLabelText("Target: in what percent of games?"));
     await user.type(screen.getByLabelText("Target: in what percent of games?"), "30");
     await user.click(within(answer()).getByRole("button", { name: "Find the best counts" }));
@@ -641,7 +661,7 @@ describe("App", () => {
   it("asks for a second card type when sharing cards between only one", async () => {
     const { user } = setup();
     await user.click(screen.getByRole("radio", { name: /How many should I play\?/u }));
-    await user.click(screen.getByRole("radio", { name: /best way to share some cards/u }));
+    await user.click(screen.getByRole("radio", { name: /share cards between card types/u }));
     expect(screen.queryByText(/Add a second card type to try/u)).not.toBeInTheDocument();
     await user.click(screen.getByRole("button", { name: "Remove card type to try 2" }));
     expect(screen.getByText(/Add a second card type to try/u)).toBeInTheDocument();

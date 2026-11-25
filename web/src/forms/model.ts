@@ -69,20 +69,26 @@ export interface Decklist {
 /** The question asked (the desktop app's question tabs, port stages 1 and 3). */
 export type QuestionKind = "chances" | "draws" | "turns" | "mulligan" | "howmany";
 
-/** "How many should I play?": the desktop app's three modes. */
-export type HowManyMode = "need" | "split" | "fewest";
+/** "How many should I play?": change one card type, or share cards between several. */
+export type HowManyMode = "one" | "share";
+
+/** What counts as best: the highest chance (no target), or the fewest cards reaching a target. */
+export type HowManyAim = "best" | "target";
 
 export type Question =
   | { readonly kind: "chances" }
   | {
       readonly kind: "howmany";
       readonly mode: HowManyMode;
+      readonly aim: HowManyAim;
       /** The card types to change: (name, from, to). */
       readonly vary: readonly (readonly [string, number, number])[];
-      /** The target percentage as typed (exact decimal), for "need" and "fewest". */
+      /** The target percentage as typed (exact decimal), for the "target" aim. */
       readonly target: string;
-      /** Cards to share, for "split". */
+      /** The most cards the types may use between them, for "share". */
       readonly slots: number;
+      /** Cards left in the deck after the card types that keep their counts. */
+      readonly room: number;
     }
   | { readonly kind: "mulligan" }
   | { readonly kind: "draws"; readonly cardType: string; readonly lastTurn: number }
@@ -174,6 +180,7 @@ export interface FormState {
   readonly freeFirst: boolean;
   /** "How many should I play?". */
   readonly hmMode: HowManyMode;
+  readonly hmAim: HowManyAim;
   readonly hmVary: readonly VaryRow[];
   readonly hmTarget: string;
   readonly hmSlots: string;

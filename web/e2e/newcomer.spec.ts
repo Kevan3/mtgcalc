@@ -304,12 +304,26 @@ test.describe("a player building a deck", () => {
   test("shares 26 cards between lands and removal", async ({ page }) => {
     await page.goto("/");
     await page.getByRole("radio", { name: /How many should I play\?/u }).check();
-    await page.getByRole("radio", { name: /best way to share some cards/u }).check();
+    await page.getByRole("radio", { name: /share cards between card types/u }).check();
+    await page.getByRole("radio", { name: "The best chance I can get" }).check();
+    // No target is asked for: the best chance needs none.
+    await expect(page.getByLabel("Target: in what percent of games?")).toHaveCount(0);
     // Filled in from the good game: lands and removal, sharing the 30 cards they use now.
     await expect(page.getByLabel("Try 2: card type")).toHaveValue("removal");
-    await page.getByLabel("How many cards to share between them").fill("26");
+    await page.getByLabel("Cards allowed between them").fill("26");
     await answer(page).getByRole("button", { name: "Find the best counts" }).click();
     await expect(await settledHeadline(page)).toHaveText(/^Best use of 26 cards: \d+ land, \d+ removal\./u);
+    await expectNoJargon(page);
+  });
+
+  test("asks for the best number of lands without choosing a target", async ({ page }) => {
+    await page.goto("/");
+    await page.getByRole("radio", { name: /How many should I play\?/u }).check();
+    await page.getByRole("radio", { name: "The best chance I can get" }).check();
+    await answer(page).getByRole("button", { name: "Find the best counts" }).click();
+    await expect(await settledHeadline(page)).toHaveText(
+      /^Play \d+ land: you then have .* in \d+\.\d% of games, the best chance from 14 to 40 land\.$/u,
+    );
     await expectNoJargon(page);
   });
 });

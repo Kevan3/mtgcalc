@@ -153,6 +153,50 @@ describe("parseForm", () => {
     expect(issues({ ...base, goal: [] })["goal"]).toMatch(/Add a line/u);
   });
 
+  describe("How many should I play?", () => {
+    const hm: FormState = { ...base, question: "howmany" };
+    const share: FormState = {
+      ...hm,
+      hmMode: "share",
+      hmVary: [
+        { id: "v1", cardType: "land", low: "14", high: "30" },
+        { id: "v2", cardType: "removal", low: "2", high: "8" },
+      ],
+      hmSlots: "30",
+    };
+    const question = (form: FormState) => {
+      const parsed = parseForm(form, testCore);
+      return parsed.ok ? parsed.setup.question : undefined;
+    };
+
+    it("needs a target only when aiming for one", () => {
+      expect(issues({ ...hm, hmTarget: "x" })["hmTarget"]).toMatch(/Choose a target/u);
+      expect(issues({ ...hm, hmAim: "best", hmTarget: "x" })).toEqual({});
+      expect(question({ ...hm, hmAim: "best" })).toMatchObject({ mode: "one", aim: "best", room: 54 });
+    });
+
+    it("checks that the 'from' numbers fit next to the card types that stay", () => {
+      const tooMany = { ...hm, hmVary: [{ id: "v1", cardType: "land", low: "55", high: "58" }] };
+      expect(issues(tooMany)["howmany"]).toBe(
+        "The 'from' numbers add up to 55 cards, but your other card types leave room for only 54.",
+      );
+      expect(issues({ ...tooMany, hmAim: "best" })["howmany"]).toMatch(/room for only 54/u);
+    });
+
+    it("checks the cards allowed when sharing, with either aim", () => {
+      expect(question(share)).toMatchObject({ mode: "share", aim: "target", slots: 30, room: 60 });
+      for (const hmAim of ["best", "target"] as const) {
+        expect(issues({ ...share, hmAim, hmSlots: "10" })["hmSlots"]).toBe(
+          "The 'from' numbers add up to 16 cards, more than the 10 allowed.",
+        );
+        expect(issues({ ...share, hmAim, hmSlots: "61" })["hmSlots"]).toMatch(/more than the 60 cards/u);
+        expect(issues({ ...share, hmAim, hmSlots: "" })["hmSlots"]).toMatch(/whole number/u);
+      }
+      // A single card type ignores the cards allowed.
+      expect(issues({ ...hm, hmSlots: "" })).toEqual({});
+    });
+  });
+
   it("reports every problem at once, each in its own place", () => {
     const fields = Object.keys(issues({ ...base, deckSize: "", drawsPerTurn: "x", goal: [] })) as FieldId[];
     expect(fields.sort()).toEqual(["deckSize", "drawsPerTurn", "goal"]);
@@ -209,7 +253,8 @@ describe("whatever the form accepts, the engine accepts (property)", () => {
         protect: [],
         maxMulligans: "2",
         freeFirst: false,
-        hmMode: "need",
+        hmMode: "one",
+        hmAim: "target",
         hmVary: [],
         hmTarget: "90",
         hmSlots: "20",

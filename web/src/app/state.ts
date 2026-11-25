@@ -57,7 +57,7 @@ export type Action =
   | { readonly type: "protectAdded" }
   | {
       readonly type: "howManyChanged";
-      readonly patch: Partial<Pick<FormState, "hmMode" | "hmTarget" | "hmSlots">>;
+      readonly patch: Partial<Pick<FormState, "hmMode" | "hmAim" | "hmTarget" | "hmSlots">>;
     }
   | { readonly type: "varyChanged"; readonly id: string; readonly patch: Partial<Omit<VaryRow, "id">> }
   | { readonly type: "varyAdded" }
@@ -218,7 +218,8 @@ export function fromExample(example: Example, firstId = 1): AppState {
       })),
       maxMulligans: String(example.mulligan?.maxMulligans ?? 2),
       freeFirst: example.mulligan?.freeFirst ?? false,
-      hmMode: "need",
+      hmMode: "one",
+      hmAim: "target",
       hmVary: [{ id: id(), cardType: example.types[0]?.name ?? "land", low: "14", high: "40" }],
       hmTarget: "60",
       hmSlots: "20",
@@ -238,7 +239,7 @@ export function initialState(): AppState {
  * Fills in "How many should I play?" from the deck and the good game, so the first press
  * gives an answer: the card types the good game counts become the types to try (rows the
  * player already set up for them are kept), with ranges around their step-1 counts, and
- * "cards to share" starts at their total.
+ * "cards allowed" starts at their total.
  */
 function seedHowMany(form: FormState, mode: HowManyMode, nextId: number): [Partial<FormState>, number] {
   const counts = new Map(form.types.map((t) => [cleanName(t.name), parseWhole(t.count) ?? 0] as const));
@@ -246,7 +247,7 @@ function seedHowMany(form: FormState, mode: HowManyMode, nextId: number): [Parti
   const inGoal = [...new Set(form.goal.map((g) => g.cardType))].filter((n) => counts.has(n));
   const first = cleanName(form.types[0]?.name ?? "");
   const wanted = inGoal.length > 0 ? inGoal : first === "" ? [] : [first];
-  const pick = mode === "need" ? wanted.slice(0, 1) : wanted;
+  const pick = mode === "one" ? wanted.slice(0, 1) : wanted;
   if (pick.length === 0) return [{ hmMode: mode }, 0];
   const total = pick.reduce((sum, n) => sum + (counts.get(n) ?? 0), 0);
   let used = 0;
@@ -255,13 +256,11 @@ function seedHowMany(form: FormState, mode: HowManyMode, nextId: number): [Parti
     if (kept !== undefined) return kept;
     const c = counts.get(name) ?? 0;
     const [low, high] =
-      mode === "need"
-        ? [Math.max(0, c - 10), Math.min(size, c + 16)]
-        : [0, Math.min(size, mode === "split" ? total : c + 10)];
+      mode === "one" ? [Math.max(0, c - 10), Math.min(size, c + 16)] : [0, Math.min(size, total)];
     used += 1;
     return { id: String(nextId + used - 1), cardType: name, low: String(low), high: String(high) };
   });
-  const slots = mode === "split" && total > 0 ? { hmSlots: String(total) } : {};
+  const slots = mode === "share" && total > 0 ? { hmSlots: String(total) } : {};
   return [{ hmMode: mode, hmVary, ...slots }, used];
 }
 

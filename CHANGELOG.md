@@ -6,6 +6,9 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+### Changed
+- **"How many should I play?" no longer needs a target.** Choose one card type or several sharing some cards, then aim for *the best chance I can get* (no target) or *a target chance I choose* (the fewest cards that reach it). Sharing can now aim for a target within the cards allowed, and one card type can aim for the best chance. Both the desktop and web apps; saved web forms are upgraded. The "from" numbers are now checked against the room in the deck and the cards allowed before searching.
+
 ### Added
 - **The web app, increment 1** (ADR-0013, SRS §5.11):
   - "What are my chances?" in the browser: card types with "also counts as", format presets, going first, draws per turn, and goal lines combined with "all" or "any".

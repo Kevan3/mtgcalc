@@ -36,19 +36,22 @@ describe("reducer", () => {
   it("fills in 'How many should I play?' from the good game, so the first press answers", () => {
     let s = apply(start, { type: "question", value: "howmany" });
     expect(s.form.hmVary.map((v) => [v.cardType, v.low, v.high])).toEqual([["land", "14", "40"]]);
-    s = apply(s, { type: "howManyChanged", patch: { hmMode: "split" } });
+    s = apply(s, { type: "howManyChanged", patch: { hmMode: "share" } });
     // The land row the player had is kept; removal is added around its step-1 count.
     expect(s.form.hmVary.map((v) => [v.cardType, v.low, v.high])).toEqual([
       ["land", "14", "40"],
       ["removal", "0", "30"],
     ]);
     expect(s.form.hmSlots).toBe("30");
-    s = apply(s, { type: "howManyChanged", patch: { hmMode: "fewest" } });
-    expect(s.form.hmVary.map((v) => v.cardType)).toEqual(["land", "removal"]);
-    s = apply(s, { type: "howManyChanged", patch: { hmMode: "need" } });
+    // Choosing the aim changes nothing else.
+    const rows = s.form.hmVary;
+    s = apply(s, { type: "howManyChanged", patch: { hmAim: "best" } });
+    expect([s.form.hmAim, s.form.hmVary, s.form.hmSlots]).toEqual(["best", rows, "30"]);
+    s = apply(s, { type: "howManyChanged", patch: { hmMode: "one" } });
     expect(s.form.hmVary.map((v) => v.cardType)).toEqual(["land"]);
+    expect(s.form.hmAim).toBe("best");
     // Choosing the same mode again, or a target, changes nothing else.
-    expect(apply(s, { type: "howManyChanged", patch: { hmMode: "need", hmTarget: "70" } }).form.hmVary).toBe(
+    expect(apply(s, { type: "howManyChanged", patch: { hmMode: "one", hmTarget: "70" } }).form.hmVary).toBe(
       s.form.hmVary,
     );
   });
@@ -56,12 +59,12 @@ describe("reducer", () => {
   it("fills in fresh ranges for card types not tried yet", () => {
     const s = apply(
       start,
-      { type: "howManyChanged", patch: { hmMode: "fewest" } },
+      { type: "howManyChanged", patch: { hmMode: "share" } },
       { type: "question", value: "howmany" },
     );
     expect(s.form.hmVary.map((v) => [v.cardType, v.low, v.high])).toEqual([
       ["land", "14", "40"],
-      ["removal", "0", "16"],
+      ["removal", "0", "30"],
     ]);
     expect(new Set(s.form.hmVary.map((v) => v.id)).size).toBe(2);
   });
@@ -73,18 +76,18 @@ describe("reducer", () => {
       patch: { cardType: "any card" },
     });
     const noRemoval = apply(anyGoal, { type: "goalRemoved", id: start.form.goal[1]?.id ?? "" });
-    const s = apply(noRemoval, { type: "howManyChanged", patch: { hmMode: "split" } });
+    const s = apply(noRemoval, { type: "howManyChanged", patch: { hmMode: "share" } });
     expect(s.form.hmVary.map((v) => v.cardType)).toEqual(["land"]);
     expect(s.form.hmSlots).toBe("24");
     const empty = { ...start, form: { ...start.form, types: [], hmVary: [] } };
-    const t = apply(empty, { type: "howManyChanged", patch: { hmMode: "split" } });
-    expect([t.form.hmMode, t.form.hmVary]).toEqual(["split", []]);
+    const t = apply(empty, { type: "howManyChanged", patch: { hmMode: "share" } });
+    expect([t.form.hmMode, t.form.hmVary]).toEqual(["share", []]);
   });
 
   it("chooses card counts: rows can be added, changed and removed", () => {
     // A value given with the change wins over the filled-in one.
-    let s = apply(start, { type: "howManyChanged", patch: { hmMode: "split", hmSlots: "26" } });
-    expect([s.form.hmMode, s.form.hmSlots]).toEqual(["split", "26"]);
+    let s = apply(start, { type: "howManyChanged", patch: { hmMode: "share", hmSlots: "26" } });
+    expect([s.form.hmMode, s.form.hmSlots]).toEqual(["share", "26"]);
     s = apply(s, { type: "varyAdded" });
     expect(s.form.hmVary[2]?.cardType).toBe("");
     const second = s.form.hmVary[1]?.id ?? "";

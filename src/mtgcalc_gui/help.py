@@ -59,8 +59,10 @@ TIPS: dict[str, str] = {
     "hm_mode": "What to ask the program to work out.",
     "hm_vary": "The card types the program may change, and the range of counts to try. "
     "All other card types keep their counts from step 1.",
+    "hm_aim": "'The best chance' needs no target: the program finds the counts that give the "
+    "highest chance. 'A target chance' finds the fewest cards that reach the chance you choose.",
     "hm_target": "The chance you want to reach, in percent.",
-    "hm_slots": "How many cards in total these card types may use between them.",
+    "hm_slots": "The most cards these card types may use between them.",
 }
 
 #: Short introductions at the top of each question page.

@@ -298,7 +298,7 @@ function howMany(form: FormState, c: Collector): Question {
   }
   const typeNamesOnly = form.types.map((t) => cleanName(t.name));
   const size = parseWhole(form.deckSize);
-  const rows = form.hmMode === "need" ? form.hmVary.slice(0, 1) : form.hmVary;
+  const rows = form.hmMode === "one" ? form.hmVary.slice(0, 1) : form.hmVary;
   if (rows.length === 0) c.problem("howmany", "Choose at least one card type to change.");
   const vary: (readonly [string, number, number])[] = [];
   for (const row of rows) {
@@ -316,16 +316,46 @@ function howMany(form: FormState, c: Collector): Question {
     }
     vary.push([row.cardType, low ?? 0, high ?? 0]);
   }
+  // The 'from' numbers must fit next to the card types that keep their counts.
+  const lows = vary.reduce((sum, [, low]) => sum + low, 0);
+  const others = form.types
+    .filter((t) => !vary.some(([n]) => n === cleanName(t.name)))
+    .map((t) => parseWhole(t.count));
+  const room =
+    size === null || others.includes(null) ? null : size - others.reduce<number>((s, n) => s + (n ?? 0), 0);
+  if (room !== null) {
+    if (lows > room) {
+      c.problem(
+        "howmany",
+        `The 'from' numbers add up to ${String(lows)} cards, but your other card types leave room for only ${String(room)}.`,
+      );
+    }
+  }
   const target = parsePercent(form.hmTarget);
-  if (form.hmMode !== "split" && (target === null || Number(target) <= 0 || Number(target) > 100)) {
+  if (form.hmAim === "target" && (target === null || Number(target) <= 0 || Number(target) > 100)) {
     c.problem("hmTarget", "Choose a target above 0 and up to 100 percent, like 90.");
   }
   const slots = parseWhole(form.hmSlots);
-  if (form.hmMode === "split" && slots === null) c.problem("hmSlots", "Use a whole number, like 20.");
-  else if (form.hmMode === "split" && slots !== null && size !== null && slots > size) {
-    c.problem("hmSlots", `This can't be more than the ${String(size)} cards in your deck.`);
+  if (form.hmMode === "share") {
+    if (slots === null) c.problem("hmSlots", "Use a whole number, like 20.");
+    else if (size !== null && slots > size) {
+      c.problem("hmSlots", `This can't be more than the ${String(size)} cards in your deck.`);
+    } else if (lows > slots) {
+      c.problem(
+        "hmSlots",
+        `The 'from' numbers add up to ${String(lows)} cards, more than the ${String(slots)} allowed.`,
+      );
+    }
   }
-  return { kind: "howmany", mode: form.hmMode, vary, target: target ?? "0", slots: slots ?? 0 };
+  return {
+    kind: "howmany",
+    mode: form.hmMode,
+    aim: form.hmAim,
+    vary,
+    target: target ?? "0",
+    slots: slots ?? 0,
+    room: room ?? 0,
+  };
 }
 
 /**
