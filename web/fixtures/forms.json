@@ -9711,7 +9711,8 @@
       "turn": "2"
      }
     ],
-    "hmMode": "need",
+    "hmAim": "target",
+    "hmMode": "one",
     "hmSlots": "20",
     "hmTarget": "90",
     "hmVary": [
@@ -9786,7 +9787,8 @@
       "turn": "2"
      }
     ],
-    "hmMode": "need",
+    "hmAim": "target",
+    "hmMode": "one",
     "hmSlots": "20",
     "hmTarget": "90",
     "hmVary": [
@@ -9861,7 +9863,8 @@
       "turn": "4"
      }
     ],
-    "hmMode": "need",
+    "hmAim": "target",
+    "hmMode": "one",
     "hmSlots": "20",
     "hmTarget": "90",
     "hmVary": [
@@ -9936,7 +9939,8 @@
       "turn": "5"
      }
     ],
-    "hmMode": "need",
+    "hmAim": "target",
+    "hmMode": "one",
     "hmSlots": "20",
     "hmTarget": "90",
     "hmVary": [
@@ -10018,7 +10022,8 @@
       "turn": "6"
      }
     ],
-    "hmMode": "need",
+    "hmAim": "target",
+    "hmMode": "one",
     "hmSlots": "20",
     "hmTarget": "90",
     "hmVary": [
@@ -10100,7 +10105,8 @@
       "turn": "6"
      }
     ],
-    "hmMode": "need",
+    "hmAim": "target",
+    "hmMode": "one",
     "hmSlots": "20",
     "hmTarget": "90",
     "hmVary": [
@@ -10182,7 +10188,8 @@
       "turn": "3"
      }
     ],
-    "hmMode": "need",
+    "hmAim": "target",
+    "hmMode": "one",
     "hmSlots": "20",
     "hmTarget": "90",
     "hmVary": [
@@ -10257,7 +10264,8 @@
       "turn": "1"
      }
     ],
-    "hmMode": "need",
+    "hmAim": "target",
+    "hmMode": "one",
     "hmSlots": "20",
     "hmTarget": "90",
     "hmVary": [
@@ -10332,7 +10340,8 @@
       "turn": "2"
      }
     ],
-    "hmMode": "need",
+    "hmAim": "target",
+    "hmMode": "one",
     "hmSlots": "20",
     "hmTarget": "90",
     "hmVary": [
@@ -10407,7 +10416,8 @@
       "turn": "2"
      }
     ],
-    "hmMode": "need",
+    "hmAim": "target",
+    "hmMode": "one",
     "hmSlots": "20",
     "hmTarget": "90",
     "hmVary": [
@@ -10482,7 +10492,8 @@
       "turn": "4"
      }
     ],
-    "hmMode": "need",
+    "hmAim": "target",
+    "hmMode": "one",
     "hmSlots": "20",
     "hmTarget": "90",
     "hmVary": [
@@ -10564,7 +10575,8 @@
       "turn": "4"
      }
     ],
-    "hmMode": "need",
+    "hmAim": "target",
+    "hmMode": "one",
     "hmSlots": "20",
     "hmTarget": "90",
     "hmVary": [
@@ -10646,7 +10658,8 @@
       "turn": "0"
      }
     ],
-    "hmMode": "need",
+    "hmAim": "target",
+    "hmMode": "one",
     "hmSlots": "20",
     "hmTarget": "90",
     "hmVary": [
@@ -10721,7 +10734,8 @@
       "turn": "5"
      }
     ],
-    "hmMode": "need",
+    "hmAim": "target",
+    "hmMode": "one",
     "hmSlots": "20",
     "hmTarget": "90",
     "hmVary": [
@@ -10803,7 +10817,8 @@
       "turn": "6"
      }
     ],
-    "hmMode": "need",
+    "hmAim": "target",
+    "hmMode": "one",
     "hmSlots": "20",
     "hmTarget": "90",
     "hmVary": [
@@ -10878,7 +10893,8 @@
       "turn": "0"
      }
     ],
-    "hmMode": "need",
+    "hmAim": "target",
+    "hmMode": "one",
     "hmSlots": "20",
     "hmTarget": "90",
     "hmVary": [
@@ -10960,7 +10976,8 @@
       "turn": "0"
      }
     ],
-    "hmMode": "need",
+    "hmAim": "target",
+    "hmMode": "one",
     "hmSlots": "20",
     "hmTarget": "90",
     "hmVary": [
@@ -11035,7 +11052,8 @@
       "turn": "0"
      }
     ],
-    "hmMode": "need",
+    "hmAim": "target",
+    "hmMode": "one",
     "hmSlots": "20",
     "hmTarget": "90",
     "hmVary": [
@@ -11117,7 +11135,8 @@
       "turn": "3"
      }
     ],
-    "hmMode": "need",
+    "hmAim": "target",
+    "hmMode": "one",
     "hmSlots": "20",
     "hmTarget": "90",
     "hmVary": [
@@ -11199,7 +11218,8 @@
       "turn": "0"
      }
     ],
-    "hmMode": "need",
+    "hmAim": "target",
+    "hmMode": "one",
     "hmSlots": "20",
     "hmTarget": "90",
     "hmVary": [
@@ -11274,7 +11294,8 @@
       "turn": "0"
      }
     ],
-    "hmMode": "need",
+    "hmAim": "target",
+    "hmMode": "one",
     "hmSlots": "20",
     "hmTarget": "90",
     "hmVary": [
@@ -11356,7 +11377,8 @@
       "turn": "2"
      }
     ],
-    "hmMode": "need",
+    "hmAim": "target",
+    "hmMode": "one",
     "hmSlots": "20",
     "hmTarget": "90",
     "hmVary": [
@@ -11438,7 +11460,8 @@
       "turn": "2"
      }
     ],
-    "hmMode": "need",
+    "hmAim": "target",
+    "hmMode": "one",
     "hmSlots": "20",
     "hmTarget": "90",
     "hmVary": [
@@ -11520,7 +11543,8 @@
       "turn": "1"
      }
     ],
-    "hmMode": "need",
+    "hmAim": "target",
+    "hmMode": "one",
     "hmSlots": "20",
     "hmTarget": "90",
     "hmVary": [
@@ -11602,7 +11626,8 @@
       "turn": "0"
      }
     ],
-    "hmMode": "need",
+    "hmAim": "target",
+    "hmMode": "one",
     "hmSlots": "20",
     "hmTarget": "90",
     "hmVary": [
@@ -11677,7 +11702,8 @@
       "turn": "0"
      }
     ],
-    "hmMode": "need",
+    "hmAim": "target",
+    "hmMode": "one",
     "hmSlots": "20",
     "hmTarget": "90",
     "hmVary": [
@@ -11752,7 +11778,8 @@
       "turn": "0"
      }
     ],
-    "hmMode": "need",
+    "hmAim": "target",
+    "hmMode": "one",
     "hmSlots": "20",
     "hmTarget": "90",
     "hmVary": [
@@ -11827,7 +11854,8 @@
       "turn": "0"
      }
     ],
-    "hmMode": "need",
+    "hmAim": "target",
+    "hmMode": "one",
     "hmSlots": "20",
     "hmTarget": "90",
     "hmVary": [
@@ -11902,7 +11930,8 @@
       "turn": "0"
      }
     ],
-    "hmMode": "need",
+    "hmAim": "target",
+    "hmMode": "one",
     "hmSlots": "20",
     "hmTarget": "90",
     "hmVary": [
@@ -11977,7 +12006,8 @@
       "turn": "0"
      }
     ],
-    "hmMode": "need",
+    "hmAim": "target",
+    "hmMode": "one",
     "hmSlots": "20",
     "hmTarget": "90",
     "hmVary": [
@@ -12052,7 +12082,8 @@
       "turn": "0"
      }
     ],
-    "hmMode": "need",
+    "hmAim": "target",
+    "hmMode": "one",
     "hmSlots": "20",
     "hmTarget": "90",
     "hmVary": [
@@ -12139,7 +12170,8 @@
       "turn": "0"
      }
     ],
-    "hmMode": "need",
+    "hmAim": "target",
+    "hmMode": "one",
     "hmSlots": "20",
     "hmTarget": "90",
     "hmVary": [
@@ -12214,7 +12246,8 @@
       "turn": "0"
      }
     ],
-    "hmMode": "need",
+    "hmAim": "target",
+    "hmMode": "one",
     "hmSlots": "20",
     "hmTarget": "90",
     "hmVary": [
@@ -12301,7 +12334,8 @@
       "turn": "0"
      }
     ],
-    "hmMode": "need",
+    "hmAim": "target",
+    "hmMode": "one",
     "hmSlots": "20",
     "hmTarget": "90",
     "hmVary": [
@@ -12388,7 +12422,8 @@
       "turn": "0"
      }
     ],
-    "hmMode": "need",
+    "hmAim": "target",
+    "hmMode": "one",
     "hmSlots": "20",
     "hmTarget": "90",
     "hmVary": [
@@ -12458,7 +12493,8 @@
       "turn": "4"
      }
     ],
-    "hmMode": "need",
+    "hmAim": "target",
+    "hmMode": "one",
     "hmSlots": "20",
     "hmTarget": "80",
     "hmVary": [
@@ -12507,7 +12543,7 @@
     "useRule": false
    },
    "headline": "Play 23 land: you then have at least 4 land by turn 4 in 82.2% of games, which reaches your 80.0% target.",
-   "name": "how many 0 (need)",
+   "name": "how many 0 (one, target)",
    "rows": [
     [
      "30 land",
@@ -12556,7 +12592,8 @@
       "turn": "4"
      }
     ],
-    "hmMode": "need",
+    "hmAim": "target",
+    "hmMode": "one",
     "hmSlots": "20",
     "hmTarget": "99",
     "hmVary": [
@@ -12604,7 +12641,7 @@
     ],
     "useRule": false
    },
-   "name": "how many 1 (need)"
+   "name": "how many 1 (one, target)"
   },
   {
    "details": [
@@ -12635,9 +12672,10 @@
       "turn": "2"
      }
     ],
-    "hmMode": "split",
+    "hmAim": "best",
+    "hmMode": "share",
     "hmSlots": "30",
-    "hmTarget": "90",
+    "hmTarget": "0",
     "hmVary": [
      {
       "cardType": "land",
@@ -12690,7 +12728,7 @@
     "useRule": false
    },
    "headline": "Best use of 30 cards: 22 land, 8 ramp. You then have at least 4 land by turn 4 and at least 1 ramp by turn 2 in 63.4% of games.",
-   "name": "how many 2 (split)",
+   "name": "how many 2 (share, best)",
    "rows": [
     [
      "22 land, 8 ramp",
@@ -12748,8 +12786,9 @@
       "turn": "2"
      }
     ],
-    "hmMode": "fewest",
-    "hmSlots": "20",
+    "hmAim": "target",
+    "hmMode": "share",
+    "hmSlots": "50",
     "hmTarget": "50",
     "hmVary": [
      {
@@ -12803,7 +12842,7 @@
     "useRule": false
    },
    "headline": "The fewest cards that reach 50.0%: 24 (16 land, 8 ramp), giving 50.6%.",
-   "name": "how many 3 (fewest)",
+   "name": "how many 3 (share, target)",
    "rows": [
     [
      "28 land, 8 ramp",
@@ -12868,7 +12907,7 @@
    ]
   },
   {
-   "error": "70.0% cannot be reached even with 28 land, 8 ramp. Raise the 'to' numbers, lower the target, or add the other card types your good game needs (card types not listed keep their step-1 counts).",
+   "error": "70.0% cannot be reached with at most 50 cards (up to 28 land, 8 ramp). Raise the 'to' numbers or the cards allowed, lower the target, or add the other card types your good game needs (card types not listed keep their step-1 counts).",
    "form": {
     "combine": "all",
     "deckMode": "types",
@@ -12894,8 +12933,9 @@
       "turn": "2"
      }
     ],
-    "hmMode": "fewest",
-    "hmSlots": "20",
+    "hmAim": "target",
+    "hmMode": "share",
+    "hmSlots": "50",
     "hmTarget": "70",
     "hmVary": [
      {
@@ -12948,7 +12988,91 @@
     ],
     "useRule": false
    },
-   "name": "how many 4 (fewest)"
+   "name": "how many 4 (share, target)"
+  },
+  {
+   "error": "50.0% cannot be reached with at most 16 cards (up to 28 land, 8 ramp). Raise the 'to' numbers or the cards allowed, lower the target, or add the other card types your good game needs (card types not listed keep their step-1 counts).",
+   "form": {
+    "combine": "all",
+    "deckMode": "types",
+    "deckSize": "60",
+    "decklist": "",
+    "drawsPerTurn": "1",
+    "drawsType": "",
+    "freeFirst": false,
+    "goFirst": true,
+    "goal": [
+     {
+      "amount": "4",
+      "cardType": "land",
+      "id": "g0",
+      "kind": "at least",
+      "turn": "4"
+     },
+     {
+      "amount": "1",
+      "cardType": "ramp",
+      "id": "g1",
+      "kind": "at least",
+      "turn": "2"
+     }
+    ],
+    "hmAim": "target",
+    "hmMode": "share",
+    "hmSlots": "16",
+    "hmTarget": "50",
+    "hmVary": [
+     {
+      "cardType": "land",
+      "high": "28",
+      "id": "v0",
+      "low": "14"
+     },
+     {
+      "cardType": "ramp",
+      "high": "8",
+      "id": "v1",
+      "low": "0"
+     }
+    ],
+    "keepMax": "5",
+    "keepMin": "2",
+    "keepType": "land",
+    "lastTurn": "5",
+    "maxMulligans": "2",
+    "mulligans": false,
+    "protect": [
+     {
+      "cardType": "land",
+      "id": "p0",
+      "upTo": "3"
+     }
+    ],
+    "question": "howmany",
+    "rule": "",
+    "types": [
+     {
+      "also": "",
+      "count": "24",
+      "id": "t0",
+      "name": "land"
+     },
+     {
+      "also": "land",
+      "count": "6",
+      "id": "t1",
+      "name": "ramp"
+     },
+     {
+      "also": "",
+      "count": "4",
+      "id": "t2",
+      "name": "draw"
+     }
+    ],
+    "useRule": false
+   },
+   "name": "how many 5 (share, target)"
   },
   {
    "details": [
@@ -12973,7 +13097,8 @@
       "turn": "3"
      }
     ],
-    "hmMode": "need",
+    "hmAim": "target",
+    "hmMode": "one",
     "hmSlots": "20",
     "hmTarget": "50",
     "hmVary": [
@@ -13022,7 +13147,7 @@
     "useRule": false
    },
    "headline": "Play 5 draw: you then have at least 1 draw by turn 3 in 57.0% of games, which reaches your 50.0% target.",
-   "name": "how many 5 (need)",
+   "name": "how many 6 (one, target)",
    "rows": [
     [
      "8 draw",
@@ -13043,6 +13168,233 @@
      "4 draw",
      "48.8%",
      "about 5 games in 10"
+    ]
+   ]
+  },
+  {
+   "details": [
+    "With 29 land it would be 94.9%.",
+    "30 is your 'to' number: a higher 'to' number might give a better chance.",
+    "This is guaranteed to be the best answer."
+   ],
+   "form": {
+    "combine": "all",
+    "deckMode": "types",
+    "deckSize": "60",
+    "decklist": "",
+    "drawsPerTurn": "1",
+    "drawsType": "",
+    "freeFirst": false,
+    "goFirst": true,
+    "goal": [
+     {
+      "amount": "4",
+      "cardType": "land",
+      "id": "g0",
+      "kind": "at least",
+      "turn": "4"
+     }
+    ],
+    "hmAim": "best",
+    "hmMode": "one",
+    "hmSlots": "20",
+    "hmTarget": "90",
+    "hmVary": [
+     {
+      "cardType": "land",
+      "high": "30",
+      "id": "v0",
+      "low": "14"
+     }
+    ],
+    "keepMax": "5",
+    "keepMin": "2",
+    "keepType": "land",
+    "lastTurn": "5",
+    "maxMulligans": "2",
+    "mulligans": false,
+    "protect": [
+     {
+      "cardType": "land",
+      "id": "p0",
+      "upTo": "3"
+     }
+    ],
+    "question": "howmany",
+    "rule": "",
+    "types": [
+     {
+      "also": "",
+      "count": "24",
+      "id": "t0",
+      "name": "land"
+     },
+     {
+      "also": "land",
+      "count": "6",
+      "id": "t1",
+      "name": "ramp"
+     },
+     {
+      "also": "",
+      "count": "4",
+      "id": "t2",
+      "name": "draw"
+     }
+    ],
+    "useRule": false
+   },
+   "headline": "Play 30 land: you then have at least 4 land by turn 4 in 96.0% of games, the best chance from 14 to 30 land.",
+   "name": "how many 7 (one, best)",
+   "rows": [
+    [
+     "30 land",
+     "96.0%",
+     "all but about 1 game in 25"
+    ]
+   ]
+  },
+  {
+   "details": [
+    "With 28 land it would be 77.8%.",
+    "This is guaranteed to be the best answer."
+   ],
+   "form": {
+    "combine": "all",
+    "deckMode": "types",
+    "deckSize": "60",
+    "decklist": "",
+    "drawsPerTurn": "1",
+    "drawsType": "",
+    "freeFirst": false,
+    "goFirst": true,
+    "goal": [
+     {
+      "amount": "3",
+      "cardType": "land",
+      "id": "g0",
+      "kind": "at least",
+      "turn": "0"
+     },
+     {
+      "amount": "5",
+      "cardType": "land",
+      "id": "g1",
+      "kind": "at most",
+      "turn": "0"
+     }
+    ],
+    "hmAim": "best",
+    "hmMode": "one",
+    "hmSlots": "20",
+    "hmTarget": "90",
+    "hmVary": [
+     {
+      "cardType": "land",
+      "high": "40",
+      "id": "v0",
+      "low": "10"
+     }
+    ],
+    "keepMax": "5",
+    "keepMin": "2",
+    "keepType": "land",
+    "lastTurn": "5",
+    "maxMulligans": "2",
+    "mulligans": false,
+    "protect": [
+     {
+      "cardType": "land",
+      "id": "p0",
+      "upTo": "3"
+     }
+    ],
+    "question": "howmany",
+    "rule": "",
+    "types": [
+     {
+      "also": "",
+      "count": "24",
+      "id": "t0",
+      "name": "land"
+     },
+     {
+      "also": "land",
+      "count": "6",
+      "id": "t1",
+      "name": "ramp"
+     },
+     {
+      "also": "",
+      "count": "4",
+      "id": "t2",
+      "name": "draw"
+     }
+    ],
+    "useRule": false
+   },
+   "headline": "Play 29 land: you then have at least 3 land in your opening hand and at most 5 land in your opening hand in 77.8% of games, the best chance from 10 to 40 land.",
+   "name": "how many 8 (one, best)",
+   "rows": [
+    [
+     "29 land",
+     "77.8%",
+     "about 8 games in 10"
+    ],
+    [
+     "28 land",
+     "77.8%",
+     "about 8 games in 10"
+    ],
+    [
+     "30 land",
+     "77.5%",
+     "about 8 games in 10"
+    ],
+    [
+     "27 land",
+     "77.4%",
+     "about 8 games in 10"
+    ],
+    [
+     "31 land",
+     "76.7%",
+     "about 8 games in 10"
+    ],
+    [
+     "26 land",
+     "76.5%",
+     "about 8 games in 10"
+    ],
+    [
+     "32 land",
+     "75.4%",
+     "about 8 games in 10"
+    ],
+    [
+     "25 land",
+     "75.3%",
+     "about 8 games in 10"
+    ],
+    [
+     "33 land",
+     "73.8%",
+     "about 7 games in 10"
+    ],
+    [
+     "24 land",
+     "73.7%",
+     "about 7 games in 10"
+    ],
+    [
+     "34 land",
+     "71.7%",
+     "about 7 games in 10"
+    ],
+    [
+     "23 land",
+     "71.7%",
+     "about 7 games in 10"
     ]
    ]
   }
@@ -13070,7 +13422,8 @@
       "turn": "2"
      }
     ],
-    "hmMode": "need",
+    "hmAim": "target",
+    "hmMode": "one",
     "hmSlots": "20",
     "hmTarget": "90",
     "hmVary": [
@@ -13140,7 +13493,8 @@
       "turn": "2"
      }
     ],
-    "hmMode": "need",
+    "hmAim": "target",
+    "hmMode": "one",
     "hmSlots": "20",
     "hmTarget": "90",
     "hmVary": [
@@ -13556,7 +13910,8 @@
       "turn": "0"
      }
     ],
-    "hmMode": "need",
+    "hmAim": "target",
+    "hmMode": "one",
     "hmSlots": "20",
     "hmTarget": "90",
     "hmVary": [
@@ -13626,7 +13981,8 @@
       "turn": "2"
      }
     ],
-    "hmMode": "need",
+    "hmAim": "target",
+    "hmMode": "one",
     "hmSlots": "20",
     "hmTarget": "90",
     "hmVary": [
@@ -14065,7 +14421,8 @@
       "turn": "3"
      }
     ],
-    "hmMode": "need",
+    "hmAim": "target",
+    "hmMode": "one",
     "hmSlots": "20",
     "hmTarget": "90",
     "hmVary": [
@@ -14140,7 +14497,8 @@
       "turn": "1"
      }
     ],
-    "hmMode": "need",
+    "hmAim": "target",
+    "hmMode": "one",
     "hmSlots": "20",
     "hmTarget": "90",
     "hmVary": [
@@ -14692,7 +15050,8 @@
       "turn": "2"
      }
     ],
-    "hmMode": "need",
+    "hmAim": "target",
+    "hmMode": "one",
     "hmSlots": "20",
     "hmTarget": "90",
     "hmVary": [
@@ -14762,7 +15121,8 @@
       "turn": "0"
      }
     ],
-    "hmMode": "need",
+    "hmAim": "target",
+    "hmMode": "one",
     "hmSlots": "20",
     "hmTarget": "90",
     "hmVary": [
@@ -15183,7 +15543,8 @@
       "turn": "0"
      }
     ],
-    "hmMode": "need",
+    "hmAim": "target",
+    "hmMode": "one",
     "hmSlots": "20",
     "hmTarget": "90",
     "hmVary": [
@@ -15258,7 +15619,8 @@
       "turn": "0"
      }
     ],
-    "hmMode": "need",
+    "hmAim": "target",
+    "hmMode": "one",
     "hmSlots": "20",
     "hmTarget": "90",
     "hmVary": [
@@ -17174,7 +17536,8 @@
       "turn": "0"
      }
     ],
-    "hmMode": "need",
+    "hmAim": "target",
+    "hmMode": "one",
     "hmSlots": "20",
     "hmTarget": "90",
     "hmVary": [
@@ -17345,7 +17708,8 @@
       "turn": "0"
      }
     ],
-    "hmMode": "need",
+    "hmAim": "target",
+    "hmMode": "one",
     "hmSlots": "20",
     "hmTarget": "90",
     "hmVary": [
@@ -17441,7 +17805,8 @@
       "turn": "0"
      }
     ],
-    "hmMode": "need",
+    "hmAim": "target",
+    "hmMode": "one",
     "hmSlots": "20",
     "hmTarget": "90",
     "hmVary": [
@@ -17892,7 +18257,8 @@
       "turn": "0"
      }
     ],
-    "hmMode": "need",
+    "hmAim": "target",
+    "hmMode": "one",
     "hmSlots": "20",
     "hmTarget": "90",
     "hmVary": [
@@ -17976,7 +18342,8 @@
       "turn": "0"
      }
     ],
-    "hmMode": "need",
+    "hmAim": "target",
+    "hmMode": "one",
     "hmSlots": "20",
     "hmTarget": "90",
     "hmVary": [
@@ -18503,7 +18870,8 @@
       "turn": "0"
      }
     ],
-    "hmMode": "need",
+    "hmAim": "target",
+    "hmMode": "one",
     "hmSlots": "20",
     "hmTarget": "90",
     "hmVary": [
@@ -18575,7 +18943,8 @@
       "turn": "0"
      }
     ],
-    "hmMode": "need",
+    "hmAim": "target",
+    "hmMode": "one",
     "hmSlots": "20",
     "hmTarget": "90",
     "hmVary": [
@@ -18930,7 +19299,8 @@
       "turn": "0"
      }
     ],
-    "hmMode": "need",
+    "hmAim": "target",
+    "hmMode": "one",
     "hmSlots": "20",
     "hmTarget": "90",
     "hmVary": [
@@ -19020,7 +19390,8 @@
       "turn": "0"
      }
     ],
-    "hmMode": "need",
+    "hmAim": "target",
+    "hmMode": "one",
     "hmSlots": "20",
     "hmTarget": "90",
     "hmVary": [
@@ -19529,7 +19900,8 @@
       "turn": "0"
      }
     ],
-    "hmMode": "need",
+    "hmAim": "target",
+    "hmMode": "one",
     "hmSlots": "20",
     "hmTarget": "90",
     "hmVary": [
@@ -19607,7 +19979,8 @@
       "turn": "0"
      }
     ],
-    "hmMode": "need",
+    "hmAim": "target",
+    "hmMode": "one",
     "hmSlots": "20",
     "hmTarget": "90",
     "hmVary": [
@@ -19897,7 +20270,8 @@
       "turn": "0"
      }
     ],
-    "hmMode": "need",
+    "hmAim": "target",
+    "hmMode": "one",
     "hmSlots": "20",
     "hmTarget": "90",
     "hmVary": [

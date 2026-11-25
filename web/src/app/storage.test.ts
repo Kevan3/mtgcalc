@@ -75,6 +75,22 @@ describe("storage", () => {
   });
 
   it.each([
+    ["need", { hmMode: "one", hmAim: "target", hmSlots: "20" }],
+    ["split", { hmMode: "share", hmAim: "best", hmSlots: "20" }],
+    // "fewest" had no limit on the cards: it may use the whole deck.
+    ["fewest", { hmMode: "share", hmAim: "target", hmSlots: "60" }],
+  ])("upgrades the old how-many mode %s to a mode and an aim", (old, expected) => {
+    const saved = { ...initialState(), form: { ...initialState().form, hmMode: old } } as Record<
+      string,
+      unknown
+    >;
+    Reflect.deleteProperty(saved["form"] as Record<string, unknown>, "hmAim");
+    expect(loadState(memory({ [STORAGE_KEY]: JSON.stringify(saved) }))?.form).toMatchObject(expected);
+  });
+
+  it.each([
+    ["an unknown how-many mode", { hmMode: "fewest-ish" }],
+    ["an unknown how-many aim", { hmAim: "most" }],
     ["a bad keep-first row", { protect: [{ id: "1", cardType: 3, upTo: "1" }] }],
     ["a keep-first row that is not an object", { protect: ["land"] }],
     ["an unknown question", { question: "optimize" }],

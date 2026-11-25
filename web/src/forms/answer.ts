@@ -330,12 +330,17 @@ function targetOf(q: Question & { kind: "howmany" }): Exact {
   return parseFraction(percentFraction(q.target));
 }
 
-/** Python's message when no counts reach the target (the GUI's `how_many`). */
+/** Python's message when no counts reach the target (the GUI's `_unreachable`). */
 export function unreachable(q: Question & { kind: "howmany" }): string {
   const top = q.vary.map(([n, , hi]) => `${String(hi)} ${n}`).join(", ");
+  const rest =
+    "add the other card types your good game needs (card types not listed keep their step-1 counts).";
+  if (q.mode === "one") {
+    return `${pct(targetOf(q))} cannot be reached even with ${top}. Raise the 'to' numbers, lower the target, or ${rest}`;
+  }
   return (
-    `${pct(targetOf(q))} cannot be reached even with ${top}. Raise the 'to' numbers, lower the target, or add ` +
-    "the other card types your good game needs (card types not listed keep their step-1 counts)."
+    `${pct(targetOf(q))} cannot be reached with at most ${String(q.slots)} cards (up to ${top}). ` +
+    `Raise the 'to' numbers or the cards allowed, lower the target, or ${rest}`
   );
 }
 
@@ -352,12 +357,19 @@ function howManyView(
   const counts = data["counts"] as [string, number][];
   const details: string[] = [];
   let headline: string;
-  if (q.mode === "need") {
+  if (q.mode === "one") {
     const [name, c] = counts[0] ?? ["", 0];
-    headline = `Play ${String(c)} ${name}: you then have ${good} in ${pct(p)} of games, which reaches your ${pct(targetOf(q))} target.`;
+    const [, lo, hi] = q.vary[0] ?? ["", 0, 0];
+    headline =
+      q.aim === "target"
+        ? `Play ${String(c)} ${name}: you then have ${good} in ${pct(p)} of games, which reaches your ${pct(targetOf(q))} target.`
+        : `Play ${String(c)} ${name}: you then have ${good} in ${pct(p)} of games, the best chance from ${String(lo)} to ${String(hi)} ${name}.`;
     const fewer = fractionOf(data["one_fewer"]);
     if (fewer !== null) details.push(`With ${String(c - 1)} ${name} it would be ${pct(fewer)}.`);
-  } else if (q.mode === "split") {
+    if (q.aim === "best" && c === hi && hi < q.room) {
+      details.push(`${String(c)} is your 'to' number: a higher 'to' number might give a better chance.`);
+    }
+  } else if (q.aim === "best") {
     headline = `Best use of ${String(q.slots)} cards: ${chosen}. You then have ${good} in ${pct(p)} of games.`;
   } else {
     const total = counts.reduce((a, [, c]) => a + c, 0);
@@ -403,7 +415,12 @@ export function readReply(
   }
   if (!isRecord(data)) return problem("internal", "reply is not an object");
   const asked = w.question ?? { kind: "chances" };
-  if (data["type"] === "Error" && data["kind"] === "infeasible" && asked.kind === "howmany") {
+  if (
+    data["type"] === "Error" &&
+    data["kind"] === "infeasible" &&
+    asked.kind === "howmany" &&
+    asked.aim === "target"
+  ) {
     return {
       kind: "problem",
       headline: "Your target cannot be reached with these numbers.",

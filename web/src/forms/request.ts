@@ -109,7 +109,10 @@ export function percentFraction(percent: string): string {
   return `${num.toString()}/${den.toString()}`;
 }
 
-const OBJECTIVES = { need: "min_count", split: "max_probability", fewest: "min_total" } as const;
+const OBJECTIVES = {
+  one: { best: "max_probability", target: "min_count" },
+  share: { best: "max_probability", target: "min_total" },
+} as const;
 
 /** Python's `how_many` problem: the changed types are variables, the others fixed. */
 function problemJson(setup: Setup, q: Question & { kind: "howmany" }, game: Json, mulligan: Json): Json {
@@ -134,9 +137,9 @@ function problemJson(setup: Setup, q: Question & { kind: "howmany" }, game: Json
       .map((t) => [t.name, { type: "Category", count: t.count, tags: frozenset(t.also) }]),
     game,
     mulligan,
-    objective: OBJECTIVES[q.mode],
-    target: q.mode === "split" ? null : { type: "Fraction", value: percentFraction(q.target) },
-    budget: q.mode === "split" ? q.slots : null,
+    objective: OBJECTIVES[q.mode][q.aim],
+    target: q.aim === "target" ? { type: "Fraction", value: percentFraction(q.target) } : null,
+    budget: q.mode === "share" ? q.slots : null,
     exhaustive_limit: 5000,
     assume_monotone: null,
     workers: null,
@@ -178,7 +181,7 @@ export function buildRequest(setup: Setup): Request {
         },
       };
     case "howmany":
-      return { optimize: problemJson(setup, question, game, mulligan), one_fewer: question.mode === "need" };
+      return { optimize: problemJson(setup, question, game, mulligan), one_fewer: question.mode === "one" };
     case "mulligan":
       return {
         ...deck,

@@ -172,7 +172,8 @@ def _form_case(
             "drawsType": "",
             "lastTurn": "5",
             **_mulligan_form(MulliganSetup()),
-            "hmMode": "need",
+            "hmMode": "one",
+            "hmAim": "target",
             "hmVary": [{"id": "v0", "cardType": "land", "low": "14", "high": "40"}],
             "hmTarget": "90",
             "hmSlots": "20",
@@ -361,7 +362,7 @@ def _mulligan_cases(rng: random.Random) -> list[Json]:
 
 
 def _how_many_cases() -> list[Json]:
-    """ "How many should I play?" in its three modes, as the desktop app answers."""
+    """ "How many should I play?" in each mode and aim, as the desktop app answers."""
     deck = DeckSetup(
         60, (CardType("land", 24), CardType("ramp", 6, ("land",)), CardType("draw", 4))
     )
@@ -370,16 +371,26 @@ def _how_many_cases() -> list[Json]:
     out = []
     for i, q in enumerate(
         (
-            HowMany("need", (Vary("land", 14, 30),), 80.0, goal=Goal((lines[0],))),
-            HowMany("need", (Vary("land", 20, 24),), 99.0, goal=Goal((lines[0],))),
-            HowMany("split", (Vary("land", 18, 26), Vary("ramp", 0, 8)), slots=30, goal=goal),
-            HowMany("fewest", (Vary("land", 14, 28), Vary("ramp", 0, 8)), 50.0, goal=goal),
-            HowMany("fewest", (Vary("land", 14, 28), Vary("ramp", 0, 8)), 70.0, goal=goal),
+            HowMany("one", "target", (Vary("land", 14, 30),), 80.0, goal=Goal((lines[0],))),
+            HowMany("one", "target", (Vary("land", 20, 24),), 99.0, goal=Goal((lines[0],))),
+            HowMany("share", "best", (Vary("land", 18, 26), Vary("ramp", 0, 8)), 0, 30, goal),
+            HowMany("share", "target", (Vary("land", 14, 28), Vary("ramp", 0, 8)), 50.0, 50, goal),
+            HowMany("share", "target", (Vary("land", 14, 28), Vary("ramp", 0, 8)), 70.0, 50, goal),
+            HowMany("share", "target", (Vary("land", 14, 28), Vary("ramp", 0, 8)), 50.0, 16, goal),
             HowMany(
-                "need",
+                "one",
+                "target",
                 (Vary("draw", 0, 8),),
                 50.0,
                 goal=Goal((Requirement("at least", 1, "draw", 3),)),
+            ),
+            # The best chance, with no target: at the top of the range, and inside it.
+            HowMany("one", "best", (Vary("land", 14, 30),), goal=Goal((lines[0],))),
+            HowMany(
+                "one",
+                "best",
+                (Vary("land", 10, 40),),
+                goal=Goal((Requirement("at least", 3, "land"), Requirement("at most", 5, "land"))),
             ),
         )
     ):
@@ -396,6 +407,7 @@ def _how_many_cases() -> list[Json]:
         form = _form_case(f"h{i}", deck, PlaySetup(), q.goal, q.goal.requirements)["form"] | {
             "question": "howmany",
             "hmMode": q.mode,
+            "hmAim": q.aim,
             "hmVary": [
                 {"id": f"v{j}", "cardType": v.card_type, "low": str(v.low), "high": str(v.high)}
                 for j, v in enumerate(q.vary)
@@ -403,7 +415,7 @@ def _how_many_cases() -> list[Json]:
             "hmTarget": f"{q.target_percent:g}",
             "hmSlots": str(q.slots),
         }
-        out.append({"name": f"how many {i} ({q.mode})", "form": form, **result})
+        out.append({"name": f"how many {i} ({q.mode}, {q.aim})", "form": form, **result})
     return out
 
 

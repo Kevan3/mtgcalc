@@ -632,11 +632,13 @@ def mulligan_advice(sc: Scenario, goal: Goal, settings: Settings = Settings()) -
 # Question 5: how many should I play?
 # ---------------------------------------------------------------------------------------
 
-Mode = Literal["need", "split", "fewest"]
-_OBJECTIVES: dict[Mode, Objective] = {
-    "need": "min_count",
-    "split": "max_probability",
-    "fewest": "min_total",
+Mode = Literal["one", "share"]
+Aim = Literal["best", "target"]
+_OBJECTIVES: dict[tuple[Mode, Aim], Objective] = {
+    ("one", "best"): "max_probability",
+    ("one", "target"): "min_count",
+    ("share", "best"): "max_probability",
+    ("share", "target"): "min_total",
 }
 
 
@@ -651,14 +653,21 @@ class Vary:
 
 @dataclass(frozen=True, slots=True)
 class HowMany:
-    """Question 5. ``mode``:
+    """Question 5: choose card counts.
 
-    * "need": how many of ONE card type you need to reach ``target_percent``.
-    * "split": the best way to share ``slots`` cards among the card types.
-    * "fewest": the fewest cards of these types (in total) that reach ``target_percent``.
+    ``mode`` says which counts change:
+
+    * "one": ONE card type, within its range.
+    * "share": several card types, using at most ``slots`` cards between them.
+
+    ``aim`` says what counts as best:
+
+    * "best": the highest chance (ties go to fewer cards). No target is needed.
+    * "target": the fewest cards that reach ``target_percent``.
     """
 
-    mode: Mode = "need"
+    mode: Mode = "one"
+    aim: Aim = "target"
     vary: tuple[Vary, ...] = (Vary("land", 14, 40),)
     target_percent: float = 90.0
     slots: int = 20
@@ -673,7 +682,7 @@ def how_many(
         raise ValidationError("deck", "this question needs the deck described as card types")
     if not q.vary:
         raise ValidationError("card types to change", "choose at least one card type")
-    if q.mode == "need" and len(q.vary) != 1:
+    if q.mode == "one" and len(q.vary) != 1:
         raise ValidationError("card types to change", "choose exactly one card type")
     names = [_clean(v.card_type) for v in q.vary]
     known = {_clean(t.name): t for t in deck.types}
@@ -691,10 +700,24 @@ def how_many(
         Variable(n, v.low, v.high, frozenset(_clean(a) for a in known[n].also))
         for v, n in zip(q.vary, names, strict=True)
     )
-    if q.mode != "split" and not 0 < q.target_percent <= 100:
+    lows = sum(v.low for v in q.vary)
+    room = deck.size - sum(c.count for _, c in fixed)
+    if lows > room:
+        raise ValidationError(
+            "card types to change",
+            f"the 'from' numbers add up to {lows} cards, but your other card types leave "
+            f"room for only {room}",
+        )
+    if q.mode == "share" and q.slots < 0:
+        raise ValidationError("cards allowed", "choose 0 or more cards")
+    if q.mode == "share" and lows > q.slots:
+        raise ValidationError(
+            "cards allowed",
+            f"the 'from' numbers add up to {lows} cards, more than the {q.slots} cards allowed",
+        )
+    if q.aim == "target" and not 0 < q.target_percent <= 100:
         raise ValidationError("target", "choose a target between 0 and 100 percent")
     target = Fraction(str(q.target_percent)) / 100
-    objective: Objective = _OBJECTIVES[q.mode]
     problem = OptimizeProblem(
         deck_size=deck.size,
         variables=variables,
@@ -702,42 +725,43 @@ def how_many(
         fixed=fixed,
         game=sc.game,
         mulligan=sc.mulligan,
-        objective=objective,
-        target=None if q.mode == "split" else target,
-        budget=q.slots if q.mode == "split" else None,
+        objective=_OBJECTIVES[q.mode, q.aim],
+        target=target if q.aim == "target" else None,
+        budget=q.slots if q.mode == "share" else None,
     )
     try:
         res = api.optimize(problem)
     except InfeasibleError:
-        top = ", ".join(f"{v.high} {n}" for v, n in zip(q.vary, names, strict=True))
-        raise ValidationError(
-            "target",
-            f"{pct(target)} cannot be reached even with {top}. Raise the 'to' numbers, lower "
-            "the target, or add the other card types your good game needs (card types not "
-            "listed keep their step-1 counts).",
-        ) from None
+        # The checks above leave only one way to fail: a target out of reach.
+        raise ValidationError("target", _unreachable(q, names, target)) from None
     chosen = ", ".join(f"{c} {n}" for n, c in res.counts)
     good = describe_goal(q.goal)
-    if q.mode == "need":
+    p = pct(res.probability, settings)
+    details: list[str] = []
+    if q.mode == "one":
         ((name, c),) = res.counts
-        headline = (
-            f"Play {c} {name}: you then have {good} in {pct(res.probability, settings)} of "
-            f"games, which reaches your {pct(target)} target."
-        )
-        details = [_one_fewer(problem, c, settings)] if c > variables[0].lo else []
-    elif q.mode == "split":
-        headline = (
-            f"Best use of {q.slots} cards: {chosen}. You then have {good} in "
-            f"{pct(res.probability, settings)} of games."
-        )
-        details = []
+        var = variables[0]
+        if q.aim == "target":
+            headline = (
+                f"Play {c} {name}: you then have {good} in {p} of games, which reaches your "
+                f"{pct(target)} target."
+            )
+        else:
+            headline = (
+                f"Play {c} {name}: you then have {good} in {p} of games, the best chance "
+                f"from {var.lo} to {var.hi} {name}."
+            )
+        if c > var.lo:
+            details.append(_one_fewer(problem, c, settings))
+        if q.aim == "best" and c == var.hi < room:
+            details.append(
+                f"{c} is your 'to' number: a higher 'to' number might give a better chance."
+            )
+    elif q.aim == "best":
+        headline = f"Best use of {q.slots} cards: {chosen}. You then have {good} in {p} of games."
     else:
         total = sum(c for _, c in res.counts)
-        headline = (
-            f"The fewest cards that reach {pct(target)}: {total} ({chosen}), giving "
-            f"{pct(res.probability, settings)}."
-        )
-        details = []
+        headline = f"The fewest cards that reach {pct(target)}: {total} ({chosen}), giving {p}."
     details.append(
         "This is guaranteed to be the best answer."
         if res.proven_optimal
@@ -754,6 +778,24 @@ def how_many(
         headers=("Option tried", "Chance", "In words"),
         rows=rows,
         legend=(("Option tried", "the best options the program calculated, best first"),),
+    )
+
+
+def _unreachable(q: HowMany, names: list[str], target: Fraction) -> str:
+    """Advice when no counts reach the target."""
+    top = ", ".join(f"{v.high} {n}" for v, n in zip(q.vary, names, strict=True))
+    rest = (
+        "add the other card types your good game needs (card types not listed keep their "
+        "step-1 counts)."
+    )
+    if q.mode == "one":
+        return (
+            f"{pct(target)} cannot be reached even with {top}. Raise the 'to' numbers, lower "
+            f"the target, or {rest}"
+        )
+    return (
+        f"{pct(target)} cannot be reached with at most {q.slots} cards (up to {top}). Raise "
+        f"the 'to' numbers or the cards allowed, lower the target, or {rest}"
     )
 
 
@@ -790,6 +832,7 @@ __all__ = [
     "ANY_CARD",
     "FORMATS",
     "KINDS",
+    "Aim",
     "CardType",
     "DeckSetup",
     "Goal",

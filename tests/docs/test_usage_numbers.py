@@ -68,6 +68,6 @@ def test_how_many_numbers() -> None:
     split = forms.how_many(
         DECK,
         SC,
-        HowMany("split", (Vary("land", 14, 24), Vary("removal", 0, 8)), slots=30, goal=GOAL),
+        HowMany("share", "best", (Vary("land", 14, 24), Vary("removal", 0, 8)), 0, 30, GOAL),
     )
     assert split.headline.split(".")[0] + "." in USAGE

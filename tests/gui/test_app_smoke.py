@@ -56,6 +56,26 @@ def test_every_question_answers_every_card_type_example(app: Any, example: int) 
         assert page.headline.cget("text")
 
 
+@pytest.mark.parametrize("mode", ["one", "share"])
+@pytest.mark.parametrize("aim", ["best", "target"])
+def test_how_many_page_answers_each_mode_and_aim(app: Any, mode: str, aim: str) -> None:
+    page = next(p for p in app.question_pages() if type(p).__name__ == "HowManyPage")
+    page.mode.set(mode)
+    page.aim.set(aim)
+    page._mode_changed()
+    assert bool(page.target_row.winfo_manager()) == (aim == "target")
+    assert bool(page.slots_row.winfo_manager()) == (mode == "share")
+    page.slots_box.delete(0, "end")
+    page.slots_box.insert(0, "40")
+    page.target_box.delete(0, "end")
+    page.target_box.insert(0, "50")  # within reach of the default deck, so all four answer
+    page.run()
+    wait(app)
+    status = app.status.get()
+    assert status.startswith("Done"), (mode, aim, status)
+    assert page.headline.cget("text")
+
+
 def test_decklist_example_and_type_names(app: Any) -> None:
     from mtgcalc_gui.help import EXAMPLES
 

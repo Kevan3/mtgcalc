@@ -1,7 +1,7 @@
 import type { Dispatch, ReactNode } from "react";
 
 import type { Action } from "../app/state.ts";
-import type { FormState, HowManyMode } from "../forms/model.ts";
+import type { FormState, HowManyAim, HowManyMode } from "../forms/model.ts";
 import { cleanName, type FieldId } from "../forms/parse.ts";
 import { HINTS } from "../text/copy.ts";
 import { ProblemText, TextField, type Problem } from "./Field.tsx";
@@ -15,15 +15,19 @@ interface Props {
 }
 
 const MODES: readonly (readonly [HowManyMode, string])[] = [
-  ["need", "How many of one card type do I need to reach a target?"],
-  ["split", "What is the best way to share some cards between card types?"],
-  ["fewest", "What is the fewest cards (in total) that reach a target?"],
+  ["one", "How many of one card type should I play?"],
+  ["share", "How should I share cards between card types?"],
+];
+
+const AIMS: readonly (readonly [HowManyAim, string])[] = [
+  ["best", "The best chance I can get"],
+  ["target", "A target chance I choose, with as few cards as possible"],
 ];
 
 /** "How many should I play?" (FR-50 – FR-54): what to try, and what counts as success. */
 export function HowManyInputs({ form, labels, dispatch, problem, touch }: Props): ReactNode {
   const names = form.types.map((t) => cleanName(t.name)).filter((n) => n !== "");
-  const rows = form.hmMode === "need" ? form.hmVary.slice(0, 1) : form.hmVary;
+  const rows = form.hmMode === "one" ? form.hmVary.slice(0, 1) : form.hmVary;
   const sectionP = problem("howmany");
   if (form.deckMode !== "types") {
     return (
@@ -65,7 +69,7 @@ export function HowManyInputs({ form, labels, dispatch, problem, touch }: Props)
       </fieldset>
       <div className={`field ${sectionP ? "has-problem" : ""}`}>
         <span className="label" id="vary-label">
-          {form.hmMode === "need"
+          {form.hmMode === "one"
             ? "Which card type, and from how many to how many?"
             : "Which card types to try, and their ranges"}
         </span>
@@ -130,7 +134,7 @@ export function HowManyInputs({ form, labels, dispatch, problem, touch }: Props)
                       dispatch({ type: "varyChanged", id: row.id, patch: { high: e.target.value } });
                     }}
                   />
-                  {form.hmMode !== "need" && (
+                  {form.hmMode === "share" && (
                     <button
                       type="button"
                       className="remove"
@@ -150,10 +154,10 @@ export function HowManyInputs({ form, labels, dispatch, problem, touch }: Props)
           })}
         </ol>
         <ProblemText problem={sectionP} />
-        {form.hmMode === "split" && rows.length < 2 && (
+        {form.hmMode === "share" && rows.length < 2 && (
           <p className="note">Add a second card type to try, so the cards can be shared between them.</p>
         )}
-        {form.hmMode !== "need" && (
+        {form.hmMode === "share" && (
           <button
             type="button"
             id="add-vary"
@@ -166,11 +170,11 @@ export function HowManyInputs({ form, labels, dispatch, problem, touch }: Props)
           </button>
         )}
       </div>
-      {form.hmMode === "split" ? (
+      {form.hmMode === "share" && (
         <TextField
           id="hm-slots"
           field="hmSlots"
-          label="How many cards to share between them"
+          label="Cards allowed between them"
           hint={HINTS.slots}
           value={form.hmSlots}
           numeric
@@ -183,7 +187,27 @@ export function HowManyInputs({ form, labels, dispatch, problem, touch }: Props)
             dispatch({ type: "howManyChanged", patch: { hmSlots: value } });
           }}
         />
-      ) : (
+      )}
+      <fieldset className="field">
+        <legend>Aim for</legend>
+        <p className="hint">{HINTS.aim}</p>
+        <div className="buttons stacked">
+          {AIMS.map(([aim, text]) => (
+            <label key={aim} className="radio">
+              <input
+                type="radio"
+                name="hm-aim"
+                checked={form.hmAim === aim}
+                onChange={() => {
+                  dispatch({ type: "howManyChanged", patch: { hmAim: aim } });
+                }}
+              />
+              {text}
+            </label>
+          ))}
+        </div>
+      </fieldset>
+      {form.hmAim === "target" && (
         <TextField
           id="hm-target"
           field="hmTarget"

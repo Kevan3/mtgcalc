@@ -780,13 +780,16 @@ class HowManyPage(QuestionPage):
 
     intro = "howmany"
     MODES = (
-        ("need", "How many of one card type do I need to reach a target chance?"),
-        ("split", "How should I share a number of card slots between card types?"),
-        ("fewest", "What is the fewest cards of these types that reach a target chance?"),
+        ("one", "How many of one card type should I play?"),
+        ("share", "How should I share cards between card types?"),
+    )
+    AIMS = (
+        ("best", "The best chance I can get"),
+        ("target", "A target chance I choose, with as few cards as possible"),
     )
 
     def build(self, parent: ttk.Frame) -> None:
-        self.mode = tk.StringVar(value="need")
+        self.mode = tk.StringVar(value="one")
         for value, text in self.MODES:
             r = ttk.Radiobutton(
                 parent, text=text, value=value, variable=self.mode, command=self._mode_changed
@@ -799,17 +802,26 @@ class HowManyPage(QuestionPage):
         self.vary = RowList(parent, self._vary_row, "Add a card type")
         self.vary.pack(anchor="w")
         self.vary.add()
+        self.slots_row = ttk.Frame(parent)
+        ttk.Label(self.slots_row, text="Cards allowed between them").pack(side="left")
+        self.slots_box, self.slots = spin(self.slots_row, 20, 0, 500, 5)
+        self.slots_box.pack(side="left", padx=4)
+        tip(self.slots_box, "hm_slots")
+        self.aim_box = ttk.Frame(parent)
+        ttk.Label(self.aim_box, text="Aim for:").pack(anchor="w")
+        self.aim = tk.StringVar(value="target")
+        for value, text in self.AIMS:
+            r = ttk.Radiobutton(
+                self.aim_box, text=text, value=value, variable=self.aim, command=self._mode_changed
+            )
+            r.pack(anchor="w")
+            tip(r, "hm_aim")
         self.target_row = ttk.Frame(parent)
         ttk.Label(self.target_row, text="Target chance").pack(side="left")
         self.target_box, self.target = spin(self.target_row, 90, 1, 100, 4)
         self.target_box.pack(side="left", padx=4)
         ttk.Label(self.target_row, text="%").pack(side="left")
         tip(self.target_box, "hm_target")
-        self.slots_row = ttk.Frame(parent)
-        ttk.Label(self.slots_row, text="Card slots to share").pack(side="left")
-        self.slots_box, self.slots = spin(self.slots_row, 20, 0, 500, 5)
-        self.slots_box.pack(side="left", padx=4)
-        tip(self.slots_box, "hm_slots")
         self.goal = GoalBuilder(parent, self.app, "A good game is when I have:")
         self.goal.set(Goal((Requirement("at least", 4, "land", 4),)))
         self._mode_changed()
@@ -827,22 +839,23 @@ class HowManyPage(QuestionPage):
         return [g1, g2, g3]
 
     def _mode_changed(self) -> None:
-        split = self.mode.get() == "split"
-        self.goal.pack_forget()
-        toggle(self.target_row, not split)
-        toggle(self.slots_row, split)
+        for widget in (self.slots_row, self.aim_box, self.target_row, self.goal):
+            widget.pack_forget()
+        toggle(self.slots_row, self.mode.get() == "share")
+        self.aim_box.pack(anchor="w", pady=(6, 0))
+        toggle(self.target_row, self.aim.get() == "target")
         self.goal.pack(anchor="w", pady=(8, 0))
 
     def prepare(self) -> Work:
-        mode = self.mode.get()
         q = HowMany(
-            mode="split" if mode == "split" else "fewest" if mode == "fewest" else "need",
+            mode="share" if self.mode.get() == "share" else "one",
+            aim="best" if self.aim.get() == "best" else "target",
             vary=tuple(
                 Vary(n, number(lo, f"'{n}' from"), number(hi, f"'{n}' to"))
                 for n, lo, hi in self.vary.values()
             ),
             target_percent=number(self.target(), "target chance", 1),
-            slots=number(self.slots(), "card slots to share"),
+            slots=number(self.slots(), "cards allowed"),
             goal=self.goal.value(),
         )
         deck = self.app.deck_panel.value()
