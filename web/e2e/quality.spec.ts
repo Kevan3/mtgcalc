@@ -55,18 +55,27 @@ test.describe("accessibility", () => {
     }
   });
 
-  test("no violations with mulligan settings and advice", async ({ page }) => {
-    await page.goto("/");
-    await page.getByRole("checkbox", { name: "Mulligan bad opening hands" }).check();
-    // Two kinds of hand, the first with two lines.
-    await page.getByRole("button", { name: "And also, in kind of hand 1: add a line" }).click();
-    await page.getByRole("button", { name: "+ Or keep another kind of hand" }).click();
-    // Two kinds of good game too (the same layout).
-    await page.getByRole("button", { name: "+ Or another kind of good game" }).click();
-    await page.getByRole("radio", { name: /Should I mulligan\?/u }).check();
-    await settledHeadline(page);
-    await page.getByText(/^First 7 cards: keep if its chance/u).click();
-    await axe(page);
+  test("no violations with mulligan settings and advice, light and dark", async ({ page }) => {
+    for (const colorScheme of ["light", "dark"] as const) {
+      await page.emulateMedia({ colorScheme });
+      await page.goto("/");
+      // Start each pass from the example (the page remembers the form).
+      await page.evaluate(() => {
+        localStorage.clear();
+      });
+      await page.reload();
+      await page.getByRole("checkbox", { name: "Mulligan bad opening hands" }).check();
+      // Kinds of hand in three colours, the first with two lines.
+      await page.getByRole("button", { name: "And also, in kind of hand 1: add a line" }).click();
+      await page.getByRole("button", { name: "+ Or keep another kind of hand" }).click();
+      await page.getByRole("button", { name: "+ Or keep another kind of hand" }).click();
+      // Two kinds of good game too (the same layout and colours).
+      await page.getByRole("button", { name: "+ Or another kind of good game" }).click();
+      await page.getByRole("radio", { name: /Should I mulligan\?/u }).check();
+      await settledHeadline(page);
+      await page.getByText(/^First 7 cards: keep if its chance/u).click();
+      await axe(page);
+    }
   });
 
   test("no violations with 'How many should I play?', before and after running it", async ({ page }) => {

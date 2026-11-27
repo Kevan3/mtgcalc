@@ -144,6 +144,14 @@ def test_kinds_of_good_game(app: Any) -> None:
     goal = page.goal.value()
     assert goal.groups == ((land3, removal), (Requirement("at least", 4, "land", 4),))
     assert [t.cget("text") for _, t, _ in groups.kinds] == ["All of these:", "Or all of these:"]
+    # Each kind has its own colour (title and bar), as in the web app.
+    from mtgcalc_gui.app import KIND_COLORS
+
+    assert [str(t.cget("foreground")) for _, t, _ in groups.kinds] == list(KIND_COLORS[:2])
+    assert [str(b.cget("background")) for b in groups.bars] == list(KIND_COLORS[:2])
+    groups._remove(groups.kinds[0])  # colours follow position, so they stay distinct
+    assert str(groups.bars[0].cget("background")) == KIND_COLORS[0]
+    page.goal.set(goal)
     page.run()
     wait(app)
     assert ", or at least 4 land by turn 4 in" in page.headline.cget("text")

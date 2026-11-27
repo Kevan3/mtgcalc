@@ -18,7 +18,7 @@ interface Props {
 
 export function PlayStep({ form, names, labels, dispatch, problem, touch }: Props): ReactNode {
   return (
-    <section aria-labelledby="play-title" className="step">
+    <section aria-labelledby="play-title" className="step c2">
       <h2 id="play-title">{STEPS.play}</h2>
       <fieldset className="field">
         <legend>Do you go first?</legend>

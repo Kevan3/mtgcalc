@@ -68,7 +68,7 @@ export function AnswerPanel({ live, problem }: Props): ReactNode {
           ? STATUS.first
           : "";
   return (
-    <section className="answer" aria-labelledby="answer-title" ref={ref}>
+    <section className="answer c5" aria-labelledby="answer-title" ref={ref}>
       <h2 id="answer-title">Your answer</h2>
       <div className={`answer-body ${stale ? "stale" : ""} ${invalid ? "invalid" : ""}`} aria-busy={busy}>
         {(invalid || live.waiting) && view !== null && <p className="out-of-date">{STATUS.outOfDate}</p>}

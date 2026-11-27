@@ -50,16 +50,25 @@ const QUESTIONS: readonly (readonly [QuestionKind, string, string])[] = [
   ],
 ];
 
+/** Each question card has its own colour (the palette of the kinds, `.c1` … `.c6`). */
+const QUESTION_COLORS: Record<QuestionKind, string> = {
+  chances: "c1",
+  draws: "c5",
+  turns: "c2",
+  howmany: "c4",
+  mulligan: "c6",
+};
+
 export function GoalStep(props: Props): ReactNode {
   const { form, dispatch, linesAsRule } = props;
   return (
-    <section aria-labelledby="goal-title" className="step">
+    <section aria-labelledby="goal-title" className="step c3">
       <h2 id="goal-title">{STEPS.goal}</h2>
       <fieldset className="field">
         <legend>What do you want to know?</legend>
         <div className="questions">
           {QUESTIONS.map(([kind, title, about]) => (
-            <label key={kind} className="radio question">
+            <label key={kind} className={`radio question ${QUESTION_COLORS[kind]}`}>
               <input
                 type="radio"
                 name="question"

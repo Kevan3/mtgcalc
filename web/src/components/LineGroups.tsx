@@ -48,6 +48,13 @@ interface Props<R extends Row> {
   readonly onAddGroup: () => void;
 }
 
+/** Kinds cycle through six colours (CSS `.c1` … `.c6`), so neighbouring kinds never look alike. */
+export const KIND_COLORS = 6;
+
+export function kindColor(index: number): string {
+  return `c${String((index % KIND_COLORS) + 1)}`;
+}
+
 /**
  * Kinds of something, any one of which will do, each with lines that must all hold:
  * the kinds of hand to keep (step 2) and the kinds of good game (step 3) share this
@@ -73,7 +80,12 @@ export function LineGroups<R extends Row>(props: Props<R>): ReactNode {
             const kind = `${words.kind} ${String(g + 1)}`;
             const titleId = `${words.key}-kind-${group.id}`;
             return (
-              <li key={group.id} className="kind" data-group={group.id}>
+              <li key={group.id} className={`kind ${kindColor(g)}`} data-group={group.id}>
+                {g > 0 && (
+                  <span className="or-divider" aria-hidden="true">
+                    or
+                  </span>
+                )}
                 <span className="kind-title" id={titleId}>
                   {g === 0 ? words.first : words.other}
                 </span>
@@ -124,7 +136,12 @@ export function LineGroups<R extends Row>(props: Props<R>): ReactNode {
         </ol>
       )}
       {props.footer}
-      <button type="button" id={`add-${words.key}-kind`} className="add" onClick={props.onAddGroup}>
+      <button
+        type="button"
+        id={`add-${words.key}-kind`}
+        className={`add next-kind ${kindColor(groups.length)}`}
+        onClick={props.onAddGroup}
+      >
         {groups.length === 0 ? words.addFirst : words.addOther}
       </button>
       {props.summary !== null && <p className="note summary">So: {props.summary}.</p>}

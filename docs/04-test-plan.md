@@ -207,6 +207,7 @@ Peak state counts are recorded to catch algorithmic regressions independently of
 | FR-98 | CI `pages.yml` (build) |
 | FR-106 | gui/test_forms (conditions, words, all_of/any_of, a second kind adds games, exact rounding), gui/test_app_smoke (kinds of good game), web parity (random all/any/mixed goals vs Python), state.test.ts, storage.test.ts (upgrade), parse.test.ts (property with mixed kinds), App.test.tsx, e2e/quality (axe) |
 | FR-107 | e2e (every project, including a phone), manual check at 1100, 1366 and 1920 px |
+| FR-108 | e2e/quality (axe WCAG 2.2 AA with three kinds of hand and two kinds of good game, light and dark), LineGroups.test.ts (cycling), App.test.tsx (kind and button colours), gui/test_app_smoke (desktop colours follow position) |
 | FR-105 | gui/test_forms (`keep_condition`, words, errors, more kinds keep more hands), gui/test_app_smoke (kinds of hand), web/src/forms/parity.test.ts (scenario JSON and words vs Python, every shape), web/src/app/state.test.ts, storage.test.ts (upgrade), App.test.tsx, e2e/quality (axe) |
 | FR-99 | web/src/forms/answer.test.ts, App.test.tsx (too big) |
 | NFR-16 | e2e/quality (first answer, typing pause + budget), WebAssembly size check in `npm run wasm` |
