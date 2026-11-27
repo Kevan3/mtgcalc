@@ -6,6 +6,9 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+### Removed
+- The live Archidekt check (`tests/online/test_live.py`, the `network` test marker and its Nightly step). Archidekt now refuses requests from GitHub's servers, so it failed every night. Importing from Archidekt is unchanged and still tested on saved responses.
+
 ### Changed
 - **Several keep rules for mulligans.** Instead of one keep rule, list the kinds of hand you keep. Each kind has one or more lines that must all hold (*2 land* **and** *1 to 7 ramp*), and a hand that fits any kind is kept (*3 to 5 land*, **or** *2 land and 1 to 7 ramp*). No kinds means "keep every hand". Both the desktop and web apps (FR-105, ADR-0014). The rule is restated in words, and an amount like *2 to 2* now reads *2*. Saved web forms are upgraded. The Commander example now uses two kinds of hand. `MulliganSetup.keep` (a tuple of kinds of `KeepRule`) replaces `keep_type`, `keep_min` and `keep_max` in `mtgcalc_gui.forms`. The engine is unchanged, because the keep rule was already any condition.
 - **"How many should I play?" no longer needs a target.** Choose one card type or several sharing some cards, then aim for *the best chance I can get* (no target) or *a target chance I choose* (the fewest cards that reach it). Sharing can now aim for a target within the cards allowed, and one card type can aim for the best chance. Both the desktop and web apps; saved web forms are upgraded. The "from" numbers are now checked against the room in the deck and the cards allowed before searching.

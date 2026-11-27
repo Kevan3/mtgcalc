@@ -83,7 +83,6 @@ GitHub Actions runs these on every push and pull request (`.github/workflows/ci.
 .venv/bin/lint-imports                   # layered architecture contract
 .venv/bin/pytest --cov                   # coverage gate: 95% (fail-under)
 .venv/bin/pytest -m perf tests/performance
-.venv/bin/pytest -m network tests/online     # opt-in: checks the live Archidekt API
 (cd native && cargo fmt --check \
   && cargo clippy --release --all-targets --workspace --exclude mtgcalc-native -- -D warnings \
   && cargo clippy --release -p mtgcalc-native -- -D warnings \

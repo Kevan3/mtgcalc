@@ -29,5 +29,5 @@ Checked against the live sites on 2026-11-14:
   - the converter runs on trimmed real responses;
   - the HTTP layer runs against a local server;
   - the GUI runs with an injected fetch.
-  - An opt-in `-m network` test detects format changes on the site.
+  - An opt-in `-m network` test detects format changes on the site. *(Removed 2026-11-25: Archidekt began refusing requests from GitHub's CI servers with HTTP 403. Format changes are now caught only by the saved-response tests.)*
 - Adding a site means one module with a link pattern, `api_url` and `to_deck`, plus a `Source` entry.
