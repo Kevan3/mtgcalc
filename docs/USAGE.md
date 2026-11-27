@@ -147,12 +147,17 @@ Under your kinds of hand, the app says your rule in words, for example *keep a h
 
 ## Describing a good game
 
-Most questions ask you to describe **a good game** as a few lines:
+Most questions ask you to describe **a good game** as a few lines. They work like the kinds of hand you keep in step 2:
 
 ```text
-[at least] [3] [land]    [turn 3]
-[at least] [1] [removal] [turn 3]
-I need (•) all of these  ( ) any one of these
+A good game has
+      [at least] [3] [land]    [turn 3]
+  and [at least] [1] [removal] [turn 3]
+  + And also
+Or a good game has
+      [at least] [4] [land]    [turn 4]
+  + And also
++ Or another kind of good game
 ```
 
 | Part | Choices |
@@ -161,7 +166,10 @@ I need (•) all of these  ( ) any one of these
 | Number | How many |
 | Card type | Any type from step 1, or **any card** |
 | When | **opening hand** (the 7 cards you keep) or **turn N**, meaning *after you draw on turn N* |
-| All / any | *All of these* means every line must happen. *Any one of these* means at least one line must. |
+| And also | Add a line to the same kind of good game. That kind needs **every** one of its lines. |
+| Or another kind of good game | Add another kind. A game that fits **any** kind counts as good. For "this **or** that", give each its own kind. |
+
+Under the lines, the app says your good game in words, for example *a good game has at least 3 land by turn 3 and at least 1 removal by turn 3, or at least 4 land by turn 4*.
 
 **Going first, "by turn 3" means 9 cards:** your 7-card hand plus the draws on turns 2 and 3. Going second it's 10 cards.
 

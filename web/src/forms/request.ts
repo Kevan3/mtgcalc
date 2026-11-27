@@ -78,9 +78,12 @@ function requirementJson(r: Requirement, withTurn = true): Json {
 /** Python's `goal_condition(goal, with_turns=...)`. */
 function goalCondition(setup: Setup, withTurns: boolean): Json {
   if (setup.goal.rule !== undefined) return setup.goal.rule.condition as Json;
-  const parts = setup.goal.requirements.map((r) => requirementJson(r, withTurns));
-  if (parts.length === 1 && parts[0] !== undefined) return parts[0];
-  return { type: setup.goal.combine === "all" ? "And" : "Or", items: parts };
+  // Python's `goal_condition`: any kind (`Or`) of all its lines (`And`), never wrapped needlessly.
+  const kinds = setup.goal.groups.map((group) => {
+    const lines = group.map((r) => requirementJson(r, withTurns));
+    return lines.length === 1 && lines[0] !== undefined ? lines[0] : { type: "And", items: lines };
+  });
+  return kinds.length === 1 && kinds[0] !== undefined ? kinds[0] : { type: "Or", items: kinds };
 }
 
 /**

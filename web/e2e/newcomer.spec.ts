@@ -32,10 +32,10 @@ test.describe("a brand-new player", () => {
     await page.goto("/");
     await settledHeadline(page);
     // "I only care about lands in my opening hand."
-    await page.getByRole("button", { name: "Remove line 2" }).click();
-    const amount = page.getByLabel("Line 1: number of cards");
+    await page.getByRole("button", { name: "Remove good game 1, line 2" }).click();
+    const amount = page.getByLabel("Good game 1, line 1: number of cards");
     await amount.fill("2");
-    await page.getByLabel("Line 1: when").selectOption({ label: "in your opening hand" });
+    await page.getByLabel("Good game 1, line 1: when").selectOption({ label: "in your opening hand" });
     await expect(await settledHeadline(page)).toHaveText(
       "You have at least 2 land in your opening hand in 85.7% of games (all but about 1 game in 7).",
     );
@@ -55,10 +55,10 @@ test.describe("a brand-new player", () => {
     await page.getByLabel("Name of card type 3").fill("Ramp");
     await page.getByLabel("How many ramp").fill("10");
     // They want a ramp card by turn 2 and nothing else.
-    await page.getByRole("button", { name: "Remove line 2" }).click();
-    await page.getByLabel("Line 1: number of cards").fill("1");
-    await page.getByLabel("Line 1: card type").selectOption("ramp");
-    await page.getByLabel("Line 1: when").selectOption({ label: "by turn 2" });
+    await page.getByRole("button", { name: "Remove good game 1, line 2" }).click();
+    await page.getByLabel("Good game 1, line 1: number of cards").fill("1");
+    await page.getByLabel("Good game 1, line 1: card type").selectOption("ramp");
+    await page.getByLabel("Good game 1, line 1: when").selectOption({ label: "by turn 2" });
     await expect(await settledHeadline(page)).toHaveText(
       "You have at least 1 Ramp by turn 2 in 63.3% of games (about 6 games in 10).",
     );
@@ -112,8 +112,8 @@ test.describe("a brand-new player", () => {
     await page.getByRole("button", { name: "Remove card type 3" }).click();
 
     // Removing every line of the goal.
-    await page.getByRole("button", { name: "Remove line 2" }).click();
-    await page.getByRole("button", { name: "Remove line 1" }).click();
+    await page.getByRole("button", { name: "Remove good game 1, line 2" }).click();
+    await page.getByRole("button", { name: "Remove good game 1, line 1" }).click();
     await expect(steps.getByText("Add a line to say what a good game looks like.")).toBeVisible({
       timeout: 3000,
     });
@@ -175,10 +175,10 @@ test.describe("a player with a real deck", () => {
     // The page says what it read, so the player can check it.
     await expect(page.getByText("Read 99 cards in the deck. Tags: draw 10, land 34, ramp 3.")).toBeVisible();
     await page.getByRole("radio", { name: "No, I draw on turn 1" }).check();
-    await page.getByRole("button", { name: "Remove line 2" }).click();
-    await page.getByLabel("Line 1: number of cards").fill("1");
-    await page.getByLabel("Line 1: card type").selectOption("ramp");
-    await page.getByLabel("Line 1: when").selectOption({ label: "by turn 2" });
+    await page.getByRole("button", { name: "Remove good game 1, line 2" }).click();
+    await page.getByLabel("Good game 1, line 1: number of cards").fill("1");
+    await page.getByLabel("Good game 1, line 1: card type").selectOption("ramp");
+    await page.getByLabel("Good game 1, line 1: when").selectOption({ label: "by turn 2" });
     await expect(await settledHeadline(page)).toHaveText(
       "You have at least 1 ramp by turn 2 in 25.1% of games (about 3 games in 10).",
     );
@@ -334,7 +334,7 @@ test.describe("a player on a phone", () => {
   test("can see the answer change while editing the last step", async ({ page }) => {
     await page.goto("/");
     await settledHeadline(page);
-    const amount = page.getByLabel("Line 2: number of cards");
+    const amount = page.getByLabel("Good game 1, line 2: number of cards");
     await amount.scrollIntoViewIfNeeded();
     await amount.fill("2");
     const headline = await settledHeadline(page);

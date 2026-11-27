@@ -44,8 +44,7 @@ export const HINTS = {
   slots: "The most cards these card types may use between them.",
   aim: "“The best chance” needs no target: the calculator finds the counts with the highest chance. “A target chance” finds the fewest cards that reach the chance you choose.",
   target: "The chance you want to reach, in percent, like 90.",
-  goal: "Describe a good game, one line per thing you want. Add more lines with the button.",
-  combine: "“All” means every line must happen. “Any” means at least one line is enough.",
+  goal: "One line per thing you want. A game is good if it fits any one kind of good game below, and it fits a kind when every line is true.",
   turn: "“By turn 3” means after you draw your card for turn 3. The opening hand is the 7 cards you start with.",
 } as const;
 

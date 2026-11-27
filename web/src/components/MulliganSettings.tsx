@@ -5,6 +5,7 @@ import { ANY_CARD, MAX_MULLIGANS, type FormState } from "../forms/model.ts";
 import { parseWhole, type FieldId } from "../forms/parse.ts";
 import { HINTS } from "../text/copy.ts";
 import { describedBy, ProblemText, type Problem } from "./Field.tsx";
+import { LineGroups, type GroupWords } from "./LineGroups.tsx";
 
 interface Props {
   readonly form: FormState;
@@ -67,145 +68,100 @@ function KeepOptions({
   ));
 }
 
+/** The words of the kinds of hand to keep (shared layout: LineGroups). */
+export const KEEP_WORDS: GroupWords = {
+  key: "keep",
+  heading: "Which hands do you keep?",
+  hint: HINTS.keep,
+  first: "Keep a hand that has",
+  other: "Or keep a hand that has",
+  kind: "Kind of hand",
+  empty: "You keep every hand (you never mulligan).",
+  addFirst: "+ Add a kind of hand to keep",
+  addOther: "+ Or keep another kind of hand",
+};
+
 /** "Which hands do you keep?": kinds of hand (any one will do), each with lines that must all hold. */
 function KeepKinds({ form, names, labels, dispatch, problem, touch }: Props): ReactNode {
   return (
-    <div className="field">
-      <span className="label" id="keep-label">
-        Which hands do you keep?
-      </span>
-      <p className="hint" id="keep-hint">
-        {HINTS.keep}
-      </p>
-      {form.keep.length === 0 ? (
-        <p className="note">You keep every hand (you never mulligan).</p>
-      ) : (
-        <ol className="keep-kinds" aria-labelledby="keep-label" aria-describedby="keep-hint">
-          {form.keep.map((group, g) => {
-            const kind = g + 1;
-            const titleId = `keep-kind-${group.id}`;
-            return (
-              <li key={group.id} className="keep-kind" data-group={group.id}>
-                <span className="kind-title" id={titleId}>
-                  {g === 0 ? "Keep a hand that has" : "Or keep a hand that has"}
-                </span>
-                <ol className="goal" aria-labelledby={titleId}>
-                  {group.rules.map((row, i) => {
-                    const typeP = problem(`keep:${row.id}:cardType`);
-                    const rangeP = problem(`keep:${row.id}:range`);
-                    const where = `Kind of hand ${String(kind)}, line ${String(i + 1)}`;
-                    return (
-                      <li key={row.id} className="goal-line" data-row={row.id}>
-                        <div
-                          className={`line ${typeP || rangeP ? "has-problem" : ""}`}
-                          role="group"
-                          aria-label={where}
-                        >
-                          {i > 0 && <span>and</span>}
-                          <select
-                            aria-label={`${where}: card type`}
-                            data-field={`keep:${row.id}:cardType`}
-                            value={row.cardType}
-                            aria-invalid={typeP ? true : undefined}
-                            aria-describedby={typeP?.id}
-                            onChange={(e) => {
-                              touch(`keep:${row.id}:cardType`);
-                              dispatch({
-                                type: "keepRuleChanged",
-                                id: row.id,
-                                patch: { cardType: e.target.value },
-                              });
-                            }}
-                          >
-                            <KeepOptions names={names} labels={labels} current={row.cardType} />
-                          </select>
-                          <span>between</span>
-                          <input
-                            type="text"
-                            inputMode="numeric"
-                            className="small"
-                            aria-label={`${where}: at least this many`}
-                            data-field={`keep:${row.id}:range`}
-                            value={row.min}
-                            aria-invalid={rangeP ? true : undefined}
-                            aria-describedby={rangeP?.id}
-                            onBlur={() => {
-                              touch(`keep:${row.id}:range`);
-                            }}
-                            onChange={(e) => {
-                              dispatch({
-                                type: "keepRuleChanged",
-                                id: row.id,
-                                patch: { min: e.target.value },
-                              });
-                            }}
-                          />
-                          <span>and</span>
-                          <input
-                            type="text"
-                            inputMode="numeric"
-                            className="small"
-                            aria-label={`${where}: at most this many`}
-                            data-field={`keep:${row.id}:range`}
-                            value={row.max}
-                            aria-invalid={rangeP ? true : undefined}
-                            aria-describedby={rangeP?.id}
-                            onBlur={() => {
-                              touch(`keep:${row.id}:range`);
-                            }}
-                            onChange={(e) => {
-                              dispatch({
-                                type: "keepRuleChanged",
-                                id: row.id,
-                                patch: { max: e.target.value },
-                              });
-                            }}
-                          />
-                          <button
-                            type="button"
-                            className="remove"
-                            aria-label={`Remove ${where.toLowerCase()}`}
-                            onClick={() => {
-                              dispatch({ type: "keepRuleRemoved", id: row.id });
-                            }}
-                          >
-                            ×
-                          </button>
-                        </div>
-                        <ProblemText problem={typeP} />
-                        <ProblemText problem={rangeP} />
-                      </li>
-                    );
-                  })}
-                </ol>
-                <button
-                  type="button"
-                  id={`add-keep-line-${group.id}`}
-                  className="add"
-                  aria-label={`And also, in kind of hand ${String(kind)}: add a card type`}
-                  onClick={() => {
-                    dispatch({ type: "keepRuleAdded", group: group.id });
-                  }}
-                >
-                  + And also…
-                </button>
-              </li>
-            );
-          })}
-        </ol>
+    <LineGroups
+      words={KEEP_WORDS}
+      groups={form.keep}
+      summary={keepRuleWords(form, labels)}
+      hasProblem={(row) => Boolean(problem(`keep:${row.id}:cardType`) ?? problem(`keep:${row.id}:range`))}
+      problems={(row) => (
+        <>
+          <ProblemText problem={problem(`keep:${row.id}:cardType`)} />
+          <ProblemText problem={problem(`keep:${row.id}:range`)} />
+        </>
       )}
-      <button
-        type="button"
-        id="add-keep-kind"
-        className="add"
-        onClick={() => {
-          dispatch({ type: "keepGroupAdded" });
-        }}
-      >
-        {form.keep.length === 0 ? "+ Add a kind of hand to keep" : "+ Or keep another kind of hand"}
-      </button>
-      <p className="note">So: {keepRuleWords(form, labels)}.</p>
-    </div>
+      onAddLine={(group) => {
+        dispatch({ type: "keepRuleAdded", group });
+      }}
+      onRemoveLine={(id) => {
+        dispatch({ type: "keepRuleRemoved", id });
+      }}
+      onAddGroup={() => {
+        dispatch({ type: "keepGroupAdded" });
+      }}
+      line={(row, where) => {
+        const typeP = problem(`keep:${row.id}:cardType`);
+        const rangeP = problem(`keep:${row.id}:range`);
+        return (
+          <>
+            <select
+              aria-label={`${where}: card type`}
+              data-field={`keep:${row.id}:cardType`}
+              value={row.cardType}
+              aria-invalid={typeP ? true : undefined}
+              aria-describedby={typeP?.id}
+              onChange={(e) => {
+                touch(`keep:${row.id}:cardType`);
+                dispatch({ type: "keepRuleChanged", id: row.id, patch: { cardType: e.target.value } });
+              }}
+            >
+              <KeepOptions names={names} labels={labels} current={row.cardType} />
+            </select>
+            <span>between</span>
+            <input
+              type="text"
+              inputMode="numeric"
+              autoComplete="off"
+              className="small"
+              aria-label={`${where}: at least this many`}
+              data-field={`keep:${row.id}:range`}
+              value={row.min}
+              aria-invalid={rangeP ? true : undefined}
+              aria-describedby={rangeP?.id}
+              onBlur={() => {
+                touch(`keep:${row.id}:range`);
+              }}
+              onChange={(e) => {
+                dispatch({ type: "keepRuleChanged", id: row.id, patch: { min: e.target.value } });
+              }}
+            />
+            <span>and</span>
+            <input
+              type="text"
+              inputMode="numeric"
+              autoComplete="off"
+              className="small"
+              aria-label={`${where}: at most this many`}
+              data-field={`keep:${row.id}:range`}
+              value={row.max}
+              aria-invalid={rangeP ? true : undefined}
+              aria-describedby={rangeP?.id}
+              onBlur={() => {
+                touch(`keep:${row.id}:range`);
+              }}
+              onChange={(e) => {
+                dispatch({ type: "keepRuleChanged", id: row.id, patch: { max: e.target.value } });
+              }}
+            />
+          </>
+        );
+      }}
+    />
   );
 }
 
@@ -236,9 +192,9 @@ export function MulliganSettings(props: Props): ReactNode {
           <KeepKinds {...props} />
 
           <div className={`field ${protectP ? "has-problem" : ""}`}>
-            <span className="label" id="protect-label">
+            <h3 className="group-heading" id="protect-label">
               When you put cards on the bottom, keep these first
-            </span>
+            </h3>
             <p className="hint" id="protect-hint">
               {HINTS.protect}
             </p>

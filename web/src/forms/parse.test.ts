@@ -5,7 +5,15 @@ import { initialState } from "../app/state.ts";
 import { testCore } from "../test/core.ts";
 import { probability } from "../test/wasm.ts";
 import { readReply } from "./answer.ts";
-import { ANY_CARD, KINDS, MAX_DECK, type FormState } from "./model.ts";
+import {
+  ANY_CARD,
+  KINDS,
+  MAX_DECK,
+  goalRows,
+  type FormState,
+  type GoalGroupRow,
+  type GoalRow,
+} from "./model.ts";
 import {
   cleanName,
   drawsThrough,
@@ -26,12 +34,23 @@ function issues(form: FormState): Record<string, string> {
   return parsed.ok ? {} : Object.fromEntries(parsed.issues.map((i) => [i.field, i.message]));
 }
 
+/** Goal lines as kinds of good game, in one of three shapes. */
+function shape(how: "all" | "any" | "mixed", rows: GoalRow[]): GoalGroupRow[] {
+  if (how === "all") return [{ id: "k0", rules: rows }];
+  if (how === "any" || rows.length < 2) return rows.map((r, i) => ({ id: `k${String(i)}`, rules: [r] }));
+  return [
+    { id: "k0", rules: rows.slice(0, 2) },
+    { id: "k1", rules: rows.slice(2) },
+  ].filter((g) => g.rules.length > 0);
+}
+
 function withType(patch: Partial<FormState["types"][number]>, index = 0): FormState {
   return { ...base, types: base.types.map((t, i) => (i === index ? { ...t, ...patch } : t)) };
 }
 
-function withLine(patch: Partial<FormState["goal"][number]>, index = 0): FormState {
-  return { ...base, goal: base.goal.map((g, i) => (i === index ? { ...g, ...patch } : g)) };
+function withLine(patch: Partial<GoalRow>, index = 0): FormState {
+  const rows = goalRows(base).map((g, i) => (i === index ? { ...g, ...patch } : g));
+  return { ...base, goal: [{ id: "k", rules: rows }] };
 }
 
 describe("small helpers", () => {
@@ -138,7 +157,7 @@ describe("parseForm", () => {
   });
 
   it("explains goal lines", () => {
-    const id = base.goal[0]?.id ?? "";
+    const id = goalRows(base)[0]?.id ?? "";
     expect(issues(withLine({ amount: "x" }))[`goal:${id}:amount`]).toBe("Use a whole number, 0 or more.");
     expect(issues(withLine({ kind: "none", amount: "x" }))).toEqual({}); // no amount for "no"
     expect(issues(withLine({ cardType: "ramp" }))[`goal:${id}:cardType`]).toBe(
@@ -146,9 +165,11 @@ describe("parseForm", () => {
     );
     expect(issues(withLine({ turn: "99" }))[`goal:${id}:turn`]).toBe("Pick a turn from the list.");
     expect(
-      issues({ ...base, deckSize: "10", goal: base.goal.map((g) => ({ ...g, turn: "6" })) })[
-        `goal:${id}:turn`
-      ],
+      issues({
+        ...base,
+        deckSize: "10",
+        goal: base.goal.map((g) => ({ ...g, rules: g.rules.map((r) => ({ ...r, turn: "6" })) })),
+      })[`goal:${id}:turn`],
     ).toBe("Your deck runs out of cards after turn 4. Pick turn 4 or earlier.");
     expect(issues({ ...base, goal: [] })["goal"]).toMatch(/Add a line/u);
   });
@@ -228,7 +249,7 @@ describe("whatever the form accepts, the engine accepts (property)", () => {
         }),
         { minLength: 1, maxLength: 3 },
       ),
-      combine: fc.constantFrom("all" as const, "any" as const),
+      combine: fc.constantFrom("all" as const, "any" as const, "mixed" as const),
     })
     .map((r): FormState => {
       const types = r.types.map((t, i) => ({
@@ -260,14 +281,17 @@ describe("whatever the form accepts, the engine accepts (property)", () => {
         types,
         goFirst: r.goFirst,
         drawsPerTurn: String(r.draws),
-        goal: r.lines.map((l, i) => ({
-          id: `g${i}`,
-          kind: l.kind,
-          amount: String(l.amount),
-          cardType: names[l.pick % names.length] ?? ANY_CARD,
-          turn: String(l.turn),
-        })),
-        combine: r.combine,
+        // "all": one kind with every line; "any": one kind per line; "mixed": two kinds.
+        goal: shape(
+          r.combine,
+          r.lines.map((l, i) => ({
+            id: `g${i}`,
+            kind: l.kind,
+            amount: String(l.amount),
+            cardType: names[l.pick % names.length] ?? ANY_CARD,
+            turn: String(l.turn),
+          })),
+        ),
       };
     });
 

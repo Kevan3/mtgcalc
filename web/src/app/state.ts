@@ -8,12 +8,13 @@ import {
   ANY_CARD,
   FORMATS,
   type HowManyMode,
-  type Combine,
   type DeckMode,
   type QuestionKind,
   type FormatName,
   type FormState,
+  type GoalGroupRow,
   type GoalRow,
+  goalRows,
   type KeepGroupRow,
   type KeepRuleRow,
   type ProtectRow,
@@ -38,9 +39,12 @@ export type Action =
   | { readonly type: "goFirst"; readonly value: boolean }
   | { readonly type: "drawsPerTurn"; readonly value: string }
   | { readonly type: "goalChanged"; readonly id: string; readonly patch: Partial<Omit<GoalRow, "id">> }
-  | { readonly type: "goalAdded" }
+  /** Adds a line to a kind of good game ("and also"). */
+  | { readonly type: "goalLineAdded"; readonly group: string }
+  /** Adds another kind of good game ("or"). */
+  | { readonly type: "goalGroupAdded" }
+  /** Removes a line; a kind of good game left with no lines goes too. */
   | { readonly type: "goalRemoved"; readonly id: string }
-  | { readonly type: "combine"; readonly value: Combine }
   | { readonly type: "deckMode"; readonly value: DeckMode }
   | { readonly type: "decklist"; readonly value: string }
   | { readonly type: "useRule"; readonly value: boolean; readonly prefill?: string }
@@ -92,8 +96,8 @@ export interface Example {
     readonly maxMulligans?: number;
     readonly freeFirst?: boolean;
   };
-  readonly goal: readonly { kind: Kind; amount: number; cardType: string; turn: number }[];
-  readonly combine?: Combine;
+  /** Kinds of good game (any one will do), each with lines that must all hold. */
+  readonly goal: readonly (readonly { kind: Kind; amount: number; cardType: string; turn: number }[])[];
 }
 
 /** Examples (the desktop app's, without mulligans: the web app has none yet). */
@@ -107,8 +111,10 @@ export const EXAMPLES: readonly Example[] = [
       { name: "removal", count: 6 },
     ],
     goal: [
-      { kind: "at least", amount: 3, cardType: "land", turn: 3 },
-      { kind: "at least", amount: 1, cardType: "removal", turn: 3 },
+      [
+        { kind: "at least", amount: 3, cardType: "land", turn: 3 },
+        { kind: "at least", amount: 1, cardType: "removal", turn: 3 },
+      ],
     ],
   },
   {
@@ -127,8 +133,10 @@ export const EXAMPLES: readonly Example[] = [
       ],
     },
     goal: [
-      { kind: "at least", amount: 3, cardType: "land", turn: 3 },
-      { kind: "at least", amount: 1, cardType: "removal", turn: 3 },
+      [
+        { kind: "at least", amount: 3, cardType: "land", turn: 3 },
+        { kind: "at least", amount: 1, cardType: "removal", turn: 3 },
+      ],
     ],
   },
   {
@@ -141,8 +149,10 @@ export const EXAMPLES: readonly Example[] = [
       { name: "removal", count: 4 },
     ],
     goal: [
-      { kind: "at least", amount: 4, cardType: "land", turn: 4 },
-      { kind: "at least", amount: 1, cardType: "key card", turn: 6 },
+      [
+        { kind: "at least", amount: 4, cardType: "land", turn: 4 },
+        { kind: "at least", amount: 1, cardType: "key card", turn: 6 },
+      ],
     ],
   },
   {
@@ -172,8 +182,10 @@ export const EXAMPLES: readonly Example[] = [
       freeFirst: true,
     },
     goal: [
-      { kind: "at least", amount: 2, cardType: "land", turn: 2 },
-      { kind: "at least", amount: 1, cardType: "ramp", turn: 2 },
+      [
+        { kind: "at least", amount: 2, cardType: "land", turn: 2 },
+        { kind: "at least", amount: 1, cardType: "ramp", turn: 2 },
+      ],
     ],
   },
   {
@@ -184,7 +196,7 @@ export const EXAMPLES: readonly Example[] = [
     decklist:
       "Commander\n1 Atraxa, Praetors' Voice\n\nDeck\n36 Forest #land\n1 Sol Ring #ramp\n" +
       "9 Arcane Signet #ramp\n10 Divination #draw\n43 Bear\n",
-    goal: [{ kind: "at least", amount: 1, cardType: "ramp", turn: 2 }],
+    goal: [[{ kind: "at least", amount: 1, cardType: "ramp", turn: 2 }]],
   },
 ];
 
@@ -200,12 +212,15 @@ export function fromExample(example: Example, firstId = 1): AppState {
     count: String(t.count),
     also: (t.also ?? []).join(", "),
   }));
-  const goal = example.goal.map((g) => ({
+  const goal = example.goal.map((lines): GoalGroupRow => ({
     id: id(),
-    kind: g.kind,
-    amount: String(g.amount),
-    cardType: g.cardType,
-    turn: String(g.turn),
+    rules: lines.map((g) => ({
+      id: id(),
+      kind: g.kind,
+      amount: String(g.amount),
+      cardType: g.cardType,
+      turn: String(g.turn),
+    })),
   }));
   return {
     form: {
@@ -216,11 +231,10 @@ export function fromExample(example: Example, firstId = 1): AppState {
       goFirst: example.goFirst,
       drawsPerTurn: "1",
       goal,
-      combine: example.combine ?? "all",
       useRule: false,
       rule: "",
       question: "chances",
-      drawsType: example.goal[0]?.cardType ?? "",
+      drawsType: example.goal[0]?.[0]?.cardType ?? "",
       lastTurn: "5",
       mulligans: example.mulligan !== undefined,
       keep: (example.mulligan?.keep ?? DEFAULT_KEEP).map((rules): KeepGroupRow => ({
@@ -265,7 +279,7 @@ export function initialState(): AppState {
 function seedHowMany(form: FormState, mode: HowManyMode, nextId: number): [Partial<FormState>, number] {
   const counts = new Map(form.types.map((t) => [cleanName(t.name), parseWhole(t.count) ?? 0] as const));
   const size = parseWhole(form.deckSize) ?? 60;
-  const inGoal = [...new Set(form.goal.map((g) => g.cardType))].filter((n) => counts.has(n));
+  const inGoal = [...new Set(goalRows(form).map((g) => g.cardType))].filter((n) => counts.has(n));
   const first = cleanName(form.types[0]?.name ?? "");
   const wanted = inGoal.length > 0 ? inGoal : first === "" ? [] : [first];
   const pick = mode === "one" ? wanted.slice(0, 1) : wanted;
@@ -291,8 +305,13 @@ function seedHowMany(form: FormState, mode: HowManyMode, nextId: number): [Parti
  */
 function keepableNames(form: FormState): string[] {
   const table = form.deckMode === "types" ? form.types.map((t) => cleanName(t.name)) : [];
-  const names = [...table, ...form.goal.map((g) => g.cardType)];
+  const names = [...table, ...goalRows(form).map((g) => g.cardType)];
   return [...new Set(names)].filter((n) => n !== "" && n !== ANY_CARD);
+}
+
+/** A new goal line: at least 1 of `cardType` by `turn`. */
+function goalRow(id: string, cardType: string, turn: string): GoalRow {
+  return { id, kind: "at least", amount: "1", cardType, turn };
 }
 
 function patchRow<T extends { id: string }>(rows: readonly T[], id: string, patch: Partial<T>): T[] {
@@ -324,7 +343,10 @@ export function reducer(state: AppState, action: Action): AppState {
           const follow = (name: string): string => (name === oldName ? newName : name);
           return next({
             types,
-            goal: form.goal.map((g) => ({ ...g, cardType: follow(g.cardType) })),
+            goal: form.goal.map((g) => ({
+              ...g,
+              rules: g.rules.map((r) => ({ ...r, cardType: follow(r.cardType) })),
+            })),
             protect: form.protect.map((r) => ({ ...r, cardType: follow(r.cardType) })),
             hmVary: form.hmVary.map((r) => ({ ...r, cardType: follow(r.cardType) })),
             keep: form.keep.map((g) => ({
@@ -349,23 +371,37 @@ export function reducer(state: AppState, action: Action): AppState {
     case "drawsPerTurn":
       return next({ drawsPerTurn: action.value });
     case "goalChanged":
-      return next({ goal: patchRow<GoalRow>(form.goal, action.id, action.patch) });
-    case "goalAdded": {
-      const last = form.goal.at(-1);
-      const firstType = cleanName(form.types[0]?.name ?? "") || ANY_CARD;
-      const row: GoalRow = {
+      return next({
+        goal: form.goal.map((g) => ({ ...g, rules: patchRow<GoalRow>(g.rules, action.id, action.patch) })),
+      });
+    case "goalLineAdded": {
+      // "And also": a card type this kind does not use yet, at the kind's last turn.
+      const group = form.goal.find((g) => g.id === action.group);
+      if (group === undefined) return state;
+      const used = new Set(group.rules.map((r) => r.cardType));
+      const name = keepableNames(form).find((t) => !used.has(t)) ?? group.rules.at(-1)?.cardType ?? ANY_CARD;
+      const row = goalRow(String(state.nextId), name, group.rules.at(-1)?.turn ?? "0");
+      return next(
+        { goal: form.goal.map((g) => (g.id === action.group ? { ...g, rules: [...g.rules, row] } : g)) },
+        1,
+      );
+    }
+    case "goalGroupAdded": {
+      // "Or": another kind of good game, starting from the last line's card type and turn.
+      const last = goalRows(form).at(-1);
+      const name = last?.cardType ?? keepableNames(form)[0] ?? ANY_CARD;
+      const group: GoalGroupRow = {
         id: String(state.nextId),
-        kind: "at least",
-        amount: "1",
-        cardType: last?.cardType ?? firstType,
-        turn: last?.turn ?? "0",
+        rules: [goalRow(String(state.nextId + 1), name, last?.turn ?? "0")],
       };
-      return next({ goal: [...form.goal, row] }, 1);
+      return next({ goal: [...form.goal, group] }, 2);
     }
     case "goalRemoved":
-      return next({ goal: form.goal.filter((g) => g.id !== action.id) });
-    case "combine":
-      return next({ combine: action.value });
+      return next({
+        goal: form.goal
+          .map((g) => ({ ...g, rules: g.rules.filter((r) => r.id !== action.id) }))
+          .filter((g) => g.rules.length > 0),
+      });
     case "load":
       return fromExample(action.example, state.nextId);
     case "deckMode":
@@ -431,7 +467,10 @@ export function reducer(state: AppState, action: Action): AppState {
       return next({ protect: patchRow<ProtectRow>(form.protect, action.id, action.patch) });
     case "protectAdded": {
       const used = new Set(form.protect.map((p) => p.cardType));
-      const name = form.goal.map((g) => g.cardType).find((t) => !used.has(t)) ?? "";
+      const name =
+        goalRows(form)
+          .map((g) => g.cardType)
+          .find((t) => !used.has(t)) ?? "";
       return next({ protect: [...form.protect, { id: String(state.nextId), cardType: name, upTo: "1" }] }, 1);
     }
     case "howManyChanged": {

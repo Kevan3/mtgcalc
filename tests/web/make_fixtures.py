@@ -96,13 +96,31 @@ def _form(deck: DeckSetup, play: PlaySetup, goal: Goal) -> Json:
         },
         "play": {"goFirst": play.go_first, "drawsPerTurn": play.draws_per_turn},
         "goal": {
-            "combine": goal.combine,
-            "requirements": [
-                {"kind": r.kind, "amount": r.amount, "cardType": r.card_type, "turn": r.turn}
-                for r in goal.requirements
+            "groups": [
+                [
+                    {"kind": r.kind, "amount": r.amount, "cardType": r.card_type, "turn": r.turn}
+                    for r in group
+                ]
+                for group in goal.groups
             ],
         },
     }
+
+
+def _random_goal(rng: random.Random, offered: list[str], last_turn: int, most: int = 3) -> Goal:
+    """A random goal: all of the lines, any of them, or kinds of several lines (FR-106)."""
+    lines = [
+        Requirement(
+            rng.choice(KINDS), rng.randint(0, 4), rng.choice(offered), rng.randint(0, last_turn)
+        )
+        for _ in range(rng.randint(1, most))
+    ]
+    shape = rng.choice(["all", "any", "mixed"])
+    if shape == "all":
+        return Goal.all_of(*lines)
+    if shape == "any" or len(lines) < 3:
+        return Goal.any_of(*lines)
+    return Goal((tuple(lines[:2]), tuple(lines[2:])))
 
 
 def _case(name: str, deck: DeckSetup, play: PlaySetup, goal: Goal) -> Json:
@@ -130,18 +148,12 @@ def _random_case(rng: random.Random, i: int) -> Json:
         also = tuple(rng.sample([x for x in pool if x != n], rng.choice([0, 0, 1, 2])))
         types.append(CardType(n, count, also))
     offered = [*dict.fromkeys(x for t in types for x in (t.name, *t.also)), ANY_CARD]
-    reqs = tuple(
-        Requirement(rng.choice(KINDS), rng.randint(0, 4), rng.choice(offered), rng.randint(0, 8))
-        for _ in range(rng.randint(1, 3))
-    )
-    goal = Goal(reqs, rng.choice(["all", "any"]))
+    goal = _random_goal(rng, offered, 8, most=4)
     play = PlaySetup(go_first=rng.random() < 0.5, draws_per_turn=rng.choice([1, 1, 1, 0, 2]))
     return _case(f"random {i}", DeckSetup(size, tuple(types)), play, goal)
 
 
-def _form_case(
-    name: str, deck: DeckSetup, play: PlaySetup, goal: Goal, lines: tuple[Requirement, ...]
-) -> Json:
+def _form_case(name: str, deck: DeckSetup, play: PlaySetup, goal: Goal) -> Json:
     """A case given as the web form's raw state (decklist and/or typed rule)."""
     sc = build_scenario(deck, play, MulliganSetup())
     answer = api.probability(sc, Query(goal_condition(goal)))
@@ -160,14 +172,19 @@ def _form_case(
             "goal": [
                 {
                     "id": f"g{i}",
-                    "kind": r.kind,
-                    "amount": str(r.amount),
-                    "cardType": r.card_type,
-                    "turn": str(r.turn),
+                    "rules": [
+                        {
+                            "id": f"g{i}r{j}",
+                            "kind": r.kind,
+                            "amount": str(r.amount),
+                            "cardType": r.card_type,
+                            "turn": str(r.turn),
+                        }
+                        for j, r in enumerate(group)
+                    ],
                 }
-                for i, r in enumerate(lines)
+                for i, group in enumerate(goal.groups)
             ],
-            "combine": goal.combine,
             "useRule": bool(goal.custom),
             "rule": goal.custom,
             "question": "chances",
@@ -225,14 +242,8 @@ def _form_cases(rng: random.Random) -> list[Json]:
         deck = DeckSetup(size, mode="decklist", decklist=text)
         play = PlaySetup(go_first=rng.random() < 0.5)
         offered = ["land", "ramp", "draw", "creature", ANY_CARD]
-        lines = tuple(
-            Requirement(
-                rng.choice(KINDS), rng.randint(0, 4), rng.choice(offered), rng.randint(0, 6)
-            )
-            for _ in range(rng.randint(1, 2))
-        )
-        goal = Goal(lines, rng.choice(["all", "any"]))
-        out.append(_form_case(f"decklist {i}", deck, play, goal, lines))
+        goal = _random_goal(rng, offered, 6)
+        out.append(_form_case(f"decklist {i}", deck, play, goal))
     for i, rule in enumerate(_RULES):
         text, size = _decklist(rng)
         if rng.random() < 0.5:
@@ -247,11 +258,8 @@ def _form_cases(rng: random.Random) -> list[Json]:
                     CardType("Sol Ring", 1, ("ramp",)),
                 ),
             )
-        lines = (Requirement(),)
-        goal = Goal(lines, custom=rule)
-        out.append(
-            _form_case(f"rule {i}", deck, PlaySetup(go_first=rng.random() < 0.5), goal, lines)
-        )
+        goal = Goal.all_of(Requirement(), custom=rule)
+        out.append(_form_case(f"rule {i}", deck, PlaySetup(go_first=rng.random() < 0.5), goal))
     return out
 
 
@@ -273,16 +281,16 @@ def _question_cases(rng: random.Random) -> list[Json]:
                 rng.choice(KINDS), rng.randint(0, 4), rng.choice(["land", "ramp", ANY_CARD]), 0
             ),
         )
-        form = _form_case(f"q{i}", deck, play, Goal(lines), lines)["form"]
+        form = _form_case(f"q{i}", deck, play, Goal.all_of(*lines))["form"]
         if i % 2 == 0:
             card_type = rng.choice(["land", "ramp", ANY_CARD])
             view = draws(sc, card_type, last)
             form |= {"question": "draws", "drawsType": card_type, "lastTurn": str(last)}
             rows = [[r.values[0], [list(k.values) for k in r.children]] for r in view.rows]
         else:
-            goal = Goal(lines)
+            goal = Goal.all_of(*lines)
             if i % 4 == 3:
-                goal = Goal(lines, custom="land >= 3 OR ramp >= 1 @T2")
+                goal = Goal.all_of(*lines, custom="land >= 3 OR ramp >= 1 @T2")
                 form |= {"useRule": True, "rule": goal.custom}
             view = turn_by_turn(sc, goal, last)
             form |= {"question": "turns", "lastTurn": str(last)}
@@ -361,9 +369,9 @@ def _mulligan_cases(rng: random.Random) -> list[Json]:
                 "at least", rng.randint(1, 4), rng.choice(["land", "ramp"]), rng.randint(0, 4)
             ),
         )
-        goal = Goal(lines)
+        goal = Goal.all_of(*lines)
         sc = build_scenario(deck, play, mull)
-        form = _form_case(f"m{i}", deck, play, goal, lines)["form"] | _mulligan_form(mull)
+        form = _form_case(f"m{i}", deck, play, goal)["form"] | _mulligan_form(mull)
         if i % 2 == 0:
             view = chances(sc, goal)
             rows: list[Any] = []
@@ -397,12 +405,12 @@ def _how_many_cases() -> list[Json]:
         60, (CardType("land", 24), CardType("ramp", 6, ("land",)), CardType("draw", 4))
     )
     lines = (Requirement("at least", 4, "land", 4), Requirement("at least", 1, "ramp", 2))
-    goal = Goal(lines)
+    goal = Goal.all_of(*lines)
     out = []
     for i, q in enumerate(
         (
-            HowMany("one", "target", (Vary("land", 14, 30),), 80.0, goal=Goal((lines[0],))),
-            HowMany("one", "target", (Vary("land", 20, 24),), 99.0, goal=Goal((lines[0],))),
+            HowMany("one", "target", (Vary("land", 14, 30),), 80.0, goal=Goal.all_of(lines[0])),
+            HowMany("one", "target", (Vary("land", 20, 24),), 99.0, goal=Goal.all_of(lines[0])),
             HowMany("share", "best", (Vary("land", 18, 26), Vary("ramp", 0, 8)), 0, 30, goal),
             HowMany("share", "target", (Vary("land", 14, 28), Vary("ramp", 0, 8)), 50.0, 50, goal),
             HowMany("share", "target", (Vary("land", 14, 28), Vary("ramp", 0, 8)), 70.0, 50, goal),
@@ -412,15 +420,17 @@ def _how_many_cases() -> list[Json]:
                 "target",
                 (Vary("draw", 0, 8),),
                 50.0,
-                goal=Goal((Requirement("at least", 1, "draw", 3),)),
+                goal=Goal.all_of(Requirement("at least", 1, "draw", 3)),
             ),
             # The best chance, with no target: at the top of the range, and inside it.
-            HowMany("one", "best", (Vary("land", 14, 30),), goal=Goal((lines[0],))),
+            HowMany("one", "best", (Vary("land", 14, 30),), goal=Goal.all_of(lines[0])),
             HowMany(
                 "one",
                 "best",
                 (Vary("land", 10, 40),),
-                goal=Goal((Requirement("at least", 3, "land"), Requirement("at most", 5, "land"))),
+                goal=Goal.all_of(
+                    Requirement("at least", 3, "land"), Requirement("at most", 5, "land")
+                ),
             ),
         )
     ):
@@ -434,7 +444,7 @@ def _how_many_cases() -> list[Json]:
             }
         except ValidationError as e:
             result = {"error": e.message}
-        form = _form_case(f"h{i}", deck, PlaySetup(), q.goal, q.goal.requirements)["form"] | {
+        form = _form_case(f"h{i}", deck, PlaySetup(), q.goal)["form"] | {
             "question": "howmany",
             "hmMode": q.mode,
             "hmAim": q.aim,

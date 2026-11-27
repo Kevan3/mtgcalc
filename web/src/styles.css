@@ -45,9 +45,15 @@ body {
     sans-serif;
 }
 .page {
-  max-width: 1120px;
+  /* Uses a wide monitor (two columns of steps from 1500px) without overly long lines. */
+  max-width: 1760px;
   margin: 0 auto;
-  padding: 16px;
+  padding: 16px 24px;
+}
+@media (max-width: 560px) {
+  .page {
+    padding: 16px;
+  }
 }
 h1 {
   font-size: 1.8rem;
@@ -556,39 +562,68 @@ table.results thead th:first-child {
     grid-template-columns: minmax(0, 1fr) minmax(320px, 470px);
   }
 }
-.table-title {
-  font-size: 0.95rem;
-  margin: 0.5rem 0 0.25rem;
+/* Wide monitors: a roomier answer column, and the question cards in fewer rows. */
+@media (min-width: 1280px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr) minmax(340px, 440px);
+    gap: 20px;
+  }
+  .layout.wide-answer {
+    grid-template-columns: minmax(0, 1fr) minmax(380px, 560px);
+  }
+  .questions {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
 }
-.see-table {
-  margin: 0.25rem 0 0;
+/* Very wide monitors: steps 1 and 2 side by side, step 3 (the question) across both. */
+@media (min-width: 1500px) {
+  .steps {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+    align-items: start;
+  }
+  .steps > [aria-labelledby="goal-title"] {
+    grid-column: 1 / -1;
+  }
 }
-label.checkbox {
-  margin-bottom: 1rem;
+/* Kinds of something, each with lines (keep rules, good game): one look for both. */
+h3.group-heading {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0;
 }
-
-.detail {
-  margin: 0.25rem 0 0;
-}
-.mulligan {
-  border-left: 3px solid var(--accent-soft);
-  padding-left: 12px;
-}
-ol.keep-kinds {
+ol.kinds,
+ol.lines {
   list-style: none;
-  margin: 0 0 0.75rem;
+  margin: 0;
   padding: 0;
 }
-.keep-kind {
+ol.kinds {
+  margin: 0.5rem 0 0.75rem;
+}
+.kind {
+  border-left: 3px solid var(--accent-soft);
+  padding: 0.25rem 0 0.25rem 12px;
   margin-bottom: 0.75rem;
 }
-.keep-kind .kind-title {
+.kind-title {
   display: block;
-  margin-bottom: 0.35rem;
+  margin-bottom: 0.4rem;
   font-weight: 600;
 }
-.keep-kind ol.goal {
-  margin-bottom: 0.4rem;
+.kind .goal-line {
+  margin-bottom: 0.5rem;
+}
+.line .joiner {
+  min-width: 2.2em;
+  color: var(--muted);
+}
+button.add.subtle {
+  background: transparent;
+  border-style: dashed;
+}
+.summary {
+  margin-top: 0.5rem;
 }
 
 button.run {

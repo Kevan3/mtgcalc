@@ -51,8 +51,8 @@ TIPS: dict[str, str] = {
     "not listed go to the bottom before anything listed.",
     "max_mull": "The most mulligans you will take. You always keep the hand after the last one.",
     "free": "Multiplayer rule: your first mulligan is free (you still keep 7 cards).",
-    "goal": "Describe a good game, one line per requirement. Add lines for more requirements.",
-    "combine": "'All' means every line must be true. 'Any' means at least one line.",
+    "goal": "Describe a good game, one line per requirement. A game is good if it fits any "
+    "one kind of good game, and it fits a kind when every line of that kind is true.",
     "custom": "For experienced users: type a rule directly (see Help > Writing your own "
     "rules). It replaces the lines above.",
     "only_if": "Only count the games where this is true. Example: 'chance of casting my "
@@ -192,8 +192,8 @@ class Example:
     goal: Goal
 
 
-_LANDS_AND_REMOVAL = Goal(
-    (Requirement("at least", 3, "land", 3), Requirement("at least", 1, "removal", 3))
+_LANDS_AND_REMOVAL = Goal.all_of(
+    Requirement("at least", 3, "land", 3), Requirement("at least", 1, "removal", 3)
 )
 
 EXAMPLES: dict[str, Example] = {
@@ -213,7 +213,7 @@ EXAMPLES: dict[str, Example] = {
         DeckSetup(40, (CardType("land", 17), CardType("bomb", 1), CardType("removal", 4))),
         PlaySetup(),
         MulliganSetup(),
-        Goal((Requirement("at least", 4, "land", 4), Requirement("at least", 1, "bomb", 6))),
+        Goal.all_of(Requirement("at least", 4, "land", 4), Requirement("at least", 1, "bomb", 6)),
     ),
     "Commander: ramp on turn 2": Example(
         DeckSetup(
@@ -236,7 +236,7 @@ EXAMPLES: dict[str, Example] = {
             protect=(("land", 3), ("ramp", 1), ("draw", 1)),
             free_first=True,
         ),
-        Goal((Requirement("at least", 2, "land", 2), Requirement("at least", 1, "ramp", 2))),
+        Goal.all_of(Requirement("at least", 2, "land", 2), Requirement("at least", 1, "ramp", 2)),
     ),
     "Pasted decklist with #tags": Example(
         DeckSetup(
@@ -246,6 +246,6 @@ EXAMPLES: dict[str, Example] = {
         ),
         PlaySetup(go_first=False),
         MulliganSetup(),
-        Goal((Requirement("at least", 1, "ramp", 2),)),
+        Goal.all_of(Requirement("at least", 1, "ramp", 2)),
     ),
 }

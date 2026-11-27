@@ -406,7 +406,7 @@ export function readReply(
   reply: string,
   labels?: Readonly<Record<string, string>>,
 ): View {
-  const w: Wording = "requirements" in wording ? { goal: wording, ...(labels ? { labels } : {}) } : wording;
+  const w: Wording = "groups" in wording ? { goal: wording, ...(labels ? { labels } : {}) } : wording;
   let data: unknown;
   try {
     data = JSON.parse(reply);

@@ -15,6 +15,7 @@ import {
   type Decklist,
   type FormState,
   type Goal,
+  type GoalRow,
   type KeepRule,
   type MulliganSetup,
   type Question,
@@ -220,33 +221,40 @@ function goalLines(
   last: number,
   c: Collector,
   checkTurns = true,
-): Requirement[] {
+): Requirement[][] {
   if (form.goal.length === 0) {
     c.problem("goal", "Add a line to say what a good game looks like.");
   }
-  const requirements: Requirement[] = [];
-  for (const row of form.goal) {
-    const amount = row.kind === "none" ? 0 : parseWhole(row.amount);
-    if (amount === null) {
-      c.problem(`goal:${row.id}:amount`, "Use a whole number, 0 or more.");
-    }
-    if (!offered.includes(row.cardType)) {
-      c.problem(`goal:${row.id}:cardType`, "Pick a card type from the list.");
-    }
-    const turn = parseWhole(row.turn);
-    if (!checkTurns) {
-      // "Turn by turn" asks about every turn, so a line's own turn does not matter.
-    } else if (turn === null || turn > MAX_TURN) {
-      c.problem(`goal:${row.id}:turn`, "Pick a turn from the list.");
-    } else if (turn > last) {
-      c.problem(
-        `goal:${row.id}:turn`,
-        `Your deck runs out of cards after turn ${last}. Pick turn ${last} or earlier.`,
-      );
-    }
-    requirements.push({ kind: row.kind, amount: amount ?? 0, cardType: row.cardType, turn: turn ?? 0 });
+  return form.goal.map((group) => group.rules.map((row) => goalLine(row, offered, last, c, checkTurns)));
+}
+
+/** One goal line (Python's `_requirement` checks, in plain words). */
+function goalLine(
+  row: GoalRow,
+  offered: readonly string[],
+  last: number,
+  c: Collector,
+  checkTurns: boolean,
+): Requirement {
+  const amount = row.kind === "none" ? 0 : parseWhole(row.amount);
+  if (amount === null) {
+    c.problem(`goal:${row.id}:amount`, "Use a whole number, 0 or more.");
   }
-  return requirements;
+  if (!offered.includes(row.cardType)) {
+    c.problem(`goal:${row.id}:cardType`, "Pick a card type from the list.");
+  }
+  const turn = parseWhole(row.turn);
+  if (!checkTurns) {
+    // "Turn by turn" asks about every turn, so a line's own turn does not matter.
+  } else if (turn === null || turn > MAX_TURN) {
+    c.problem(`goal:${row.id}:turn`, "Pick a turn from the list.");
+  } else if (turn > last) {
+    c.problem(
+      `goal:${row.id}:turn`,
+      `Your deck runs out of cards after turn ${last}. Pick turn ${last} or earlier.`,
+    );
+  }
+  return { kind: row.kind, amount: amount ?? 0, cardType: row.cardType, turn: turn ?? 0 };
 }
 
 /** Step 2, mulligans (Python's `build_scenario` checks, in plain words). */
@@ -411,7 +419,7 @@ export function parseForm(form: FormState, core: Core): Parsed {
   if (form.question === "mulligan" && mulligan === undefined) {
     c.problem("mulligans", "Turn on mulligans in step 2 first.");
   }
-  let requirements: Requirement[] = [];
+  let groups: Requirement[][] = [];
   let rule: TypedRule | undefined;
   let question: Question = { kind: "chances" };
   if (form.question === "howmany") question = howMany(form, c);
@@ -424,17 +432,14 @@ export function parseForm(form: FormState, core: Core): Parsed {
       if (read.ok) rule = read.value;
       else c.problem("rule", read.message);
     } else {
-      requirements = goalLines(form, offered, last, c, form.question === "chances");
+      groups = goalLines(form, offered, last, c, form.question === "chances");
     }
     if (form.question === "turns") question = { kind: "turns", lastTurn: lastTurnOf(form, last, c) };
     if (form.question === "mulligan") question = { kind: "mulligan" };
   }
 
   if (issues.length > 0 || size === null) return { ok: false, issues, notes };
-  const goal: Goal =
-    rule === undefined
-      ? { requirements, combine: form.combine }
-      : { requirements, combine: form.combine, rule };
+  const goal: Goal = rule === undefined ? { groups } : { groups, rule };
   return {
     ok: true,
     setup: {

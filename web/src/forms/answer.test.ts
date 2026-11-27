@@ -5,8 +5,7 @@ import type { Goal } from "./model.ts";
 import { exactWords, parseFraction, pct, roundHalfEven } from "./words.ts";
 
 const goal: Goal = {
-  combine: "all",
-  requirements: [{ kind: "at least", amount: 1, cardType: "any card", turn: 0 }],
+  groups: [[{ kind: "at least", amount: 1, cardType: "any card", turn: 0 }]],
 };
 
 describe("readReply", () => {

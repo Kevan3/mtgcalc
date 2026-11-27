@@ -77,15 +77,29 @@ class Settings:
     fractions: bool = False
 
 
+def fixed(x: Fraction | float, places: int) -> str:
+    """``x`` with ``places`` decimals. An exact value is rounded exactly, ties to even.
+
+    Formatting ``float(x)`` instead would round the nearest binary number, so 147/40 =
+    3.675 (stored as 3.67499...) would print as "3.67"; the web app rounds exactly.
+    """
+    if isinstance(x, float):
+        return f"{x:.{places}f}"
+    n = round(x * 10**places)  # Fraction.__round__ rounds ties to even
+    sign, n = ("-" if n < 0 else ""), abs(n)
+    whole, frac = divmod(n, 10**places)
+    return f"{sign}{whole}.{frac:0{places}d}" if places else f"{sign}{whole}"
+
+
 def pct(p: Fraction | float, settings: Settings = Settings()) -> str:
     """A probability as a percentage, e.g. ``"47.7%"`` (plus the exact fraction if asked)."""
-    value = float(p) * 100
-    if 0 < value < 0.001:
+    value = p * 100
+    if 0 < value < Fraction(1, 1000):
         text = "less than 0.001%"
-    elif 0.1 <= value <= 99.9 or value in (0, 100):
-        text = f"{value:.1f}%"
+    elif Fraction(1, 10) <= value <= Fraction(999, 10) or value in (0, 100):
+        text = f"{fixed(value, 1)}%"
     else:
-        text = f"{value:.3f}%"
+        text = f"{fixed(value, 3)}%"
     if settings.fractions and isinstance(p, Fraction) and p.denominator != 1:
         text += f" (= {p.numerator}/{p.denominator})"
     return text
@@ -367,11 +381,30 @@ class Requirement:
 
 @dataclass(frozen=True, slots=True)
 class Goal:
-    """Requirements combined with "all" or "any"; ``custom`` (typed rule) overrides them."""
+    """What a good game is: kinds of good game, each a tuple of lines (FR-106).
 
-    requirements: tuple[Requirement, ...] = (Requirement(),)
-    combine: Literal["all", "any"] = "all"
+    A game is good when it fits *any* kind, and it fits a kind when *every* line of that
+    kind holds (as the kinds of hand to keep, ADR-0014). ``custom`` (a typed rule)
+    overrides the lines.
+    """
+
+    groups: tuple[tuple[Requirement, ...], ...] = ((Requirement(),),)
     custom: str = ""
+
+    @classmethod
+    def all_of(cls, *lines: Requirement, custom: str = "") -> Goal:
+        """One kind of good game: every line must hold."""
+        return cls((tuple(lines),) if lines else (), custom)
+
+    @classmethod
+    def any_of(cls, *lines: Requirement) -> Goal:
+        """One kind per line: any line will do."""
+        return cls(tuple((r,) for r in lines))
+
+    @property
+    def requirements(self) -> tuple[Requirement, ...]:
+        """Every line, kind by kind."""
+        return tuple(r for group in self.groups for r in group)
 
 
 def _requirement(r: Requirement, with_turn: bool) -> Condition:
@@ -396,28 +429,34 @@ def goal_condition(goal: Goal, *, with_turns: bool = True) -> Condition:
         return parse_condition(goal.custom)
     if not goal.requirements:
         raise ValidationError("goal", "add at least one requirement")
-    parts = [_requirement(r, with_turns) for r in goal.requirements]
-    if len(parts) == 1:
-        return parts[0]
-    return And(tuple(parts)) if goal.combine == "all" else Or(tuple(parts))
+    kinds: list[Condition] = []
+    for n, group in enumerate(goal.groups, start=1):
+        if not group:
+            raise ValidationError("goal", f"kind of good game {n} has no lines; add one")
+        lines = [_requirement(r, with_turns) for r in group]
+        kinds.append(lines[0] if len(lines) == 1 else And(tuple(lines)))
+    return kinds[0] if len(kinds) == 1 else Or(tuple(kinds))
 
 
 def describe_goal(goal: Goal, *, with_turns: bool = True) -> str:
-    """The goal in words, e.g. "at least 3 land by turn 3 and at least 1 removal"."""
+    """The goal in words, e.g. "at least 3 land by turn 3 and at least 1 removal, or ...".
+
+    Lines of a kind are joined with "and", kinds with "or".
+    """
     if goal.custom.strip():
         return f"your rule ({goal.custom.strip()})"
-    words = []
-    for r in goal.requirements:
+
+    def line(r: Requirement) -> str:
         what = r.card_type
         if r.card_type == ANY_CARD:
             what = "card" if r.kind != "none" and r.amount == 1 else "cards"
         amount = "no" if r.kind == "none" else f"{r.kind} {r.amount}"
         text = f"{amount} {what}"
-        if with_turns:
-            text += f" {turn_words(r.turn)}"
-        words.append(text)
-    joiner = " and " if goal.combine == "all" else " or "
-    return joiner.join(words)
+        return f"{text} {turn_words(r.turn)}" if with_turns else text
+
+    kinds = [" and ".join(line(r) for r in group) for group in goal.groups]
+    # Kinds of one line each read "A or B"; a kind with several lines needs the comma.
+    return (", or " if any(len(g) > 1 for g in goal.groups) else " or ").join(kinds)
 
 
 def goal_as_text(goal: Goal, *, with_turns: bool = True) -> str:
@@ -496,7 +535,7 @@ def draws(
     averages = []
     for t in range(last_turn + 1):
         d = api.distribution(sc, sel, t)
-        averages.append((t, float(d.mean)))
+        averages.append((t, d.mean))
         kids = tuple(
             Row(
                 (
@@ -509,10 +548,10 @@ def draws(
             for k in range(len(d.pmf))
         )
         label = "Opening hand" if t == 0 else f"By turn {t}"
-        rows.append(Row((f"{label}  (average {float(d.mean):.2f})", "", "", ""), kids))
+        rows.append(Row((f"{label}  (average {fixed(d.mean, 2)})", "", "", ""), kids))
     t, avg = averages[-1]
     return ResultView(
-        f"On average you will have seen {avg:.2f} {what} {turn_words(t)}.",
+        f"On average you will have seen {fixed(avg, 2)} {what} {turn_words(t)}.",
         ("Click a turn to see the chance of each number.",),
         headers=("When / how many", "Exactly this many", "This many or more", "This many or fewer"),
         rows=tuple(rows),
@@ -582,8 +621,8 @@ def mulligan_advice(sc: Scenario, goal: Goal, settings: Settings = Settings()) -
     )
     details = (
         f"A good game means: {describe_goal(goal)}.",
-        f"On average you mulligan {float(rep.expected_mulligans):.2f} times and keep "
-        f"{float(rep.expected_hand_size):.2f} cards.",
+        f"On average you mulligan {fixed(rep.expected_mulligans, 2)} times and keep "
+        f"{fixed(rep.expected_hand_size, 2)} cards.",
         "The best plan (below) keeps a hand only when that hand is at least as good as "
         "mulliganing would be on average.",
     )
@@ -704,7 +743,7 @@ class HowMany:
     vary: tuple[Vary, ...] = (Vary("land", 14, 40),)
     target_percent: float = 90.0
     slots: int = 20
-    goal: Goal = field(default_factory=lambda: Goal((Requirement("at least", 4, "land", 4),)))
+    goal: Goal = field(default_factory=lambda: Goal.all_of(Requirement("at least", 4, "land", 4)))
 
 
 def how_many(

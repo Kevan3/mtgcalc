@@ -3,10 +3,11 @@ import type { Dispatch, ReactNode } from "react";
 import type { Action } from "../app/state.ts";
 import { ANY_CARD, KINDS, MAX_TURN, type FormState, type Kind, type QuestionKind } from "../forms/model.ts";
 import { parseWhole, type FieldId } from "../forms/parse.ts";
-import { turnWords } from "../forms/words.ts";
+import { describeGoal, turnWords } from "../forms/words.ts";
 import { HINTS, RULE_GUIDE, STEPS } from "../text/copy.ts";
 import { describedBy, ProblemText, type Problem } from "./Field.tsx";
 import { HowManyInputs } from "./HowManyInputs.tsx";
+import { LineGroups, type GroupWords } from "./LineGroups.tsx";
 
 interface Props {
   readonly form: FormState;
@@ -86,7 +87,6 @@ export function GoalStep(props: Props): ReactNode {
               touch={props.touch}
             />
           )}
-          <h3>{form.question === "turns" ? "A good game is… (at every turn)" : "A good game is…"}</h3>
           {form.useRule ? <RuleInput {...props} /> : <GoalLines {...props} />}
           <RuleBox {...props} linesAsRule={linesAsRule} />
           {form.question === "turns" && <LastTurn {...props} />}
@@ -207,6 +207,7 @@ function RuleInput({ form, dispatch, problem, touch }: Props): ReactNode {
   const p = problem("rule");
   return (
     <div className={`field ${p ? "has-problem" : ""}`}>
+      <h3 className="group-heading">What is a good game?</h3>
       <label htmlFor="rule">Your rule</label>
       <p className="hint" id="rule-hint">
         {HINTS.rule}
@@ -244,150 +245,152 @@ function RuleInput({ form, dispatch, problem, touch }: Props): ReactNode {
   );
 }
 
-/** Step 3 as goal lines ("at least 3 land by turn 3"). */
+/** The words of the kinds of good game (shared layout with the keep rules: LineGroups). */
+function goalWords(everyTurn: boolean): GroupWords {
+  return {
+    key: "goal",
+    heading: everyTurn ? "What is a good game? (at every turn)" : "What is a good game?",
+    hint: HINTS.goal,
+    first: "A good game has",
+    other: "Or a good game has",
+    kind: "Good game",
+    empty: "No good game yet: add one.",
+    addFirst: "+ Add a good game",
+    addOther: "+ Or another kind of good game",
+  };
+}
+
+/** The good game in words from the lines as typed, or null while a number is unfinished. */
+export function goalSummary(form: FormState, labels: Readonly<Record<string, string>>): string | null {
+  const groups = form.goal.map((g) =>
+    g.rules.map((r) => ({
+      kind: r.kind,
+      amount: r.kind === "none" ? 0 : parseWhole(r.amount),
+      cardType: r.cardType,
+      turn: parseWhole(r.turn) ?? 0,
+    })),
+  );
+  if (groups.length === 0) return null;
+  if (groups.some((g) => g.some((r) => r.amount === null || r.cardType === ""))) return null;
+  const goal = { groups: groups.map((g) => g.map((r) => ({ ...r, amount: r.amount ?? 0 }))) };
+  return `a good game has ${describeGoal(goal, labels, form.question !== "turns")}`;
+}
+
+/** Step 3 as kinds of good game, each with lines ("at least 3 land by turn 3"). */
 function GoalLines({ form, names, labels, lastTurn, dispatch, problem, touch }: Props): ReactNode {
-  const goalProblem = problem("goal");
+  const fields = (id: string): FieldId[] => [`goal:${id}:amount`, `goal:${id}:cardType`, `goal:${id}:turn`];
   return (
-    <>
-      <p className="hint">{HINTS.goal}</p>
-      <ol className="goal">
-        {form.goal.map((row, i) => {
-          const amountP = problem(`goal:${row.id}:amount`);
-          const typeP = problem(`goal:${row.id}:cardType`);
-          const turnP = problem(`goal:${row.id}:turn`);
-          const turn = parseWhole(row.turn) ?? 0;
-          const turns = Array.from({ length: Math.max(lastTurn, turn) + 1 }, (_, t) => t).filter(
-            (t) => t <= MAX_TURN,
-          );
-          const options = names.includes(row.cardType) ? names : ["", ...names];
-          const n = i + 1;
-          return (
-            <li key={row.id} className="goal-line" data-row={row.id}>
-              <div role="group" aria-label={`Line ${n}`} className="line">
-                <select
-                  aria-label={`Line ${n}: how many`}
-                  value={row.kind}
-                  onChange={(e) => {
-                    dispatch({ type: "goalChanged", id: row.id, patch: { kind: e.target.value as Kind } });
-                  }}
-                >
-                  {KINDS.map((k) => (
-                    <option key={k} value={k}>
-                      {KIND_WORDS[k]}
-                    </option>
-                  ))}
-                </select>
-                {row.kind !== "none" && (
-                  <input
-                    type="text"
-                    inputMode="numeric"
-                    autoComplete="off"
-                    className="small"
-                    aria-label={`Line ${n}: number of cards`}
-                    value={row.amount}
-                    aria-invalid={amountP ? true : undefined}
-                    aria-describedby={amountP?.id}
-                    data-field={`goal:${row.id}:amount`}
-                    onBlur={() => {
-                      touch(`goal:${row.id}:amount`);
-                    }}
-                    onChange={(e) => {
-                      dispatch({ type: "goalChanged", id: row.id, patch: { amount: e.target.value } });
-                    }}
-                  />
-                )}
-                <select
-                  aria-label={`Line ${n}: card type`}
-                  data-field={`goal:${row.id}:cardType`}
-                  value={row.cardType}
-                  aria-invalid={typeP ? true : undefined}
-                  aria-describedby={typeP?.id}
-                  onChange={(e) => {
-                    dispatch({ type: "goalChanged", id: row.id, patch: { cardType: e.target.value } });
-                  }}
-                >
-                  {options.map((name) => (
-                    <option key={name} value={name}>
-                      {name === ""
-                        ? "choose a card type"
-                        : name === ANY_CARD
-                          ? "cards of any type"
-                          : (labels[name] ?? name)}
-                    </option>
-                  ))}
-                </select>
-                {form.question !== "turns" && (
-                  <select
-                    aria-label={`Line ${n}: when`}
-                    data-field={`goal:${row.id}:turn`}
-                    value={String(turn)}
-                    aria-invalid={turnP ? true : undefined}
-                    aria-describedby={turnP?.id}
-                    onChange={(e) => {
-                      dispatch({ type: "goalChanged", id: row.id, patch: { turn: e.target.value } });
-                    }}
-                  >
-                    {turns.map((t) => (
-                      <option key={t} value={String(t)}>
-                        {turnWords(t)}
-                      </option>
-                    ))}
-                  </select>
-                )}
-                <button
-                  type="button"
-                  className="remove"
-                  aria-label={`Remove line ${n}`}
-                  onClick={() => {
-                    dispatch({ type: "goalRemoved", id: row.id });
-                  }}
-                >
-                  ×
-                </button>
-              </div>
-              <ProblemText problem={amountP} />
-              <ProblemText problem={typeP} />
-              <ProblemText problem={turnP} />
-            </li>
-          );
-        })}
-      </ol>
-      <ProblemText problem={goalProblem} />
-      <button
-        type="button"
-        id="add-line"
-        className="add"
-        onClick={() => {
-          dispatch({ type: "goalAdded" });
-        }}
-      >
-        + Add a line
-      </button>
-      <p className="hint">{HINTS.turn}</p>
-      {form.goal.length > 1 && (
-        <fieldset className="field">
-          <legend>Which lines must happen?</legend>
-          <p className="hint" id="combine-hint">
-            {HINTS.combine}
-          </p>
-          <div className="buttons">
-            {(["all", "any"] as const).map((value) => (
-              <label key={value} className="radio">
-                <input
-                  type="radio"
-                  name="combine"
-                  checked={form.combine === value}
-                  aria-describedby="combine-hint"
-                  onChange={() => {
-                    dispatch({ type: "combine", value });
-                  }}
-                />
-                {value === "all" ? "All of them" : "Any of them (at least one)"}
-              </label>
-            ))}
-          </div>
-        </fieldset>
+    <LineGroups
+      words={goalWords(form.question === "turns")}
+      groups={form.goal}
+      summary={goalSummary(form, labels)}
+      hasProblem={(row) => fields(row.id).some((f) => problem(f) !== undefined)}
+      problems={(row) => (
+        <>
+          {fields(row.id).map((f) => (
+            <ProblemText key={f} problem={problem(f)} />
+          ))}
+        </>
       )}
-    </>
+      footer={
+        <>
+          <ProblemText problem={problem("goal")} />
+          {form.question !== "turns" && <p className="hint">{HINTS.turn}</p>}
+        </>
+      }
+      onAddLine={(group) => {
+        dispatch({ type: "goalLineAdded", group });
+      }}
+      onRemoveLine={(id) => {
+        dispatch({ type: "goalRemoved", id });
+      }}
+      onAddGroup={() => {
+        dispatch({ type: "goalGroupAdded" });
+      }}
+      line={(row, where) => {
+        const amountP = problem(`goal:${row.id}:amount`);
+        const typeP = problem(`goal:${row.id}:cardType`);
+        const turnP = problem(`goal:${row.id}:turn`);
+        const turn = parseWhole(row.turn) ?? 0;
+        const turns = Array.from({ length: Math.max(lastTurn, turn) + 1 }, (_, t) => t).filter(
+          (t) => t <= MAX_TURN,
+        );
+        const options = names.includes(row.cardType) ? names : ["", ...names];
+        return (
+          <>
+            <select
+              aria-label={`${where}: how many`}
+              value={row.kind}
+              onChange={(e) => {
+                dispatch({ type: "goalChanged", id: row.id, patch: { kind: e.target.value as Kind } });
+              }}
+            >
+              {KINDS.map((k) => (
+                <option key={k} value={k}>
+                  {KIND_WORDS[k]}
+                </option>
+              ))}
+            </select>
+            {row.kind !== "none" && (
+              <input
+                type="text"
+                inputMode="numeric"
+                autoComplete="off"
+                className="small"
+                aria-label={`${where}: number of cards`}
+                value={row.amount}
+                aria-invalid={amountP ? true : undefined}
+                aria-describedby={amountP?.id}
+                data-field={`goal:${row.id}:amount`}
+                onBlur={() => {
+                  touch(`goal:${row.id}:amount`);
+                }}
+                onChange={(e) => {
+                  dispatch({ type: "goalChanged", id: row.id, patch: { amount: e.target.value } });
+                }}
+              />
+            )}
+            <select
+              aria-label={`${where}: card type`}
+              data-field={`goal:${row.id}:cardType`}
+              value={row.cardType}
+              aria-invalid={typeP ? true : undefined}
+              aria-describedby={typeP?.id}
+              onChange={(e) => {
+                dispatch({ type: "goalChanged", id: row.id, patch: { cardType: e.target.value } });
+              }}
+            >
+              {options.map((name) => (
+                <option key={name} value={name}>
+                  {name === ""
+                    ? "choose a card type"
+                    : name === ANY_CARD
+                      ? "cards of any type"
+                      : (labels[name] ?? name)}
+                </option>
+              ))}
+            </select>
+            {form.question !== "turns" && (
+              <select
+                aria-label={`${where}: when`}
+                data-field={`goal:${row.id}:turn`}
+                value={String(turn)}
+                aria-invalid={turnP ? true : undefined}
+                aria-describedby={turnP?.id}
+                onChange={(e) => {
+                  dispatch({ type: "goalChanged", id: row.id, patch: { turn: e.target.value } });
+                }}
+              >
+                {turns.map((t) => (
+                  <option key={t} value={String(t)}>
+                    {turnWords(t)}
+                  </option>
+                ))}
+              </select>
+            )}
+          </>
+        );
+      }}
+    />
   );
 }

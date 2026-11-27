@@ -10,7 +10,7 @@ describe("buildRequest", () => {
         types: [{ name: "x", count: 1, also: ["mana", "mana rock", "urza's", "a\\b", "zed"] }],
       },
       play: { goFirst: true, drawsPerTurn: 1 },
-      goal: { combine: "all", requirements: [{ kind: "at least", amount: 1, cardType: "x", turn: 0 }] },
+      goal: { groups: [[{ kind: "at least", amount: 1, cardType: "x", turn: 0 }]] },
     });
     const deck = ((req as { scenario: Json }).scenario as { deck: { cards: { tags: { items: Json[] } }[] } })
       .deck;
@@ -28,7 +28,7 @@ describe("buildRequest", () => {
         ],
       },
       play: { goFirst: false, drawsPerTurn: 2 },
-      goal: { combine: "any", requirements: [{ kind: "none", amount: 9, cardType: "b", turn: 1 }] },
+      goal: { groups: [[{ kind: "none", amount: 9, cardType: "b", turn: 1 }]] },
     });
     expect((req as { scenario: Json }).scenario).toMatchObject({
       deck: { cards: [{ name: "a", quantity: 5 }] },

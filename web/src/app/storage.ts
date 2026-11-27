@@ -7,6 +7,7 @@
 import {
   KINDS,
   type FormState,
+  type GoalGroupRow,
   type GoalRow,
   type KeepGroupRow,
   type KeepRuleRow,
@@ -72,6 +73,20 @@ function isGoalRow(x: unknown): x is GoalRow {
   );
 }
 
+/** A kind of good game: 1 to 50 lines (an empty kind is never saved). */
+function isGoalGroupRow(x: unknown): x is GoalGroupRow {
+  if (typeof x !== "object" || x === null) return false;
+  const r = x as Record<string, unknown>;
+  const rules = r["rules"];
+  return (
+    isString(r["id"]) &&
+    Array.isArray(rules) &&
+    rules.length >= 1 &&
+    rules.length <= 50 &&
+    rules.every(isGoalRow)
+  );
+}
+
 /** Fields added after the first version, with their defaults (older saves lack them). */
 const ADDED = {
   deckMode: "types",
@@ -123,12 +138,29 @@ function upgradeKeep(form: Record<string, unknown>): Record<string, unknown> {
   return { ...rest, keep: [{ id: "k1", rules: [rule] }] };
 }
 
+/**
+ * The good game was a list of lines with one "all"/"any" switch (`combine`) before kinds
+ * of good game were added: "all" becomes one kind with every line, "any" one kind per line.
+ */
+function upgradeGoal(form: Record<string, unknown>): Record<string, unknown> {
+  if (!("combine" in form)) return form;
+  const { combine, goal, ...rest } = form;
+  if (!Array.isArray(goal)) return { ...rest, goal };
+  const lines: unknown[] = goal;
+  const id = (i: number): string => `g${String(i + 1)}`;
+  const groups =
+    combine === "any"
+      ? lines.map((line, i) => ({ id: id(i), rules: [line] }))
+      : [{ id: id(0), rules: lines }];
+  return { ...rest, goal: groups.filter((g) => g.rules.length > 0) };
+}
+
 /** Fills in fields an older version of the page did not save. */
 function upgrade(x: unknown): unknown {
   if (typeof x !== "object" || x === null) return x;
   const s = x as { form?: unknown };
   if (typeof s.form !== "object" || s.form === null) return x;
-  return { ...s, form: upgradeHowMany(upgradeKeep({ ...ADDED, ...s.form })) };
+  return { ...s, form: upgradeHowMany(upgradeKeep(upgradeGoal({ ...ADDED, ...s.form }))) };
 }
 
 /** Whether `x` is a complete, well-formed saved state (never trusts storage). */
@@ -167,13 +199,12 @@ export function isAppState(x: unknown): x is AppState {
     isString(f.deckSize) &&
     typeof f.goFirst === "boolean" &&
     isString(f.drawsPerTurn) &&
-    (f.combine === "all" || f.combine === "any") &&
     Array.isArray(f.types) &&
     f.types.length <= 50 &&
     f.types.every(isTypeRow) &&
     Array.isArray(f.goal) &&
     f.goal.length <= 50 &&
-    f.goal.every(isGoalRow)
+    f.goal.every(isGoalGroupRow)
   );
 }
 

@@ -127,9 +127,17 @@ export function App({ core, makeWorker, remember = true }: Props): ReactNode {
       dispatch(action);
       if (action.type === "typeAdded")
         focusTarget.current = `[data-field="type:${String(state.nextId)}:name"]`;
-      if (action.type === "goalAdded") focusTarget.current = `[data-row="${String(state.nextId)}"] select`;
+      if (action.type === "goalLineAdded")
+        focusTarget.current = `[data-row="${String(state.nextId)}"] select`;
+      if (action.type === "goalGroupAdded")
+        focusTarget.current = `[data-row="${String(state.nextId + 1)}"] select`;
       if (action.type === "typeRemoved") focusTarget.current = "#add-type";
-      if (action.type === "goalRemoved") focusTarget.current = "#add-line";
+      if (action.type === "goalRemoved") {
+        // To the kind's "and also" button, or (if that was its last line) to "add a kind".
+        const group = state.form.goal.find((g) => g.rules.some((r) => r.id === action.id));
+        focusTarget.current =
+          group !== undefined && group.rules.length > 1 ? `#add-goal-line-${group.id}` : "#add-goal-kind";
+      }
       if (action.type === "protectAdded") focusTarget.current = `[data-row="${String(state.nextId)}"] select`;
       if (action.type === "protectRemoved") focusTarget.current = "#add-protect";
       if (action.type === "varyAdded") focusTarget.current = `[data-row="${String(state.nextId)}"] select`;
@@ -145,7 +153,7 @@ export function App({ core, makeWorker, remember = true }: Props): ReactNode {
           group !== undefined && group.rules.length > 1 ? `#add-keep-line-${group.id}` : "#add-keep-kind";
       }
     },
-    [state.nextId, state.form.keep],
+    [state.nextId, state.form.keep, state.form.goal],
   );
 
   const size = form.deckMode === "list" ? (decklist?.size ?? null) : parseWhole(form.deckSize);
