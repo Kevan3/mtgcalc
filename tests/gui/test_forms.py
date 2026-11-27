@@ -27,7 +27,7 @@ from mtgcalc_gui.forms import (
 )
 
 DECK = DeckSetup(60, (CardType("land", 24), CardType("removal", 6)))
-GOAL = Goal((Requirement("at least", 3, "land", 3), Requirement("at least", 1, "removal", 3)))
+GOAL = Goal.all_of(Requirement("at least", 3, "land", 3), Requirement("at least", 1, "removal", 3))
 
 
 def scenario(**mull: object) -> Scenario:
@@ -35,6 +35,16 @@ def scenario(**mull: object) -> Scenario:
 
 
 # --- wording helpers --------------------------------------------------------------------
+def test_fixed_rounds_exact_values_exactly() -> None:
+    assert forms.fixed(Fraction(147, 40), 2) == "3.68"  # 3.675: a tie, to even (float: 3.67)
+    assert forms.fixed(Fraction(29, 8), 2) == "3.62"  # 3.625: a tie, to even
+    assert forms.fixed(Fraction(-1, 3), 1) == "-0.3"
+    assert forms.fixed(Fraction(5, 2), 0) == "2"
+    assert forms.fixed(3.675, 2) == f"{3.675:.2f}"  # simulated values stay floats
+    assert forms.pct(Fraction(1, 8000)) == "0.012%"  # 0.0125: a tie, to even
+    assert forms.pct(0.5) == "50.0%"
+
+
 def test_pct_and_in_words() -> None:
     assert forms.pct(Fraction(1, 4)) == "25.0%"
     assert forms.pct(Fraction(1, 3), Settings(fractions=True)) == "33.3% (= 1/3)"
@@ -123,13 +133,10 @@ def test_extra_draws_must_be_after_turn_0() -> None:
 # --- goals ------------------------------------------------------------------------------
 def test_goal_translation_matches_the_rule_language() -> None:
     assert forms.goal_as_text(GOAL) == "land >= 3 @T3 AND removal >= 1 @T3"
-    any_goal = Goal(
-        (
-            Requirement("none", 0, "land", 0),
-            Requirement("exactly", 2, ANY_CARD, 1),
-            Requirement("at most", 4, "land", 2),
-        ),
-        combine="any",
+    any_goal = Goal.any_of(
+        Requirement("none", 0, "land", 0),
+        Requirement("exactly", 2, ANY_CARD, 1),
+        Requirement("at most", 4, "land", 2),
     )
     assert forms.goal_as_text(any_goal) == "land == 0 @T0 OR everything == 2 @T1 OR land <= 4 @T2"
     assert forms.goal_as_text(GOAL, with_turns=False) == "land >= 3 AND removal >= 1"
@@ -141,8 +148,34 @@ def test_goal_translation_matches_the_rule_language() -> None:
     )
 
 
+def test_kinds_of_good_game_are_any_kind_of_all_its_lines() -> None:
+    land3, removal = GOAL.requirements
+    land4 = Requirement("at least", 4, "land", 4)
+    mixed = Goal(((land3, removal), (land4,)))
+    assert forms.goal_as_text(mixed) == "land >= 3 @T3 AND removal >= 1 @T3 OR land >= 4 @T4"
+    assert forms.describe_goal(mixed) == (
+        "at least 3 land by turn 3 and at least 1 removal by turn 3, or at least 4 land by turn 4"
+    )
+    assert mixed.requirements == (land3, removal, land4)
+    # all_of / any_of are the old "all" / "any" switch, with the same conditions as before.
+    assert Goal.all_of(land3, removal) == GOAL
+    assert Goal.any_of(land3, removal).groups == ((land3,), (removal,))
+    assert Goal.all_of().groups == ()
+    with pytest.raises(ValidationError):
+        forms.goal_condition(Goal(((land3,), ())))
+    # A second kind can only add good games.
+    sc = scenario()
+    one = forms.chances(sc, GOAL)
+    both = forms.chances(sc, mixed)
+    p_one = probability(sc, Query(forms.goal_condition(GOAL)))
+    p_both = probability(sc, Query(forms.goal_condition(mixed)))
+    assert isinstance(p_one, Probability) and isinstance(p_both, Probability)
+    assert p_one.exact is not None and p_both.exact is not None and p_both.exact > p_one.exact
+    assert one.headline != both.headline and ", or at least 4 land by turn 4 in" in both.headline
+
+
 def test_custom_rule_overrides_lines() -> None:
-    goal = Goal(GOAL.requirements, custom="land >= 2 @T0")
+    goal = Goal(GOAL.groups, custom="land >= 2 @T0")
     assert forms.goal_as_text(goal) == "land >= 2 @T0"
     assert forms.describe_goal(goal) == "your rule (land >= 2 @T0)"
     with pytest.raises(ParseError):
@@ -150,7 +183,7 @@ def test_custom_rule_overrides_lines() -> None:
     with pytest.raises(ValidationError):
         forms.goal_condition(Goal(()))
     with pytest.raises(ValidationError):
-        forms.goal_condition(Goal((Requirement(amount=-1),)))
+        forms.goal_condition(Goal.all_of(Requirement(amount=-1)))
 
 
 def test_check_rule() -> None:
@@ -170,12 +203,12 @@ def test_chances_matches_the_engine() -> None:
 
 
 def test_chances_conditional_and_impossible() -> None:
-    only = Goal((Requirement("at least", 2, "land", 0),))
+    only = Goal.all_of(Requirement("at least", 2, "land", 0))
     assert (
         "In the games where you have at least 2 land"
         in forms.chances(scenario(), GOAL, only).headline
     )
-    never = Goal((Requirement("at least", 7, "removal", 0),))
+    never = Goal.all_of(Requirement("at least", 7, "removal", 0))
     assert forms.chances(scenario(), GOAL, never).headline.startswith("That never happens")
 
 
@@ -252,7 +285,7 @@ def test_how_many_one_card_type_best_chance_needs_no_target() -> None:
 def test_how_many_best_chance_finds_an_inner_maximum() -> None:
     # "3 to 5 land in the opening hand": too few or too many land both fail, so the best
     # count is inside the range and found by trying every count.
-    goal = Goal((Requirement("at least", 3, "land"), Requirement("at most", 5, "land")))
+    goal = Goal.all_of(Requirement("at least", 3, "land"), Requirement("at most", 5, "land"))
     q = HowMany(aim="best", vary=(Vary("land", 10, 40),), goal=goal)
     best = forms.how_many(DECK, scenario(), q)
     chosen = int(best.headline.split()[1])

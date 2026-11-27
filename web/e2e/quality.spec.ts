@@ -37,8 +37,8 @@ test.describe("accessibility", () => {
     await settledHeadline(page);
     await page.getByLabel("Cards in your deck").fill("x");
     await page.getByLabel("Cards you draw each turn").fill("");
-    await page.getByRole("button", { name: "Remove line 2" }).click();
-    await page.getByRole("button", { name: "Remove line 1" }).click();
+    await page.getByRole("button", { name: "Remove good game 1, line 2" }).click();
+    await page.getByRole("button", { name: "Remove good game 1, line 1" }).click();
     await expect(page.locator(".problem").first()).toBeVisible({ timeout: 3000 });
     await axe(page);
   });
@@ -59,8 +59,10 @@ test.describe("accessibility", () => {
     await page.goto("/");
     await page.getByRole("checkbox", { name: "Mulligan bad opening hands" }).check();
     // Two kinds of hand, the first with two lines.
-    await page.getByRole("button", { name: "And also, in kind of hand 1: add a card type" }).click();
+    await page.getByRole("button", { name: "And also, in kind of hand 1: add a line" }).click();
     await page.getByRole("button", { name: "+ Or keep another kind of hand" }).click();
+    // Two kinds of good game too (the same layout).
+    await page.getByRole("button", { name: "+ Or another kind of good game" }).click();
     await page.getByRole("radio", { name: /Should I mulligan\?/u }).check();
     await settledHeadline(page);
     await page.getByText(/^First 7 cards: keep if its chance/u).click();
@@ -131,12 +133,12 @@ test.describe("keyboard only", () => {
     await expect(page.getByRole("button", { name: "Commander", exact: true })).toBeFocused();
     await page.keyboard.press("Tab");
     // A select works with the keyboard too.
-    await page.getByLabel("Line 1: when").focus();
+    await page.getByLabel("Good game 1, line 1: when").focus();
     await page.keyboard.press("ArrowUp");
     await expect(await settledHeadline(page)).toContainText("at least 3 land by turn 2 and");
     // Focus is always visible.
     const outline = await page
-      .getByLabel("Line 1: when")
+      .getByLabel("Good game 1, line 1: when")
       .evaluate((el) => getComputedStyle(el).outlineStyle + " " + getComputedStyle(el).outlineWidth);
     expect(outline).not.toMatch(/^none|0px$/u);
   });
@@ -149,7 +151,7 @@ test("makes no network requests after loading (nothing leaves the browser)", asy
   page.on("request", (r) => requests.push(r.url()));
   await page.getByRole("button", { name: "Commander: ramp on turn 2" }).click();
   await page.getByLabel("Cards in your deck").fill("100");
-  await page.getByRole("button", { name: "+ Add a line" }).click();
+  await page.getByRole("button", { name: "+ Or another kind of good game" }).click();
   await settledHeadline(page);
   expect(requests).toEqual([]);
 });

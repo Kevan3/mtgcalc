@@ -69,14 +69,17 @@ export function turnWords(turn: number): string {
   return turn === 0 ? "in your opening hand" : `by turn ${turn}`;
 }
 
-/** The goal in words, e.g. "at least 3 land by turn 3 and at least 1 removal by turn 3". */
+/**
+ * The goal in words (Python's `describe_goal`), e.g. "at least 3 land by turn 3 and at
+ * least 1 removal by turn 3, or at least 4 land by turn 4".
+ */
 export function describeGoal(
   goal: Goal,
   labels: Readonly<Record<string, string>> = {},
   withTurns = true,
 ): string {
   if (goal.rule !== undefined) return `your rule (${goal.rule.text.trim()})`;
-  const words = goal.requirements.map((r) => {
+  const line = (r: Goal["groups"][number][number]): string => {
     const what =
       r.cardType !== ANY_CARD
         ? (labels[r.cardType] ?? r.cardType)
@@ -85,8 +88,10 @@ export function describeGoal(
           : "cards";
     const amount = r.kind === "none" ? "no" : `${r.kind} ${r.amount}`;
     return withTurns ? `${amount} ${what} ${turnWords(r.turn)}` : `${amount} ${what}`;
-  });
-  return words.join(goal.combine === "all" ? " and " : " or ");
+  };
+  const kinds = goal.groups.map((group) => group.map(line).join(" and "));
+  // Kinds of one line each read "A or B"; a kind with several lines needs the comma.
+  return kinds.join(goal.groups.some((g) => g.length > 1) ? ", or " : " or ");
 }
 
 /** The one-sentence answer (FR-85, FR-95). */

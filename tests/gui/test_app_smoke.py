@@ -132,6 +132,26 @@ def test_kinds_of_hand_to_keep(app: Any) -> None:
     assert "kind of hand 1 has no card types" in app.status.get()
 
 
+def test_kinds_of_good_game(app: Any) -> None:
+    from mtgcalc_gui.forms import Goal, Requirement
+
+    page = app.question_pages()[0]
+    land3, removal = Requirement("at least", 3, "land", 3), Requirement("at least", 1, "removal", 3)
+    page.goal.set(Goal.all_of(land3, removal))
+    groups = page.goal.lines
+    groups.add()  # "Or another kind of good game": at least 1 land by turn 3
+    groups.kinds[1][2].set([("at least", "4", "land", "turn 4")])
+    goal = page.goal.value()
+    assert goal.groups == ((land3, removal), (Requirement("at least", 4, "land", 4),))
+    assert [t.cget("text") for _, t, _ in groups.kinds] == ["All of these:", "Or all of these:"]
+    page.run()
+    wait(app)
+    assert ", or at least 4 land by turn 4 in" in page.headline.cget("text")
+    page.goal.custom_on.set(True)
+    page.goal._custom_changed()
+    assert page.goal.custom() == "land >= 3 @T3 AND removal >= 1 @T3 OR land >= 4 @T4"
+
+
 def test_typed_rule_is_prefilled_and_used(app: Any) -> None:
     page = app.question_pages()[0]
     page.goal.custom_on.set(True)

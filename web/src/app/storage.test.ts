@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 
+import { goalRows } from "../forms/model.ts";
 import { initialState } from "./state.ts";
 import { isAppState, loadState, saveState, STORAGE_KEY } from "./storage.ts";
 
@@ -29,7 +30,7 @@ describe("storage", () => {
       "bad row",
       JSON.stringify({
         ...initialState(),
-        form: { ...initialState().form, goal: [{ id: "1", kind: "maybe" }] },
+        form: { ...initialState().form, goal: [{ id: "1", rules: [{ id: "2", kind: "maybe" }] }] },
       }),
     ],
     ["bad id counter", JSON.stringify({ ...initialState(), nextId: -1 })],
@@ -103,6 +104,32 @@ describe("storage", () => {
     expect(loaded?.form).not.toHaveProperty("keepType");
   });
 
+  it.each([
+    ["all", [{ id: "g1", rules: ["A", "B"] }]],
+    [
+      "any",
+      [
+        { id: "g1", rules: ["A"] },
+        { id: "g2", rules: ["B"] },
+      ],
+    ],
+  ])("upgrades good-game lines saved with “%s” to kinds of good game", (combine, expected) => {
+    const lines = goalRows(initialState().form);
+    const form = { ...initialState().form, goal: lines, combine } as Record<string, unknown>;
+    const loaded = loadState(memory({ [STORAGE_KEY]: JSON.stringify({ ...initialState(), form }) }));
+    const byName = { A: lines[0], B: lines[1] };
+    expect(loaded?.form.goal).toEqual(
+      expected.map((g) => ({ id: g.id, rules: g.rules.map((n) => byName[n as "A" | "B"]) })),
+    );
+    expect(loaded?.form).not.toHaveProperty("combine");
+  });
+
+  it("drops an empty old good game, which then asks for a line", () => {
+    const form = { ...initialState().form, goal: [], combine: "all" } as Record<string, unknown>;
+    const loaded = loadState(memory({ [STORAGE_KEY]: JSON.stringify({ ...initialState(), form }) }));
+    expect(loaded?.form.goal).toEqual([]);
+  });
+
   it("gives a setup saved before mulligans the default keep rule", () => {
     const form = { ...initialState().form } as Record<string, unknown>;
     Reflect.deleteProperty(form, "keep");
@@ -115,6 +142,9 @@ describe("storage", () => {
   it.each([
     ["an unknown how-many mode", { hmMode: "fewest-ish" }],
     ["a kind of hand with no lines", { keep: [{ id: "k1", rules: [] }] }],
+    ["a kind of good game with no lines", { goal: [{ id: "g1", rules: [] }] }],
+    ["a kind of good game with a bad line", { goal: [{ id: "g1", rules: [{ id: "1", kind: "maybe" }] }] }],
+    ["an old good game that is not a list", { goal: "land", combine: "all" }],
     ["a kind of hand that is not an object", { keep: ["land"] }],
     ["a kind of hand without lines", { keep: [{ id: "k1" }] }],
     ["a bad keep line", { keep: [{ id: "k1", rules: [{ id: "k2", cardType: "land", min: 2, max: "5" }] }] }],

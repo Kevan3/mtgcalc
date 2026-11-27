@@ -224,49 +224,47 @@ class RowList(ttk.Frame):
             self.add(r)
 
 
-class KeepKinds(ttk.Frame):
-    """The kinds of hand you keep (any kind will do), each a list of lines that must all hold."""
+class LineGroups(ttk.Frame):
+    """Kinds of something (any kind will do), each a list of lines that must all hold.
 
-    def __init__(self, master: tk.Misc, names: Callable[[], Sequence[str]]) -> None:
+    Used for the kinds of hand to keep and the kinds of good game, so both read the same:
+    "<first title>" / "Or <title>", lines with "And also", and "Or ..." for another kind.
+    """
+
+    def __init__(
+        self,
+        master: tk.Misc,
+        make_row: RowMaker,
+        titles: tuple[str, str],
+        add_group: str,
+        empty: str,
+        default: tuple[str, ...],
+    ) -> None:
         super().__init__(master)
-        self.names = names
+        self.make_row = make_row
+        self.titles = titles
+        self.default = default
         self.kinds: list[tuple[ttk.Frame, ttk.Label, RowList]] = []
         self.body = ttk.Frame(self)
         self.body.pack(anchor="w", fill="x")
-        self.empty = ttk.Label(
-            self.body, text="No kinds of hand: you keep every hand.", foreground="#555"
-        )
-        ttk.Button(self, text="+ Or keep another kind of hand", command=self.add).pack(
-            anchor="w", pady=(2, 0)
-        )
+        self.empty = ttk.Label(self.body, text=empty, foreground="#555")
+        ttk.Button(self, text=f"+ {add_group}", command=self.add).pack(anchor="w", pady=(2, 0))
         self._relabel()
 
-    def _rule_row(self, frame: ttk.Frame, values: tuple[str, ...] | None) -> list[Getter]:
-        name, low, high = values or ("land", "1", "7")
-        lo_box, g_low = spin(frame, int(low), 0, 7, 3)
-        hi_box, g_high = spin(frame, int(high), 0, 7, 3)
-        type_box, g_name = choice(frame, name, self.names, 10)
-        lo_box.pack(side="left", padx=2)
-        ttk.Label(frame, text="to").pack(side="left")
-        hi_box.pack(side="left", padx=2)
-        type_box.pack(side="left", padx=2)
-        tip(frame, "keep")
-        return [g_name, g_low, g_high]
-
-    def add(self, rules: Sequence[tuple[str, ...]] | None = None) -> None:
-        """Append a kind of hand (by default, 2 to 5 land)."""
+    def add(self, rows: Sequence[tuple[str, ...]] | None = None) -> None:
+        """Append a kind (by default with one default line)."""
         frame = ttk.Frame(self.body)
         head = ttk.Frame(frame)
         title = ttk.Label(head)
         title.pack(side="left")
-        rows = RowList(frame, self._rule_row, "And also")
-        entry = (frame, title, rows)
+        lines = RowList(frame, self.make_row, "And also")
+        entry = (frame, title, lines)
         ttk.Button(head, text="x", width=2, command=lambda: self._remove(entry)).pack(
             side="left", padx=4
         )
         head.pack(anchor="w")
-        rows.pack(anchor="w", padx=(16, 0))
-        rows.set(list(rules) if rules is not None else [("land", "2", "5")])
+        lines.pack(anchor="w", padx=(16, 0))
+        lines.set(list(rows) if rows is not None else [self.default])
         frame.pack(anchor="w", pady=(2, 0))
         self.kinds.append(entry)
         self._relabel()
@@ -278,22 +276,18 @@ class KeepKinds(ttk.Frame):
 
     def _relabel(self) -> None:
         for i, (_, title, _) in enumerate(self.kinds):
-            title.configure(
-                text="Keep a hand with all of these:"
-                if i == 0
-                else "Or keep a hand with all of these:"
-            )
+            title.configure(text=self.titles[0] if i == 0 else self.titles[1])
         if self.kinds:
             self.empty.pack_forget()
         else:
             self.empty.pack(anchor="w")
 
     def values(self) -> list[list[tuple[str, ...]]]:
-        """Each kind of hand's lines, as (card type, smallest, largest)."""
+        """Each kind's lines."""
         return [rows.values() for _, _, rows in self.kinds]
 
     def set(self, kinds: Sequence[Sequence[tuple[str, ...]]]) -> None:
-        """Replace every kind of hand."""
+        """Replace every kind."""
         for frame, _, _ in self.kinds:
             frame.destroy()
         self.kinds.clear()
@@ -494,7 +488,14 @@ class PlayPanel(ttk.LabelFrame):
         keep_label = ttk.Label(self.mull, text="Which hands do you keep?")
         keep_label.pack(anchor="w")
         tip(keep_label, "keep")
-        self.keep = KeepKinds(self.mull, app.type_names)
+        self.keep = LineGroups(
+            self.mull,
+            self._keep_row,
+            ("Keep a hand with all of these:", "Or keep a hand with all of these:"),
+            "Or keep another kind of hand",
+            "No kinds of hand: you keep every hand.",
+            ("land", "2", "5"),
+        )
         self.keep.pack(anchor="w")
 
         protect_label = ttk.Label(
@@ -531,6 +532,18 @@ class PlayPanel(ttk.LabelFrame):
         ttk.Label(frame, text="extra").pack(side="left")
         tip(frame, "extra")
         return [g1, g2]
+
+    def _keep_row(self, frame: ttk.Frame, values: tuple[str, ...] | None) -> list[Getter]:
+        name, low, high = values or ("land", "1", "7")
+        lo_box, g_low = spin(frame, int(low), 0, 7, 3)
+        hi_box, g_high = spin(frame, int(high), 0, 7, 3)
+        type_box, g_name = choice(frame, name, self.app.type_names, 10)
+        lo_box.pack(side="left", padx=2)
+        ttk.Label(frame, text="to").pack(side="left")
+        hi_box.pack(side="left", padx=2)
+        type_box.pack(side="left", padx=2)
+        tip(frame, "keep")
+        return [g_name, g_low, g_high]
 
     def _protect_row(self, frame: ttk.Frame, values: tuple[str, ...] | None) -> list[Getter]:
         name, n = values or ("land", "3")
@@ -592,7 +605,7 @@ class PlayPanel(ttk.LabelFrame):
 
 
 class GoalBuilder(ttk.Frame):
-    """Lines like "[at least] [3] [land] [by turn 3]", combined with all/any."""
+    """Kinds of good game (any will do), each with lines like "[at least] [3] [land] [turn 3]"."""
 
     def __init__(self, master: tk.Misc, app: App, title: str, with_turns: bool = True) -> None:
         super().__init__(master)
@@ -601,19 +614,15 @@ class GoalBuilder(ttk.Frame):
         label = ttk.Label(self, text=title)
         label.pack(anchor="w")
         tip(label, "goal")
-        self.lines = RowList(self, self._line, "Add a requirement")
+        self.lines = LineGroups(
+            self,
+            self._line,
+            ("All of these:", "Or all of these:"),
+            "Or another kind of good game",
+            "No lines yet: add a kind of good game.",
+            ("at least", "1", "land", "turn 3"),
+        )
         self.lines.pack(anchor="w")
-        self.combine = tk.StringVar(value="all")
-        row = ttk.Frame(self)
-        ttk.Label(row, text="I need").pack(side="left")
-        ttk.Radiobutton(row, text="all of these", value="all", variable=self.combine).pack(
-            side="left", padx=4
-        )
-        ttk.Radiobutton(row, text="any one of these", value="any", variable=self.combine).pack(
-            side="left"
-        )
-        tip(row, "combine")
-        row.pack(anchor="w")
         self.custom_on = tk.BooleanVar(value=False)
         c = ttk.Checkbutton(
             self,
@@ -653,27 +662,27 @@ class GoalBuilder(ttk.Frame):
         toggle(self.custom_frame, on)
 
     def _from_lines(self) -> Goal:
-        reqs = []
-        for vals in self.lines.values():
+        def requirement(vals: tuple[str, ...]) -> Requirement:
             turn = turn_of(vals[3]) if self.with_turns else 0
-            reqs.append(
-                Requirement(kind_of(vals[0]), number(vals[1], "requirement"), vals[2], turn)
-            )
-        return Goal(tuple(reqs), "any" if self.combine.get() == "any" else "all")
+            return Requirement(kind_of(vals[0]), number(vals[1], "requirement"), vals[2], turn)
+
+        return Goal(tuple(tuple(requirement(v) for v in kind) for kind in self.lines.values()))
 
     def value(self) -> Goal:
         """The goal (a typed rule wins when ticked)."""
         goal = self._from_lines()
         if self.custom_on.get():
-            goal = Goal(goal.requirements, goal.combine, self.custom())
+            goal = Goal(goal.groups, self.custom())
         return goal
 
     def set(self, goal: Goal) -> None:
-        """Show a goal as lines."""
+        """Show a goal as kinds of lines."""
         self.lines.set(
-            [(r.kind, str(r.amount), r.card_type, turn_label(r.turn)) for r in goal.requirements]
+            [
+                [(r.kind, str(r.amount), r.card_type, turn_label(r.turn)) for r in group]
+                for group in goal.groups
+            ]
         )
-        self.combine.set(goal.combine)
 
 
 # ---------------------------------------------------------------------------------------
@@ -771,7 +780,7 @@ class ChancesPage(QuestionPage):
     intro = "chances"
 
     def build(self, parent: ttk.Frame) -> None:
-        self.goal = GoalBuilder(parent, self.app, "A good game is when I have:")
+        self.goal = GoalBuilder(parent, self.app, "A good game is when I have")
         self.goal.pack(anchor="w")
         self.only_on = tk.BooleanVar(value=False)
         c = ttk.Checkbutton(
@@ -782,7 +791,7 @@ class ChancesPage(QuestionPage):
         )
         c.pack(anchor="w", pady=(8, 0))
         tip(c, "only_if")
-        self.only = GoalBuilder(parent, self.app, "Only count games where I have:")
+        self.only = GoalBuilder(parent, self.app, "Only count games where I have")
 
     def _only_changed(self) -> None:
         toggle(self.only, self.only_on.get())
@@ -821,7 +830,7 @@ class TurnsPage(QuestionPage):
     intro = "turns"
 
     def build(self, parent: ttk.Frame) -> None:
-        self.goal = GoalBuilder(parent, self.app, "I want to have:", with_turns=False)
+        self.goal = GoalBuilder(parent, self.app, "I want to have", with_turns=False)
         self.goal.pack(anchor="w")
         row = ttk.Frame(parent)
         ttk.Label(row, text="Show every turn up to").pack(side="left")
@@ -841,7 +850,7 @@ class MulliganPage(QuestionPage):
     intro = "mulligan"
 
     def build(self, parent: ttk.Frame) -> None:
-        self.goal = GoalBuilder(parent, self.app, "A good game is when I have:")
+        self.goal = GoalBuilder(parent, self.app, "A good game is when I have")
         self.goal.pack(anchor="w")
 
     def prepare(self) -> Work:
@@ -896,8 +905,8 @@ class HowManyPage(QuestionPage):
         self.target_box.pack(side="left", padx=4)
         ttk.Label(self.target_row, text="%").pack(side="left")
         tip(self.target_box, "hm_target")
-        self.goal = GoalBuilder(parent, self.app, "A good game is when I have:")
-        self.goal.set(Goal((Requirement("at least", 4, "land", 4),)))
+        self.goal = GoalBuilder(parent, self.app, "A good game is when I have")
+        self.goal.set(Goal.all_of(Requirement("at least", 4, "land", 4)))
         self._mode_changed()
 
     def _vary_row(self, frame: ttk.Frame, values: tuple[str, ...] | None) -> list[Getter]:

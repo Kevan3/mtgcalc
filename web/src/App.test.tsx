@@ -89,7 +89,7 @@ describe("App", () => {
     const name = screen.getByLabelText("Name of card type 1");
     await user.clear(name);
     await user.type(name, "Forest");
-    expect(screen.getByLabelText("Line 1: card type")).toHaveValue("forest");
+    expect(screen.getByLabelText("Good game 1, line 1: card type")).toHaveValue("forest");
     expect(await within(answer()).findByText(/at least 3 Forest by turn 3/u)).toBeInTheDocument();
   });
 
@@ -104,28 +104,51 @@ describe("App", () => {
     ).toBeInTheDocument();
   });
 
-  it("adds and removes goal lines, and offers 'all' or 'any' only when it matters", async () => {
+  it("builds kinds of good game the way it builds kinds of hand: and, or, none", async () => {
     const { user, answer } = setup();
     await within(answer()).findByText(FIRST);
-    expect(screen.getByRole("group", { name: "Which lines must happen?" })).toBeInTheDocument();
-    await user.click(screen.getByRole("button", { name: "Remove line 2" }));
-    expect(screen.queryByRole("group", { name: "Which lines must happen?" })).not.toBeInTheDocument();
+    expect(
+      screen.getByText("So: a good game has at least 3 land by turn 3 and at least 1 removal by turn 3."),
+    ).toBeInTheDocument();
+    await user.click(screen.getByRole("button", { name: "Remove good game 1, line 2" }));
+    expect(screen.getByRole("button", { name: "And also, in good game 1: add a line" })).toHaveFocus();
     expect(await within(answer()).findByText(/^You have at least 3 land by turn 3 in /u)).toBeInTheDocument();
-    await user.click(screen.getByRole("button", { name: "Remove line 1" }));
+    // "Or": another kind of good game, starting from the last line's card type and turn.
+    await user.click(screen.getByRole("button", { name: "+ Or another kind of good game" }));
+    expect(screen.getByLabelText("Good game 2, line 1: how many")).toHaveFocus();
+    expect(screen.getByText("Or a good game has")).toBeInTheDocument();
+    // "And also": a card type the kind does not use yet, at its last turn.
+    await user.click(screen.getByRole("button", { name: "And also, in good game 1: add a line" }));
+    expect(screen.getByLabelText("Good game 1, line 2: card type")).toHaveValue("removal");
+    expect(
+      await within(answer()).findByText(
+        /^You have at least 3 land by turn 3 and at least 1 removal by turn 3, or at least 1 land by turn 3 in /u,
+      ),
+    ).toBeInTheDocument();
+    // Removing every line leaves no good game: the page says what to add, and offers it.
+    for (const name of [
+      "Remove good game 2, line 1",
+      "Remove good game 1, line 2",
+      "Remove good game 1, line 1",
+    ]) {
+      await user.click(screen.getByRole("button", { name }));
+    }
+    expect(screen.getByRole("button", { name: "+ Add a good game" })).toHaveFocus();
+    expect(screen.getByText("No good game yet: add one.")).toBeInTheDocument();
     await waitFor(
       () => {
         expect(screen.getByText("Add a line to say what a good game looks like.")).toBeInTheDocument();
       },
       { timeout: 3000 },
     );
-    await user.click(screen.getByRole("button", { name: "+ Add a line" }));
+    await user.click(screen.getByRole("button", { name: "+ Add a good game" }));
     expect(await within(answer()).findByText(/at least 1 land in your opening hand/u)).toBeInTheDocument();
   });
 
   it("never shows an answer that belongs to an older form, even with a slow worker", async () => {
     const { user, answer, traffic } = setup(400);
     await within(answer()).findByText(FIRST, {}, { timeout: 3000 });
-    const amount = screen.getByLabelText("Line 1: number of cards");
+    const amount = screen.getByLabelText("Good game 1, line 1: number of cards");
     await user.clear(amount);
     await user.type(amount, "2"); // computes "at least 2 land" (slowly)
     await act(() => new Promise((r) => setTimeout(r, 200))); // the request is now in flight
@@ -166,7 +189,7 @@ describe("App", () => {
     await user.type(screen.getByLabelText("Name of card type 3"), "MDFC");
     await user.type(screen.getByLabelText("How many mdfc"), "2");
     await user.type(screen.getByLabelText("Other types mdfc also counts as"), "land, ramp");
-    const typeList = screen.getByLabelText("Line 1: card type");
+    const typeList = screen.getByLabelText("Good game 1, line 1: card type");
     expect(
       within(typeList)
         .getAllByRole("option")
@@ -176,11 +199,13 @@ describe("App", () => {
     await user.click(screen.getByRole("button", { name: "Remove mdfc" }));
     expect(screen.queryByLabelText("How many mdfc")).not.toBeInTheDocument();
 
-    // "no" needs no number; "any" combines lines with "or"; the turn list names turns.
-    await user.selectOptions(screen.getByLabelText("Line 2: how many"), "none");
-    expect(screen.queryByLabelText("Line 2: number of cards")).not.toBeInTheDocument();
-    await user.click(screen.getByRole("radio", { name: "Any of them (at least one)" }));
-    await user.selectOptions(screen.getByLabelText("Line 1: when"), "in your opening hand");
+    // "no" needs no number; another kind of good game means "or"; the turn list names turns.
+    await user.selectOptions(screen.getByLabelText("Good game 1, line 2: how many"), "none");
+    expect(screen.queryByLabelText("Good game 1, line 2: number of cards")).not.toBeInTheDocument();
+    await user.click(screen.getByRole("button", { name: "+ Or another kind of good game" }));
+    await user.selectOptions(screen.getByLabelText("Good game 2, line 1: how many"), "none");
+    await user.click(screen.getByRole("button", { name: "Remove good game 1, line 2" }));
+    await user.selectOptions(screen.getByLabelText("Good game 1, line 1: when"), "in your opening hand");
     expect(
       await within(answer()).findByText(
         /^You have at least 3 land in your opening hand or no removal by turn 3 in /u,
@@ -191,7 +216,9 @@ describe("App", () => {
     const draws = screen.getByLabelText("Cards you draw each turn");
     await user.clear(draws);
     await user.type(draws, "0");
-    expect(within(screen.getByLabelText("Line 1: when")).getAllByRole("option")).toHaveLength(21);
+    expect(within(screen.getByLabelText("Good game 1, line 1: when")).getAllByRole("option")).toHaveLength(
+      21,
+    );
   });
 
   it("offers only turns the deck has cards for, and flags a line that is now too late", async () => {
@@ -200,7 +227,7 @@ describe("App", () => {
     await user.clear(size);
     await user.type(size, "10");
     expect(
-      within(screen.getByLabelText("Line 2: when"))
+      within(screen.getByLabelText("Good game 1, line 2: when"))
         .getAllByRole("option")
         .map((o) => o.textContent),
     ).toEqual(["in your opening hand", "by turn 1", "by turn 2", "by turn 3", "by turn 4"]);
@@ -222,7 +249,7 @@ describe("App", () => {
     const { user, answer } = setup();
     await within(answer()).findByText(FIRST);
     await user.click(screen.getByRole("button", { name: "Remove removal" }));
-    const list = screen.getByLabelText("Line 2: card type");
+    const list = screen.getByLabelText("Good game 1, line 2: card type");
     expect(list).toHaveValue("");
     expect(within(list).getAllByRole("option")[0]).toHaveTextContent("choose a card type");
     // Pressing a button is not typing: the real problem shows right away, never "finish typing".
@@ -267,7 +294,7 @@ describe("App", () => {
     await user.clear(name);
     await user.type(name, "Lightning Bolt");
     expect(
-      within(screen.getByLabelText("Line 2: card type")).getByRole("option", { selected: true }),
+      within(screen.getByLabelText("Good game 1, line 2: card type")).getByRole("option", { selected: true }),
     ).toHaveTextContent("Lightning Bolt");
     expect(await within(answer()).findByText(/at least 1 Lightning Bolt by turn 3/u)).toBeInTheDocument();
   });
@@ -278,10 +305,10 @@ describe("App", () => {
     expect(screen.getByLabelText("Name of card type 3")).toHaveFocus();
     await user.click(screen.getByRole("button", { name: "Remove card type 3" }));
     expect(screen.getByRole("button", { name: "+ Add a card type" })).toHaveFocus();
-    await user.click(screen.getByRole("button", { name: "+ Add a line" }));
-    expect(screen.getByLabelText("Line 3: how many")).toHaveFocus();
-    await user.click(screen.getByRole("button", { name: "Remove line 3" }));
-    expect(screen.getByRole("button", { name: "+ Add a line" })).toHaveFocus();
+    await user.click(screen.getByRole("button", { name: "And also, in good game 1: add a line" }));
+    expect(screen.getByLabelText("Good game 1, line 3: how many")).toHaveFocus();
+    await user.click(screen.getByRole("button", { name: "Remove good game 1, line 3" }));
+    expect(screen.getByRole("button", { name: "And also, in good game 1: add a line" })).toHaveFocus();
   });
 
   it("shows the exact numbers in a way a beginner can use", async () => {
@@ -315,7 +342,7 @@ describe("App", () => {
     await user.click(box);
     await user.paste("36 Forest #land\n2 Bridge #land #ramp\n10 Elf #ramp\n50 Bear\n");
     expect(screen.getByText("Read 98 cards in the deck. Tags: land 38, ramp 12.")).toBeInTheDocument();
-    await user.selectOptions(screen.getByLabelText("Line 2: card type"), "ramp");
+    await user.selectOptions(screen.getByLabelText("Good game 1, line 2: card type"), "ramp");
     expect(
       await within(answer()).findByText(
         /^You have at least 3 land by turn 3 and at least 1 ramp by turn 3 in /u,
@@ -343,7 +370,7 @@ describe("App", () => {
     );
     const rule = screen.getByLabelText("Your rule");
     expect(rule).toHaveValue("land >= 3 @T3 AND removal >= 1 @T3");
-    expect(screen.queryByLabelText("Line 1: how many")).not.toBeInTheDocument();
+    expect(screen.queryByLabelText("Good game 1, line 1: how many")).not.toBeInTheDocument();
     await user.clear(rule);
     await user.type(rule, "land >= 3 @T3 OR removal >= 2 @T4");
     expect(
@@ -394,7 +421,7 @@ describe("App", () => {
     const { user, answer } = setup();
     await within(answer()).findByText(FIRST);
     await user.click(screen.getByRole("radio", { name: /Turn by turn/u }));
-    expect(screen.queryByLabelText("Line 1: when")).not.toBeInTheDocument();
+    expect(screen.queryByLabelText("Good game 1, line 1: when")).not.toBeInTheDocument();
     await user.selectOptions(screen.getByLabelText("Show every turn up to"), "4");
     expect(
       await within(answer()).findByText(
@@ -441,7 +468,7 @@ describe("App", () => {
     const status = (): string => within(answer()).getByText(/in \d+\.\d% of games/u).textContent;
     await within(answer()).findByText("This includes the games where you mulligan, following your plan.");
     // "And also": a second line in kind 1, starting at 1 to 7 removal; focus goes to it.
-    await user.click(screen.getByRole("button", { name: "And also, in kind of hand 1: add a card type" }));
+    await user.click(screen.getByRole("button", { name: "And also, in kind of hand 1: add a line" }));
     const type2 = screen.getByLabelText("Kind of hand 1, line 2: card type");
     expect(type2).toHaveFocus();
     expect(type2).toHaveValue("removal");
@@ -473,9 +500,7 @@ describe("App", () => {
     expect(screen.getByText("The first number is bigger than the second.")).toBeInTheDocument();
     // Removing a line moves focus to its kind's "and also"; the kind's last line, to "or".
     await user.click(screen.getByRole("button", { name: "Remove kind of hand 1, line 2" }));
-    expect(
-      screen.getByRole("button", { name: "And also, in kind of hand 1: add a card type" }),
-    ).toHaveFocus();
+    expect(screen.getByRole("button", { name: "And also, in kind of hand 1: add a line" })).toHaveFocus();
     await user.click(screen.getByRole("button", { name: "Remove kind of hand 2, line 1" }));
     expect(screen.getByRole("button", { name: "+ Or keep another kind of hand" })).toHaveFocus();
     expect(screen.getByText("So: keep a hand with 2 to 5 land.")).toBeInTheDocument();

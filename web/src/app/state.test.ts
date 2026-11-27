@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 
+import { goalRows } from "../forms/model.ts";
 import { EXAMPLES, fromExample, initialState, reducer, type AppState } from "./state.ts";
 
 const start = initialState();
@@ -12,7 +13,8 @@ function apply(state: AppState, ...actions: Parameters<typeof reducer>[1][]): Ap
 describe("reducer", () => {
   it("opens with the first example", () => {
     expect(start.form.deckSize).toBe("60");
-    expect(start.form.goal.map((g) => g.cardType)).toEqual(["land", "removal"]);
+    expect(goalRows(start.form).map((g) => g.cardType)).toEqual(["land", "removal"]);
+    expect(start.form.goal).toHaveLength(1); // one kind of good game: both lines
   });
 
   it("applies format presets", () => {
@@ -26,7 +28,7 @@ describe("reducer", () => {
       { type: "drawsType", value: "land" },
       { type: "typeChanged", id: landId, patch: { name: "Forest" } },
     );
-    expect(s.form.goal[0]?.cardType).toBe("forest");
+    expect(goalRows(s.form)[0]?.cardType).toBe("forest");
     expect(s.form.protect[0]?.cardType).toBe("forest");
     expect(s.form.hmVary[0]?.cardType).toBe("forest");
     expect(s.form.keep[0]?.rules[0]?.cardType).toBe("forest");
@@ -72,10 +74,10 @@ describe("reducer", () => {
   it("uses the first card type when the good game names none, and leaves rows alone without types", () => {
     const anyGoal = apply(start, {
       type: "goalChanged",
-      id: start.form.goal[0]?.id ?? "",
+      id: goalRows(start.form)[0]?.id ?? "",
       patch: { cardType: "any card" },
     });
-    const noRemoval = apply(anyGoal, { type: "goalRemoved", id: start.form.goal[1]?.id ?? "" });
+    const noRemoval = apply(anyGoal, { type: "goalRemoved", id: goalRows(start.form)[1]?.id ?? "" });
     const s = apply(noRemoval, { type: "howManyChanged", patch: { hmMode: "share" } });
     expect(s.form.hmVary.map((v) => v.cardType)).toEqual(["land"]);
     expect(s.form.hmSlots).toBe("24");
@@ -130,10 +132,14 @@ describe("reducer", () => {
     expect(s.form.keep[1]?.rules[0]?.cardType).toBe("land");
     s = apply(start, {
       type: "goalChanged",
-      id: start.form.goal[0]?.id ?? "",
+      id: goalRows(start.form)[0]?.id ?? "",
       patch: { cardType: "any card" },
     });
-    s = apply(s, { type: "deckMode", value: "list" }, { type: "goalRemoved", id: s.form.goal[1]?.id ?? "" });
+    s = apply(
+      s,
+      { type: "deckMode", value: "list" },
+      { type: "goalRemoved", id: goalRows(s.form)[1]?.id ?? "" },
+    );
     s = apply(s, { type: "keepGroupAdded" });
     expect(s.form.keep[1]?.rules[0]?.cardType).toBe(""); // never "any card": the player picks
   });
@@ -156,8 +162,8 @@ describe("reducer", () => {
     for (const name of ["lan", "la", "", "M", "Mana", "Mana rock"]) {
       s = apply(s, { type: "typeChanged", id: landId, patch: { name } });
     }
-    expect(s.form.goal[0]?.cardType).toBe("mana rock");
-    expect(s.form.goal[1]?.cardType).toBe("removal");
+    expect(goalRows(s.form)[0]?.cardType).toBe("mana rock");
+    expect(goalRows(s.form)[1]?.cardType).toBe("removal");
   });
 
   it("does not rename lines when another type still has the old name", () => {
@@ -166,25 +172,56 @@ describe("reducer", () => {
       { type: "typeChanged", id: start.form.types[1]?.id ?? "", patch: { name: "land" } },
       { type: "typeChanged", id: landId, patch: { name: "forest" } },
     );
-    expect(s.form.goal[0]?.cardType).toBe("land");
+    expect(goalRows(s.form)[0]?.cardType).toBe("land");
   });
 
   it("adds rows with fresh ids and sensible defaults", () => {
-    const s = apply(start, { type: "typeAdded" }, { type: "goalAdded" });
-    const ids = [...s.form.types, ...s.form.goal].map((r) => r.id);
+    const kind1 = start.form.goal[0]?.id ?? "";
+    const s = apply(start, { type: "typeAdded" }, { type: "goalLineAdded", group: kind1 });
+    const ids = [...s.form.types, ...s.form.goal, ...goalRows(s.form)].map((r) => r.id);
     expect(new Set(ids).size).toBe(ids.length);
     expect(s.form.types.at(-1)).toMatchObject({ name: "", count: "0", also: "" });
-    expect(s.form.goal.at(-1)).toMatchObject({
+    // "And also": no card type is left unused (the new type has no name), so the kind's last.
+    expect(goalRows(s.form).at(-1)).toMatchObject({
       kind: "at least",
       amount: "1",
       cardType: "removal",
       turn: "3",
     });
+    expect(apply(start, { type: "goalLineAdded", group: "nope" })).toBe(start);
   });
 
-  it("a first goal line uses the first card type", () => {
-    const empty = apply(start, ...start.form.goal.map((g) => ({ type: "goalRemoved" as const, id: g.id })));
-    expect(apply(empty, { type: "goalAdded" }).form.goal[0]).toMatchObject({ cardType: "land", turn: "0" });
+  it("builds kinds of good game: and-lines, or-kinds and removal", () => {
+    const kind1 = start.form.goal[0]?.id ?? "";
+    const three = apply(
+      start,
+      { type: "typeAdded" },
+      { type: "typeChanged", id: String(start.nextId), patch: { name: "Ramp" } },
+      { type: "goalLineAdded", group: kind1 },
+    );
+    expect(goalRows(three.form).at(-1)?.cardType).toBe("ramp"); // the type the kind lacks
+    let s = apply(start, { type: "goalGroupAdded" });
+    expect(s.form.goal).toHaveLength(2);
+    // "Or" starts from the last line's card type and turn.
+    expect(s.form.goal[1]?.rules).toEqual([
+      { id: String(start.nextId + 1), kind: "at least", amount: "1", cardType: "removal", turn: "3" },
+    ]);
+    expect(s.nextId).toBe(start.nextId + 2);
+    s = apply(s, { type: "goalRemoved", id: String(start.nextId + 1) });
+    expect(s.form.goal).toHaveLength(1); // a kind left without lines goes
+    const empty = apply(s, ...goalRows(s.form).map((g) => ({ type: "goalRemoved" as const, id: g.id })));
+    expect(empty.form.goal).toEqual([]);
+  });
+
+  it("a first good game uses the first card type", () => {
+    const empty = apply(
+      start,
+      ...goalRows(start.form).map((g) => ({ type: "goalRemoved" as const, id: g.id })),
+    );
+    expect(goalRows(apply(empty, { type: "goalGroupAdded" }).form)[0]).toMatchObject({
+      cardType: "land",
+      turn: "0",
+    });
   });
 
   it("removes rows and edits fields", () => {
@@ -194,17 +231,11 @@ describe("reducer", () => {
       { type: "deckSize", value: "40" },
       { type: "goFirst", value: false },
       { type: "drawsPerTurn", value: "2" },
-      { type: "combine", value: "any" },
-      { type: "goalChanged", id: start.form.goal[0]?.id ?? "", patch: { kind: "none" } },
+      { type: "goalChanged", id: goalRows(start.form)[0]?.id ?? "", patch: { kind: "none" } },
     );
     expect(s.form.types.map((t) => t.name)).toEqual(["removal"]);
-    expect([s.form.deckSize, s.form.goFirst, s.form.drawsPerTurn, s.form.combine]).toEqual([
-      "40",
-      false,
-      "2",
-      "any",
-    ]);
-    expect(s.form.goal[0]?.kind).toBe("none");
+    expect([s.form.deckSize, s.form.goFirst, s.form.drawsPerTurn]).toEqual(["40", false, "2"]);
+    expect(goalRows(s.form)[0]?.kind).toBe("none");
   });
 
   it("loads examples without reusing ids", () => {
@@ -212,8 +243,9 @@ describe("reducer", () => {
     if (commander === undefined) throw new Error("missing example");
     const s = apply(start, { type: "load", example: commander });
     expect(s.form.types.find((t) => t.name === "land and removal")?.also).toBe("land, removal");
-    const before = new Set([...start.form.types, ...start.form.goal].map((r) => r.id));
-    expect([...s.form.types, ...s.form.goal].some((r) => before.has(r.id))).toBe(false);
+    const rows = (f: typeof start.form) => [...f.types, ...f.goal, ...goalRows(f)];
+    const before = new Set(rows(start.form).map((r) => r.id));
+    expect(rows(s.form).some((r) => before.has(r.id))).toBe(false);
     expect(fromExample(commander).form.goFirst).toBe(false);
   });
 

@@ -19,7 +19,7 @@ from mtgcalc_gui.help import EXAMPLES
 
 USAGE = (Path(__file__).resolve().parents[2] / "docs" / "USAGE.md").read_text()
 DECK = DeckSetup(60, (CardType("land", 24), CardType("removal", 6)))
-GOAL = Goal((Requirement("at least", 3, "land", 3), Requirement("at least", 1, "removal", 3)))
+GOAL = Goal.all_of(Requirement("at least", 3, "land", 3), Requirement("at least", 1, "removal", 3))
 SC = forms.build_scenario(DECK, PlaySetup(), MulliganSetup())
 
 
@@ -31,7 +31,7 @@ def test_tour_example_matches_the_guide() -> None:
 
 
 def test_chances_and_only_if() -> None:
-    only = Goal((Requirement("at least", 2, "land", 0),))
+    only = Goal.all_of(Requirement("at least", 2, "land", 0))
     view = forms.chances(SC, GOAL, only)
     assert "53.9% of the time" in view.headline and "53.9% of the time" in USAGE
     assert view.details[0] in USAGE
@@ -47,7 +47,7 @@ def test_draws_table() -> None:
 
 
 def test_turn_by_turn_table() -> None:
-    rows = forms.turn_by_turn(SC, Goal((Requirement("at least", 4, "land", 0),)), 6).rows
+    rows = forms.turn_by_turn(SC, Goal.all_of(Requirement("at least", 4, "land", 0)), 6).rows
     for i, label in ((0, "Opening hand"), (3, "Turn 3"), (6, "Turn 6")):
         assert f"| {label} | {rows[i].values[1]} | {rows[i].values[2]} |" in USAGE
 

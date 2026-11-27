@@ -13,7 +13,6 @@ export const FILLER = "(other)";
 
 export const KINDS = ["at least", "at most", "exactly", "none"] as const;
 export type Kind = (typeof KINDS)[number];
-export type Combine = "all" | "any";
 
 // ---------------------------------------------------------------------------------
 // Checked setup (numbers are numbers, names are cleaned)
@@ -42,9 +41,12 @@ export interface Requirement {
   readonly turn: number;
 }
 
+/**
+ * What a good game is (Python's `Goal`): kinds of good game, each a list of lines. A game
+ * is good when it fits any kind, and it fits a kind when every line holds (FR-106).
+ */
 export interface Goal {
-  readonly requirements: readonly Requirement[];
-  readonly combine: Combine;
+  readonly groups: readonly (readonly Requirement[])[];
   /** A typed rule, which replaces the lines (Python's `Goal.custom`). */
   readonly rule?: TypedRule;
 }
@@ -137,12 +139,19 @@ export interface TypeRow {
   readonly also: string;
 }
 
+/** One line of the good game, as typed. */
 export interface GoalRow {
   readonly id: string;
   readonly kind: Kind;
   readonly amount: string;
   readonly cardType: string;
   readonly turn: string;
+}
+
+/** A kind of good game: every line must hold. */
+export interface GoalGroupRow {
+  readonly id: string;
+  readonly rules: readonly GoalRow[];
 }
 
 export type DeckMode = "types" | "list";
@@ -182,8 +191,8 @@ export interface FormState {
   readonly decklist: string;
   readonly goFirst: boolean;
   readonly drawsPerTurn: string;
-  readonly goal: readonly GoalRow[];
-  readonly combine: Combine;
+  /** The kinds of good game (any one will do), each with lines that must all hold. */
+  readonly goal: readonly GoalGroupRow[];
   /** Write my own rule instead of the lines. */
   readonly useRule: boolean;
   readonly rule: string;
@@ -224,5 +233,10 @@ export const MAX_TURN = 20;
 export const MAX_DECK = 1000;
 /** Most cards drawn per turn the form accepts. */
 export const MAX_DRAWS = 10;
+/** Every goal line, kind by kind. */
+export function goalRows(form: Pick<FormState, "goal">): GoalRow[] {
+  return form.goal.flatMap((g) => g.rules);
+}
+
 /** Cards in the opening hand (mulligans are not part of the web app yet). */
 export const HAND_SIZE = 7;
