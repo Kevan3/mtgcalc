@@ -152,13 +152,29 @@ class PlaySetup:
 
 
 @dataclass(frozen=True, slots=True)
+class KeepRule:
+    """One line of a keep rule: the hand has ``low`` to ``high`` cards of ``card_type``."""
+
+    card_type: str
+    low: int
+    high: int
+
+
+#: The default keep rule: one kind of hand, with 2 to 5 land.
+DEFAULT_KEEP: tuple[tuple[KeepRule, ...], ...] = ((KeepRule("land", 2, 5),),)
+
+
+@dataclass(frozen=True, slots=True)
 class MulliganSetup:
-    """Step 2, mulligans. ``keep_type`` "" means "always keep the first hand"."""
+    """Step 2, mulligans.
+
+    ``keep`` lists the kinds of hand you keep: a hand is kept when it matches *any* kind,
+    and it matches a kind when *every* line of that kind holds. No kinds means "always
+    keep the first hand".
+    """
 
     enabled: bool = False
-    keep_type: str = "land"
-    keep_min: int = 2
-    keep_max: int = 5
+    keep: tuple[tuple[KeepRule, ...], ...] = DEFAULT_KEEP
     protect: tuple[tuple[str, int], ...] = (("land", 3),)  # (card type, keep up to)
     max_mulligans: int = 2
     free_first: bool = False
@@ -239,11 +255,7 @@ def build_scenario(deck: DeckSetup, play: PlaySetup, mull: MulliganSetup) -> Sce
             raise ValidationError(
                 "mulligans", "choose at least one card type to keep when bottoming"
             )
-        keep: Condition = KEEP_ANY
-        if mull.keep_type:
-            if mull.keep_min > mull.keep_max:
-                raise ValidationError("keep rule", "the smallest number is above the largest")
-            keep = Between(selector_for(mull.keep_type), mull.keep_min, mull.keep_max)
+        keep = keep_condition(mull.keep)
         protect: list[PriorityGroup] = []
         for name, n in mull.protect:
             group = PriorityGroup(selector_for(name), n)
@@ -257,6 +269,27 @@ def build_scenario(deck: DeckSetup, play: PlaySetup, mull: MulliganSetup) -> Sce
             free_mulligans=1 if mull.free_first else 0,
         )
     return Scenario(build_deck(deck), game, mulligan)
+
+
+def keep_condition(keep: tuple[tuple[KeepRule, ...], ...]) -> Condition:
+    """The keep rule as a condition: any kind of hand (``Or``), each with all its lines (``And``).
+
+    A single line stays a plain ``Between`` and a single kind a plain ``And``, so the
+    condition is never wrapped needlessly. No kinds means "keep any hand".
+    """
+    kinds: list[Condition] = []
+    for n, rules in enumerate(keep, start=1):
+        if not rules:
+            raise ValidationError("keep rule", f"kind of hand {n} has no card types; add one")
+        lines: list[Condition] = []
+        for r in rules:
+            if r.low > r.high:
+                raise ValidationError("keep rule", "the smallest number is above the largest")
+            lines.append(Between(selector_for(r.card_type), r.low, r.high))
+        kinds.append(lines[0] if len(lines) == 1 else And(tuple(lines)))
+    if not kinds:
+        return KEEP_ANY
+    return kinds[0] if len(kinds) == 1 else Or(tuple(kinds))
 
 
 def _merge_extra(extra: tuple[tuple[int, int], ...]) -> dict[int, int]:
@@ -821,11 +854,20 @@ def check_rule(text: str) -> str:
 
 
 def keep_rule_words(m: MulliganSetup) -> str:
-    """The keep rule in words."""
-    if not m.keep_type:
+    """The keep rule in words.
+
+    For example "keep a hand with 3 to 4 land, or with 2 land and 1 to 7 draw".
+    """
+    if not m.keep:
         return "always keep your first hand"
-    what = "cards" if m.keep_type == ANY_CARD else m.keep_type
-    return f"keep a hand with {m.keep_min} to {m.keep_max} {what}"
+
+    def line(r: KeepRule) -> str:
+        what = "cards" if r.card_type == ANY_CARD else r.card_type
+        amount = str(r.low) if r.low == r.high else f"{r.low} to {r.high}"
+        return f"{amount} {what}"
+
+    kinds = [" and ".join(line(r) for r in rules) for rules in m.keep]
+    return "keep a hand with " + ", or with ".join(kinds)
 
 
 __all__ = [
@@ -837,6 +879,7 @@ __all__ = [
     "DeckSetup",
     "Goal",
     "HowMany",
+    "KeepRule",
     "MulliganSetup",
     "PlaySetup",
     "Requirement",
@@ -855,6 +898,7 @@ __all__ = [
     "goal_condition",
     "how_many",
     "in_words",
+    "keep_condition",
     "keep_rule_words",
     "mulligan_advice",
     "pct",

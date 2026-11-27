@@ -19,6 +19,7 @@ import { parseForm } from "./parse.ts";
 import { readReply } from "./answer.ts";
 import { buildRequest } from "./request.ts";
 import { inWords, parseFraction, pct } from "./words.ts";
+import { keepRuleWords } from "../components/MulliganSettings.tsx";
 
 describe("parity with mtgcalc_gui.forms", () => {
   it("has golden cases", () => {
@@ -102,6 +103,26 @@ describe("parity with mtgcalc_gui.forms", () => {
     expect(view.headline).toBe(c.headline);
     expect(view.details).toEqual(c.details);
     expect(view.rows.map((r) => [r.option, r.chance, r.words])).toEqual(c.rows);
+  });
+
+  it.each(mulliganCases.map((c) => [c.name, c] as const))(
+    "builds Python's mulligan scenario and keep-rule words: %s",
+    (_, c) => {
+      const parsed = parseForm(c.form, testCore);
+      expect(parsed.ok, JSON.stringify(parsed)).toBe(true);
+      if (!parsed.ok) return;
+      expect(buildRequest(parsed.setup)["scenario"]).toEqual(c.scenario);
+      expect(keepRuleWords(c.form, {})).toBe(c.keepWords);
+    },
+  );
+
+  it("covers every shape of keep rule", () => {
+    const shapes = new Set(
+      mulliganCases.map(
+        (c) => (c.scenario as { mulligan: { keep_rule: { type: string } } }).mulligan.keep_rule.type,
+      ),
+    );
+    expect([...shapes].sort()).toEqual(["And", "Between", "Const", "Or"]);
   });
 
   it.each(mulliganCases.map((c) => [c.name, c] as const))("explains mulligans like Python: %s", (_, c) => {

@@ -35,7 +35,7 @@ export const HINTS = {
   draws: "Normally 1. Use 2 if something lets you draw an extra card every turn.",
   mulligans:
     "Shuffle away a bad opening hand and draw 7 new cards, then put 1 card on the bottom for each mulligan you have taken (the London mulligan).",
-  keep: "Hands outside this range are mulliganed. The hand after your last mulligan is always kept.",
+  keep: "A hand is kept if it fits any one kind of hand below, and it fits a kind when every line is true. Any other hand is mulliganed. The hand after your last mulligan is always kept.",
   protect:
     "Top line first. “Up to 3” means keep at most 3 of them safe; extras can go to the bottom. Cards not listed go to the bottom before anything listed.",
   maxMulligans: "You always keep the hand after the last one.",

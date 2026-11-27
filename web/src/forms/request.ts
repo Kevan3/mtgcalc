@@ -5,7 +5,15 @@
  * A port of `mtgcalc_gui.forms.build_scenario` + `goal_condition`: the parity tests
  * require the exact same JSON as Python for every golden case.
  */
-import { ANY_CARD, FILLER, HAND_SIZE, type Question, type Requirement, type Setup } from "./model.ts";
+import {
+  ANY_CARD,
+  FILLER,
+  HAND_SIZE,
+  type KeepRule,
+  type Question,
+  type Requirement,
+  type Setup,
+} from "./model.ts";
 
 export type Json = null | boolean | number | string | Json[] | { [key: string]: Json };
 
@@ -75,6 +83,24 @@ function goalCondition(setup: Setup, withTurns: boolean): Json {
   return { type: setup.goal.combine === "all" ? "And" : "Or", items: parts };
 }
 
+/**
+ * Python's `keep_condition`: any kind of hand (`Or`), each with all its lines (`And`);
+ * one line or one kind is not wrapped, and no kinds means "keep any hand".
+ */
+function keepJson(keep: readonly (readonly KeepRule[])[]): Json {
+  const kinds = keep.map((rules) => {
+    const lines = rules.map((r): Json => ({
+      type: "Between",
+      sel: selectorJson(r.cardType),
+      lo: r.min,
+      hi: r.max,
+    }));
+    return lines.length === 1 && lines[0] !== undefined ? lines[0] : { type: "And", items: lines };
+  });
+  if (kinds.length === 0) return { type: "Const", value: true };
+  return kinds.length === 1 && kinds[0] !== undefined ? kinds[0] : { type: "Or", items: kinds };
+}
+
 /** Python's `MulliganConfig` from `build_scenario` (null without mulligans). */
 function mulliganJson(setup: Setup): Json {
   const m = setup.mulligan;
@@ -87,10 +113,7 @@ function mulliganJson(setup: Setup): Json {
       quota,
       name: null,
     })),
-    keep_rule:
-      m.keepType === ""
-        ? { type: "Const", value: true }
-        : { type: "Between", sel: selectorJson(m.keepType), lo: m.keepMin, hi: m.keepMax },
+    keep_rule: keepJson(m.keep),
     max_mulligans: m.maxMulligans,
     free_mulligans: m.freeFirst ? 1 : 0,
     draw_size: HAND_SIZE,

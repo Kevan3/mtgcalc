@@ -14,6 +14,8 @@ import {
   type FormatName,
   type FormState,
   type GoalRow,
+  type KeepGroupRow,
+  type KeepRuleRow,
   type ProtectRow,
   type VaryRow,
   type Kind,
@@ -49,10 +51,19 @@ export type Action =
   | { readonly type: "mulligans"; readonly value: boolean }
   | {
       readonly type: "mulliganChanged";
-      readonly patch: Partial<
-        Pick<FormState, "keepType" | "keepMin" | "keepMax" | "maxMulligans" | "freeFirst">
-      >;
+      readonly patch: Partial<Pick<FormState, "maxMulligans" | "freeFirst">>;
     }
+  | {
+      readonly type: "keepRuleChanged";
+      readonly id: string;
+      readonly patch: Partial<Omit<KeepRuleRow, "id">>;
+    }
+  /** Adds a line to a kind of hand ("and also"). */
+  | { readonly type: "keepRuleAdded"; readonly group: string }
+  /** Removes a line; a kind of hand left with no lines goes too. */
+  | { readonly type: "keepRuleRemoved"; readonly id: string }
+  /** Adds another kind of hand ("or"). */
+  | { readonly type: "keepGroupAdded" }
   | { readonly type: "protectChanged"; readonly id: string; readonly patch: Partial<Omit<ProtectRow, "id">> }
   | { readonly type: "protectAdded" }
   | {
@@ -75,9 +86,8 @@ export interface Example {
   readonly decklist?: string;
   /** Mulligan settings, when the example uses them. */
   readonly mulligan?: {
-    readonly keepType: string;
-    readonly keepMin: number;
-    readonly keepMax: number;
+    /** Kinds of hand, each a list of (card type, min, max); none means "always keep". */
+    readonly keep: readonly (readonly (readonly [string, number, number])[])[];
     readonly protect: readonly (readonly [string, number])[];
     readonly maxMulligans?: number;
     readonly freeFirst?: boolean;
@@ -110,9 +120,7 @@ export const EXAMPLES: readonly Example[] = [
       { name: "removal", count: 6 },
     ],
     mulligan: {
-      keepType: "land",
-      keepMin: 2,
-      keepMax: 5,
+      keep: [[["land", 2, 5]]],
       protect: [
         ["land", 3],
         ["removal", 1],
@@ -149,9 +157,13 @@ export const EXAMPLES: readonly Example[] = [
       { name: "removal", count: 8 },
     ],
     mulligan: {
-      keepType: "land",
-      keepMin: 2,
-      keepMax: 5,
+      keep: [
+        [["land", 3, 5]],
+        [
+          ["land", 2, 2],
+          ["ramp", 1, 7],
+        ],
+      ],
       protect: [
         ["land", 3],
         ["ramp", 1],
@@ -175,6 +187,9 @@ export const EXAMPLES: readonly Example[] = [
     goal: [{ kind: "at least", amount: 1, cardType: "ramp", turn: 2 }],
   },
 ];
+
+/** The keep rule a new form starts with: one kind of hand, 2 to 5 land (Python's `DEFAULT_KEEP`). */
+const DEFAULT_KEEP: readonly (readonly (readonly [string, number, number])[])[] = [[["land", 2, 5]]];
 
 export function fromExample(example: Example, firstId = 1): AppState {
   let next = firstId;
@@ -208,9 +223,15 @@ export function fromExample(example: Example, firstId = 1): AppState {
       drawsType: example.goal[0]?.cardType ?? "",
       lastTurn: "5",
       mulligans: example.mulligan !== undefined,
-      keepType: example.mulligan?.keepType ?? "land",
-      keepMin: String(example.mulligan?.keepMin ?? 2),
-      keepMax: String(example.mulligan?.keepMax ?? 5),
+      keep: (example.mulligan?.keep ?? DEFAULT_KEEP).map((rules): KeepGroupRow => ({
+        id: id(),
+        rules: rules.map(([cardType, min, max]) => ({
+          id: id(),
+          cardType,
+          min: String(min),
+          max: String(max),
+        })),
+      })),
       protect: (example.mulligan?.protect ?? [["land", 3]]).map(([cardType, upTo]) => ({
         id: id(),
         cardType,
@@ -264,6 +285,16 @@ function seedHowMany(form: FormState, mode: HowManyMode, nextId: number): [Parti
   return [{ hmMode: mode, hmVary, ...slots }, used];
 }
 
+/**
+ * Card types a new keep line may start with: the card-type table's names, then the good
+ * game's (the only names known without reading a pasted decklist), never "any card".
+ */
+function keepableNames(form: FormState): string[] {
+  const table = form.deckMode === "types" ? form.types.map((t) => cleanName(t.name)) : [];
+  const names = [...table, ...form.goal.map((g) => g.cardType)];
+  return [...new Set(names)].filter((n) => n !== "" && n !== ANY_CARD);
+}
+
 function patchRow<T extends { id: string }>(rows: readonly T[], id: string, patch: Partial<T>): T[] {
   return rows.map((r) => (r.id === id ? { ...r, ...patch } : r));
 }
@@ -296,7 +327,10 @@ export function reducer(state: AppState, action: Action): AppState {
             goal: form.goal.map((g) => ({ ...g, cardType: follow(g.cardType) })),
             protect: form.protect.map((r) => ({ ...r, cardType: follow(r.cardType) })),
             hmVary: form.hmVary.map((r) => ({ ...r, cardType: follow(r.cardType) })),
-            keepType: follow(form.keepType),
+            keep: form.keep.map((g) => ({
+              ...g,
+              rules: g.rules.map((r) => ({ ...r, cardType: follow(r.cardType) })),
+            })),
             drawsType: follow(form.drawsType),
           });
         }
@@ -359,6 +393,40 @@ export function reducer(state: AppState, action: Action): AppState {
       return next({ mulligans: action.value });
     case "mulliganChanged":
       return next(action.patch);
+    case "keepRuleChanged":
+      return next({
+        keep: form.keep.map((g) => ({
+          ...g,
+          rules: patchRow<KeepRuleRow>(g.rules, action.id, action.patch),
+        })),
+      });
+    case "keepRuleAdded": {
+      // "And also": a card type this kind of hand does not count yet, at least 1 of it.
+      const group = form.keep.find((g) => g.id === action.group);
+      if (group === undefined) return state;
+      const used = new Set(group.rules.map((r) => r.cardType));
+      const name = keepableNames(form).find((t) => !used.has(t)) ?? "";
+      const row: KeepRuleRow = { id: String(state.nextId), cardType: name, min: "1", max: "7" };
+      return next(
+        { keep: form.keep.map((g) => (g.id === action.group ? { ...g, rules: [...g.rules, row] } : g)) },
+        1,
+      );
+    }
+    case "keepRuleRemoved":
+      return next({
+        keep: form.keep
+          .map((g) => ({ ...g, rules: g.rules.filter((r) => r.id !== action.id) }))
+          .filter((g) => g.rules.length > 0),
+      });
+    case "keepGroupAdded": {
+      // "Or": another kind of hand, starting from the first card type at 2 to 5.
+      const name = keepableNames(form)[0] ?? "";
+      const group: KeepGroupRow = {
+        id: String(state.nextId),
+        rules: [{ id: String(state.nextId + 1), cardType: name, min: "2", max: "5" }],
+      };
+      return next({ keep: [...form.keep, group] }, 2);
+    }
     case "protectChanged":
       return next({ protect: patchRow<ProtectRow>(form.protect, action.id, action.patch) });
     case "protectAdded": {

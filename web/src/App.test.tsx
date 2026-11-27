@@ -424,12 +424,61 @@ describe("App", () => {
     ).toBeInTheDocument();
     expect(within(answer()).queryByText(FIRST)).not.toBeInTheDocument();
     // The defaults: keep 2 to 5 land, keep up to 3 land first, at most 2 mulligans.
-    expect(screen.getByLabelText("Keep: which card type to count")).toHaveValue("land");
+    expect(screen.getByLabelText("Kind of hand 1, line 1: card type")).toHaveValue("land");
     expect(screen.getByLabelText("Keep first 1: up to how many")).toHaveValue("3");
     expect(screen.getByLabelText("Most mulligans you will take")).toHaveValue("2");
     expect(screen.getByText("So: keep a hand with 2 to 5 land.")).toBeInTheDocument();
-    await user.selectOptions(screen.getByLabelText("Keep: which card type to count"), "");
+    await user.click(screen.getByRole("button", { name: "Remove kind of hand 1, line 1" }));
     expect(screen.getByText("So: always keep your first hand.")).toBeInTheDocument();
+    expect(screen.getByText("You keep every hand (you never mulligan).")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "+ Add a kind of hand to keep" })).toHaveFocus();
+  });
+
+  it("keeps a hand that fits any kind of hand, each with all of its lines", async () => {
+    const { user, answer } = setup();
+    await within(answer()).findByText(FIRST);
+    await user.click(screen.getByRole("checkbox", { name: "Mulligan bad opening hands" }));
+    const status = (): string => within(answer()).getByText(/in \d+\.\d% of games/u).textContent;
+    await within(answer()).findByText("This includes the games where you mulligan, following your plan.");
+    // "And also": a second line in kind 1, starting at 1 to 7 removal; focus goes to it.
+    await user.click(screen.getByRole("button", { name: "And also, in kind of hand 1: add a card type" }));
+    const type2 = screen.getByLabelText("Kind of hand 1, line 2: card type");
+    expect(type2).toHaveFocus();
+    expect(type2).toHaveValue("removal");
+    expect(screen.getByText("So: keep a hand with 2 to 5 land and 1 to 7 removal.")).toBeInTheDocument();
+    await waitFor(() => {
+      expect(within(answer()).queryByText("Out of date")).not.toBeInTheDocument();
+    });
+    const strict = status();
+    // "Or": another kind of hand, which keeps more hands and changes the answer.
+    await user.click(screen.getByRole("button", { name: "+ Or keep another kind of hand" }));
+    expect(screen.getByLabelText("Kind of hand 2, line 1: card type")).toHaveFocus();
+    expect(screen.getByText("Or keep a hand that has")).toBeInTheDocument();
+    const max = screen.getByLabelText("Kind of hand 2, line 1: at most this many");
+    await user.clear(max);
+    await user.type(max, "2");
+    expect(
+      screen.getByText("So: keep a hand with 2 to 5 land and 1 to 7 removal, or with 2 land."),
+    ).toBeInTheDocument();
+    await waitFor(() => {
+      expect(status()).not.toBe(strict);
+    });
+    // A wrong range is explained next to its line once the player leaves it.
+    const min = screen.getByLabelText("Kind of hand 2, line 1: at least this many");
+    await user.clear(min);
+    await user.type(min, "3");
+    await user.tab(); // into the same line's other box: still the same setting, so no problem yet
+    expect(screen.queryByText("The first number is bigger than the second.")).not.toBeInTheDocument();
+    await user.click(screen.getByRole("heading", { name: "2. How you play" }));
+    expect(screen.getByText("The first number is bigger than the second.")).toBeInTheDocument();
+    // Removing a line moves focus to its kind's "and also"; the kind's last line, to "or".
+    await user.click(screen.getByRole("button", { name: "Remove kind of hand 1, line 2" }));
+    expect(
+      screen.getByRole("button", { name: "And also, in kind of hand 1: add a card type" }),
+    ).toHaveFocus();
+    await user.click(screen.getByRole("button", { name: "Remove kind of hand 2, line 1" }));
+    expect(screen.getByRole("button", { name: "+ Or keep another kind of hand" })).toHaveFocus();
+    expect(screen.getByText("So: keep a hand with 2 to 5 land.")).toBeInTheDocument();
   });
 
   it("answers 'Should I mulligan?' with your plan, never mulliganing and the best plan", async () => {
@@ -452,7 +501,7 @@ describe("App", () => {
   it("checks the mulligan settings and explains each problem", async () => {
     const { user, answer } = setup();
     await user.click(screen.getByRole("checkbox", { name: "Mulligan bad opening hands" }));
-    const min = screen.getByLabelText("Keep: at least this many");
+    const min = screen.getByLabelText("Kind of hand 1, line 1: at least this many");
     await user.clear(min);
     await user.type(min, "6");
     // The keep rule's boxes are one setting: its problem shows once the player leaves them.
@@ -486,7 +535,7 @@ describe("App", () => {
     const { user, answer } = setup();
     await within(answer()).findByText(FIRST);
     await user.click(screen.getByRole("checkbox", { name: "Mulligan bad opening hands" }));
-    const max = screen.getByLabelText("Keep: at most this many");
+    const max = screen.getByLabelText("Kind of hand 1, line 1: at most this many");
     await user.clear(max);
     await user.type(max, "4");
     expect(screen.getByText("So: keep a hand with 2 to 4 land.")).toBeInTheDocument();

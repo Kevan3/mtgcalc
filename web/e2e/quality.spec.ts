@@ -58,6 +58,9 @@ test.describe("accessibility", () => {
   test("no violations with mulligan settings and advice", async ({ page }) => {
     await page.goto("/");
     await page.getByRole("checkbox", { name: "Mulligan bad opening hands" }).check();
+    // Two kinds of hand, the first with two lines.
+    await page.getByRole("button", { name: "And also, in kind of hand 1: add a card type" }).click();
+    await page.getByRole("button", { name: "+ Or keep another kind of hand" }).click();
     await page.getByRole("radio", { name: /Should I mulligan\?/u }).check();
     await settledHeadline(page);
     await page.getByText(/^First 7 cards: keep if its chance/u).click();

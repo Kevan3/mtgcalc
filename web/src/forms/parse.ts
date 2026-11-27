@@ -15,6 +15,7 @@ import {
   type Decklist,
   type FormState,
   type Goal,
+  type KeepRule,
   type MulliganSetup,
   type Question,
   type PlaySetup,
@@ -36,7 +37,6 @@ export type FieldId =
   | "drawsType"
   | "lastTurn"
   | "mulligans"
-  | "keepRule"
   | "maxMulligans"
   | "protect"
   | "howmany"
@@ -44,6 +44,7 @@ export type FieldId =
   | "hmSlots"
   | `vary:${string}:${"cardType" | "range"}`
   | `protect:${string}:${"cardType" | "upTo"}`
+  | `keep:${string}:${"cardType" | "range"}`
   | `type:${string}:${"name" | "count" | "also"}`
   | `goal:${string}:${"amount" | "cardType" | "turn"}`;
 
@@ -250,13 +251,18 @@ function goalLines(
 
 /** Step 2, mulligans (Python's `build_scenario` checks, in plain words). */
 function mulliganSetup(form: FormState, offered: readonly string[], c: Collector): MulliganSetup {
-  const keepMin = parseWhole(form.keepMin);
-  const keepMax = parseWhole(form.keepMax);
-  if (form.keepType !== "") {
-    if (!offered.includes(form.keepType)) c.problem("keepRule", "Pick a card type for the hands you keep.");
-    else if (keepMin === null || keepMax === null) c.problem("keepRule", "Use whole numbers, like 2 to 5.");
-    else if (keepMin > keepMax) c.problem("keepRule", "The first number is bigger than the second.");
-  }
+  const keep = form.keep.map((group) =>
+    group.rules.map((row): KeepRule => {
+      if (!offered.includes(row.cardType)) {
+        c.problem(`keep:${row.id}:cardType`, "Pick a card type for the hands you keep.");
+      }
+      const min = parseWhole(row.min);
+      const max = parseWhole(row.max);
+      if (min === null || max === null) c.problem(`keep:${row.id}:range`, "Use whole numbers, like 2 to 5.");
+      else if (min > max) c.problem(`keep:${row.id}:range`, "The first number is bigger than the second.");
+      return { cardType: row.cardType, min: min ?? 0, max: max ?? 0 };
+    }),
+  );
   if (form.protect.length === 0) {
     c.problem("protect", "Add a card type to keep first when putting cards on the bottom.");
   }
@@ -276,9 +282,7 @@ function mulliganSetup(form: FormState, offered: readonly string[], c: Collector
     c.problem("maxMulligans", `Use a whole number from 0 to ${MAX_MULLIGANS}.`);
   }
   return {
-    keepType: form.keepType,
-    keepMin: keepMin ?? 0,
-    keepMax: keepMax ?? 0,
+    keep,
     protect,
     maxMulligans: maxMulligans ?? 0,
     freeFirst: form.freeFirst,

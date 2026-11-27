@@ -98,6 +98,40 @@ def test_errors_are_shown_not_raised(app: Any) -> None:
     assert app.status.get().startswith("Can't answer that yet")
 
 
+def test_kinds_of_hand_to_keep(app: Any) -> None:
+    from mtgcalc_gui.forms import KeepRule, keep_rule_words
+    from mtgcalc_gui.help import EXAMPLES
+
+    panel = app.play_panel
+    app.load_example(EXAMPLES["Commander: ramp on turn 2"])
+    _, mull = panel.value()
+    assert mull.keep == (
+        (KeepRule("land", 3, 5),),
+        (KeepRule("land", 2, 2), KeepRule("ramp", 1, 7)),
+    )
+    keep = panel.keep
+    keep.add()  # a third kind: 2 to 5 land by default
+    keep.kinds[2][2].add(("draw", "1", "2"))  # "and also" 1 to 2 draw
+    _, mull = panel.value()
+    assert mull.keep[2] == (KeepRule("land", 2, 5), KeepRule("draw", 1, 2))
+    assert [t.cget("text") for _, t, _ in keep.kinds][1:] == [
+        "Or keep a hand with all of these:"
+    ] * 2
+    keep._remove(keep.kinds[0])
+    assert keep.kinds[0][1].cget("text") == "Keep a hand with all of these:"
+    while keep.kinds:
+        keep._remove(keep.kinds[0])
+    _, mull = panel.value()
+    assert mull.keep == () and keep_rule_words(mull) == "always keep your first hand"
+    assert keep.empty.winfo_manager() == "pack"  # "you keep every hand" is shown
+    keep.add()
+    assert keep.empty.winfo_manager() == ""
+    keep.kinds[0][2].set([])  # a kind with no lines is explained, not raised
+    panel.mull_on.set(True)
+    app.question_pages()[0].run()
+    assert "kind of hand 1 has no card types" in app.status.get()
+
+
 def test_typed_rule_is_prefilled_and_used(app: Any) -> None:
     page = app.question_pages()[0]
     page.goal.custom_on.set(True)

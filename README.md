@@ -105,6 +105,6 @@ HYPOTHESIS_PROFILE=ci-deep .venv/bin/pytest tests/oracle tests/property
 | `docs/03-low-level-design.md` | Module contracts and algorithms |
 | `docs/04-test-plan.md` | Test strategy, oracles, traceability |
 | `docs/05-engineering-process.md` | Lifecycle, standards, quality gates |
-| `docs/adr/` | Architecture decision records (0001-0013) |
+| `docs/adr/` | Architecture decision records (0001-0014) |
 | `web/README.md` | The web app: setup, layout, tests |
 | `native/README.md` | The Rust workspace: core, Python and WebAssembly bindings |

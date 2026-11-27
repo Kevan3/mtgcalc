@@ -8,6 +8,8 @@ import {
   KINDS,
   type FormState,
   type GoalRow,
+  type KeepGroupRow,
+  type KeepRuleRow,
   type ProtectRow,
   type TypeRow,
   type VaryRow,
@@ -38,6 +40,26 @@ function isProtectRow(x: unknown): x is ProtectRow {
   return isString(r["id"]) && isString(r["cardType"]) && isString(r["upTo"]);
 }
 
+function isKeepRuleRow(x: unknown): x is KeepRuleRow {
+  if (typeof x !== "object" || x === null) return false;
+  const r = x as Record<string, unknown>;
+  return isString(r["id"]) && isString(r["cardType"]) && isString(r["min"]) && isString(r["max"]);
+}
+
+/** A kind of hand to keep: 1 to 50 lines (an empty kind is never saved). */
+function isKeepGroupRow(x: unknown): x is KeepGroupRow {
+  if (typeof x !== "object" || x === null) return false;
+  const r = x as Record<string, unknown>;
+  const rules = r["rules"];
+  return (
+    isString(r["id"]) &&
+    Array.isArray(rules) &&
+    rules.length >= 1 &&
+    rules.length <= 50 &&
+    rules.every(isKeepRuleRow)
+  );
+}
+
 function isGoalRow(x: unknown): x is GoalRow {
   if (typeof x !== "object" || x === null) return false;
   const r = x as Record<string, unknown>;
@@ -60,9 +82,7 @@ const ADDED = {
   drawsType: "",
   lastTurn: "5",
   mulligans: false,
-  keepType: "land",
-  keepMin: "2",
-  keepMax: "5",
+  keep: [{ id: "k1", rules: [{ id: "k2", cardType: "land", min: "2", max: "5" }] }],
   protect: [{ id: "p1", cardType: "land", upTo: "3" }],
   maxMulligans: "2",
   freeFirst: false,
@@ -90,12 +110,25 @@ function upgradeHowMany(form: Record<string, unknown>): Record<string, unknown> 
   }
 }
 
+/**
+ * The keep rule was one line (`keepType`, `keepMin`, `keepMax`; type "" = keep any hand)
+ * before kinds of hand were added; it becomes one kind with that line, or no kinds.
+ */
+function upgradeKeep(form: Record<string, unknown>): Record<string, unknown> {
+  if (!("keepType" in form)) return form;
+  const { keepType, keepMin, keepMax, ...rest } = form;
+  if (!isString(keepType)) return rest;
+  if (keepType === "") return { ...rest, keep: [] };
+  const rule = { id: "k2", cardType: keepType, min: keepMin, max: keepMax };
+  return { ...rest, keep: [{ id: "k1", rules: [rule] }] };
+}
+
 /** Fills in fields an older version of the page did not save. */
 function upgrade(x: unknown): unknown {
   if (typeof x !== "object" || x === null) return x;
   const s = x as { form?: unknown };
   if (typeof s.form !== "object" || s.form === null) return x;
-  return { ...s, form: upgradeHowMany({ ...ADDED, ...s.form }) };
+  return { ...s, form: upgradeHowMany(upgradeKeep({ ...ADDED, ...s.form })) };
 }
 
 /** Whether `x` is a complete, well-formed saved state (never trusts storage). */
@@ -109,9 +142,9 @@ export function isAppState(x: unknown): x is AppState {
     (f.deckMode === "types" || f.deckMode === "list") &&
     ["chances", "draws", "turns", "mulligan", "howmany"].includes(String(f.question)) &&
     typeof f.mulligans === "boolean" &&
-    isString(f.keepType) &&
-    isString(f.keepMin) &&
-    isString(f.keepMax) &&
+    Array.isArray(f.keep) &&
+    f.keep.length <= 50 &&
+    f.keep.every(isKeepGroupRow) &&
     isString(f.maxMulligans) &&
     typeof f.freeFirst === "boolean" &&
     (f.hmMode === "one" || f.hmMode === "share") &&

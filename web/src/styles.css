@@ -574,6 +574,22 @@ label.checkbox {
   border-left: 3px solid var(--accent-soft);
   padding-left: 12px;
 }
+ol.keep-kinds {
+  list-style: none;
+  margin: 0 0 0.75rem;
+  padding: 0;
+}
+.keep-kind {
+  margin-bottom: 0.75rem;
+}
+.keep-kind .kind-title {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-weight: 600;
+}
+.keep-kind ol.goal {
+  margin-bottom: 0.4rem;
+}
 
 button.run {
   margin-top: 0.75rem;

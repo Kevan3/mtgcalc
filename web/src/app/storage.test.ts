@@ -89,7 +89,37 @@ describe("storage", () => {
   });
 
   it.each([
+    [
+      "one line",
+      { keepType: "removal", keepMin: "1", keepMax: "3" },
+      [{ id: "k1", rules: [{ id: "k2", cardType: "removal", min: "1", max: "3" }] }],
+    ],
+    ["“keep any hand”", { keepType: "", keepMin: "2", keepMax: "5" }, []],
+  ])("upgrades a keep rule saved as %s to kinds of hand", (_, old, keep) => {
+    const form = { ...initialState().form, ...old } as Record<string, unknown>;
+    Reflect.deleteProperty(form, "keep");
+    const loaded = loadState(memory({ [STORAGE_KEY]: JSON.stringify({ ...initialState(), form }) }));
+    expect(loaded?.form.keep).toEqual(keep);
+    expect(loaded?.form).not.toHaveProperty("keepType");
+  });
+
+  it("gives a setup saved before mulligans the default keep rule", () => {
+    const form = { ...initialState().form } as Record<string, unknown>;
+    Reflect.deleteProperty(form, "keep");
+    const loaded = loadState(memory({ [STORAGE_KEY]: JSON.stringify({ ...initialState(), form }) }));
+    expect(loaded?.form.keep).toEqual([
+      { id: "k1", rules: [{ id: "k2", cardType: "land", min: "2", max: "5" }] },
+    ]);
+  });
+
+  it.each([
     ["an unknown how-many mode", { hmMode: "fewest-ish" }],
+    ["a kind of hand with no lines", { keep: [{ id: "k1", rules: [] }] }],
+    ["a kind of hand that is not an object", { keep: ["land"] }],
+    ["a kind of hand without lines", { keep: [{ id: "k1" }] }],
+    ["a bad keep line", { keep: [{ id: "k1", rules: [{ id: "k2", cardType: "land", min: 2, max: "5" }] }] }],
+    ["a keep line that is not an object", { keep: [{ id: "k1", rules: [null] }] }],
+    ["an old keep rule that is not text", { keep: "land", keepType: 3 }],
     ["an unknown how-many aim", { hmAim: "most" }],
     ["a bad keep-first row", { protect: [{ id: "1", cardType: 3, upTo: "1" }] }],
     ["a keep-first row that is not an object", { protect: ["land"] }],

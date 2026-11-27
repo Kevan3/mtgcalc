@@ -29,7 +29,7 @@ describe("reducer", () => {
     expect(s.form.goal[0]?.cardType).toBe("forest");
     expect(s.form.protect[0]?.cardType).toBe("forest");
     expect(s.form.hmVary[0]?.cardType).toBe("forest");
-    expect(s.form.keepType).toBe("forest");
+    expect(s.form.keep[0]?.rules[0]?.cardType).toBe("forest");
     expect(s.form.drawsType).toBe("forest");
   });
 
@@ -95,6 +95,60 @@ describe("reducer", () => {
     expect(s.form.hmVary[1]).toMatchObject({ low: "2", high: "6" });
     s = apply(s, { type: "varyRemoved", id: second });
     expect(s.form.hmVary.map((v) => v.id)).not.toContain(second);
+  });
+
+  it("builds kinds of hand to keep: and-lines, or-kinds, edits and removal", () => {
+    const kind1 = start.form.keep[0]?.id ?? "";
+    let s = apply(start, { type: "keepRuleAdded", group: kind1 });
+    // "And also" starts with a card type this kind does not count yet, at least 1 of it.
+    expect(s.form.keep[0]?.rules.map((r) => [r.cardType, r.min, r.max])).toEqual([
+      ["land", "2", "5"],
+      ["removal", "1", "7"],
+    ]);
+    const added = s.form.keep[0]?.rules[1]?.id ?? "";
+    expect(added).toBe(String(start.nextId));
+    s = apply(s, { type: "keepRuleChanged", id: added, patch: { min: "0", max: "2" } });
+    expect(s.form.keep[0]?.rules[1]).toMatchObject({ min: "0", max: "2" });
+    s = apply(s, { type: "keepGroupAdded" });
+    expect(s.form.keep).toHaveLength(2);
+    expect(s.form.keep[1]?.rules.map((r) => [r.cardType, r.min, r.max])).toEqual([["land", "2", "5"]]);
+    expect(new Set([s.form.keep[1]?.id, s.form.keep[1]?.rules[0]?.id]).size).toBe(2);
+    expect(s.nextId).toBe(start.nextId + 3);
+    // Removing a kind's last line removes the kind; none left means "always keep".
+    s = apply(s, { type: "keepRuleRemoved", id: s.form.keep[1]?.rules[0]?.id ?? "" });
+    expect(s.form.keep).toHaveLength(1);
+    s = apply(s, { type: "keepRuleRemoved", id: added });
+    expect(s.form.keep[0]?.rules).toHaveLength(1);
+    s = apply(s, { type: "keepRuleRemoved", id: s.form.keep[0]?.rules[0]?.id ?? "" });
+    expect(s.form.keep).toEqual([]);
+    // An unknown kind changes nothing.
+    expect(apply(s, { type: "keepRuleAdded", group: "nope" })).toBe(s);
+  });
+
+  it("starts new keep lines from the good game's types with a pasted decklist", () => {
+    let s = apply(start, { type: "deckMode", value: "list" }, { type: "keepGroupAdded" });
+    expect(s.form.keep[1]?.rules[0]?.cardType).toBe("land");
+    s = apply(start, {
+      type: "goalChanged",
+      id: start.form.goal[0]?.id ?? "",
+      patch: { cardType: "any card" },
+    });
+    s = apply(s, { type: "deckMode", value: "list" }, { type: "goalRemoved", id: s.form.goal[1]?.id ?? "" });
+    s = apply(s, { type: "keepGroupAdded" });
+    expect(s.form.keep[1]?.rules[0]?.cardType).toBe(""); // never "any card": the player picks
+  });
+
+  it("loads kinds of hand from an example", () => {
+    const commander = EXAMPLES.find((e) => e.title.startsWith("Commander"));
+    if (commander === undefined) throw new Error("no Commander example");
+    const s = fromExample(commander);
+    expect(s.form.keep.map((g) => g.rules.map((r) => [r.cardType, r.min, r.max]))).toEqual([
+      [["land", "3", "5"]],
+      [
+        ["land", "2", "2"],
+        ["ramp", "1", "7"],
+      ],
+    ]);
   });
 
   it("renames goal lines along with a card type, keystroke by keystroke", () => {
