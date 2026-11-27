@@ -224,6 +224,10 @@ class RowList(ttk.Frame):
             self.add(r)
 
 
+#: Colours of the kinds (as the web app's light theme), cycled so neighbours differ.
+KIND_COLORS = ("#1f5f8b", "#2b6a2f", "#6b3fa0", "#8a4600", "#006a6e", "#9c2457")
+
+
 class LineGroups(ttk.Frame):
     """Kinds of something (any kind will do), each a list of lines that must all hold.
 
@@ -245,6 +249,7 @@ class LineGroups(ttk.Frame):
         self.titles = titles
         self.default = default
         self.kinds: list[tuple[ttk.Frame, ttk.Label, RowList]] = []
+        self.bars: list[tk.Frame] = []
         self.body = ttk.Frame(self)
         self.body.pack(anchor="w", fill="x")
         self.empty = ttk.Label(self.body, text=empty, foreground="#555")
@@ -253,30 +258,38 @@ class LineGroups(ttk.Frame):
 
     def add(self, rows: Sequence[tuple[str, ...]] | None = None) -> None:
         """Append a kind (by default with one default line)."""
-        frame = ttk.Frame(self.body)
+        outer = ttk.Frame(self.body)
+        bar = tk.Frame(outer, width=5)  # a coloured bar down the kind's left edge
+        bar.pack(side="left", fill="y", padx=(0, 6))
+        frame = ttk.Frame(outer)
+        frame.pack(side="left", fill="x")
         head = ttk.Frame(frame)
-        title = ttk.Label(head)
+        title = ttk.Label(head, font=("TkDefaultFont", 10, "bold"))
         title.pack(side="left")
         lines = RowList(frame, self.make_row, "And also")
-        entry = (frame, title, lines)
+        entry = (outer, title, lines)
         ttk.Button(head, text="x", width=2, command=lambda: self._remove(entry)).pack(
             side="left", padx=4
         )
         head.pack(anchor="w")
         lines.pack(anchor="w", padx=(16, 0))
         lines.set(list(rows) if rows is not None else [self.default])
-        frame.pack(anchor="w", pady=(2, 0))
+        outer.pack(anchor="w", fill="x", pady=(4, 0))
         self.kinds.append(entry)
+        self.bars.append(bar)
         self._relabel()
 
     def _remove(self, entry: tuple[ttk.Frame, ttk.Label, RowList]) -> None:
+        del self.bars[self.kinds.index(entry)]
         entry[0].destroy()
         self.kinds.remove(entry)
         self._relabel()
 
     def _relabel(self) -> None:
         for i, (_, title, _) in enumerate(self.kinds):
-            title.configure(text=self.titles[0] if i == 0 else self.titles[1])
+            color = KIND_COLORS[i % len(KIND_COLORS)]
+            title.configure(text=self.titles[0] if i == 0 else self.titles[1], foreground=color)
+            self.bars[i].configure(background=color)
         if self.kinds:
             self.empty.pack_forget()
         else:
@@ -291,6 +304,7 @@ class LineGroups(ttk.Frame):
         for frame, _, _ in self.kinds:
             frame.destroy()
         self.kinds.clear()
+        self.bars.clear()
         for k in kinds:
             self.add(k)
         self._relabel()

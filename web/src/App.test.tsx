@@ -117,6 +117,12 @@ describe("App", () => {
     await user.click(screen.getByRole("button", { name: "+ Or another kind of good game" }));
     expect(screen.getByLabelText("Good game 2, line 1: how many")).toHaveFocus();
     expect(screen.getByText("Or a good game has")).toBeInTheDocument();
+    // Each kind has its own colour, and "+ Or …" wears the colour of the next one.
+    const kinds = [...document.querySelectorAll("[data-group]")].filter((k) =>
+      k.closest(".line-groups")?.querySelector("#add-goal-kind"),
+    );
+    expect(kinds.map((k) => [...k.classList].find((c) => /^c\d$/u.test(c)))).toEqual(["c1", "c2"]);
+    expect(screen.getByRole("button", { name: "+ Or another kind of good game" })).toHaveClass("c3");
     // "And also": a card type the kind does not use yet, at its last turn.
     await user.click(screen.getByRole("button", { name: "And also, in good game 1: add a line" }));
     expect(screen.getByLabelText("Good game 1, line 2: card type")).toHaveValue("removal");

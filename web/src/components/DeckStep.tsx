@@ -29,7 +29,7 @@ export function DeckStep({ form, decklist, dispatch, problem, note, touch }: Pro
   const other = otherCards(form);
   const tableProblem = problem("types");
   return (
-    <section aria-labelledby="deck-title" className="step">
+    <section aria-labelledby="deck-title" className="step c1">
       <h2 id="deck-title">{STEPS.deck}</h2>
 
       <fieldset className="field">
