@@ -12,6 +12,7 @@ from mtgcalc_gui.forms import (
     CardType,
     DeckSetup,
     Goal,
+    KeepRule,
     MulliganSetup,
     PlaySetup,
     Requirement,
@@ -42,7 +43,9 @@ TIPS: dict[str, str] = {
     "draw-two spell.",
     "mull_on": "Allow redrawing a bad opening hand (the London mulligan: draw 7 new "
     "cards, then put 1 on the bottom for each mulligan you have taken).",
-    "keep": "Which opening hands you are happy to keep. Hands outside this range are mulliganed.",
+    "keep": "Which opening hands you are happy to keep. A hand is kept if it fits any one "
+    "kind of hand, and it fits a kind when every line of that kind is true. Any other hand "
+    "is mulliganed. With no kinds of hand, you keep every hand.",
     "protect": "When you put cards on the bottom, these are kept first, top line first. "
     "'up to 3' means keep at most 3 of them safe; extras can go to the bottom. Cards "
     "not listed go to the bottom before anything listed.",
@@ -226,6 +229,10 @@ EXAMPLES: dict[str, Example] = {
         PlaySetup(go_first=False),
         MulliganSetup(
             enabled=True,
+            keep=(
+                (KeepRule("land", 3, 5),),
+                (KeepRule("land", 2, 2), KeepRule("ramp", 1, 7)),
+            ),
             protect=(("land", 3), ("ramp", 1), ("draw", 1)),
             free_first=True,
         ),

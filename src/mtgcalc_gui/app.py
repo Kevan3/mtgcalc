@@ -28,6 +28,7 @@ from mtgcalc_gui.forms import (
     DeckSetup,
     Goal,
     HowMany,
+    KeepRule,
     Kind,
     MulliganSetup,
     PlaySetup,
@@ -223,6 +224,84 @@ class RowList(ttk.Frame):
             self.add(r)
 
 
+class KeepKinds(ttk.Frame):
+    """The kinds of hand you keep (any kind will do), each a list of lines that must all hold."""
+
+    def __init__(self, master: tk.Misc, names: Callable[[], Sequence[str]]) -> None:
+        super().__init__(master)
+        self.names = names
+        self.kinds: list[tuple[ttk.Frame, ttk.Label, RowList]] = []
+        self.body = ttk.Frame(self)
+        self.body.pack(anchor="w", fill="x")
+        self.empty = ttk.Label(
+            self.body, text="No kinds of hand: you keep every hand.", foreground="#555"
+        )
+        ttk.Button(self, text="+ Or keep another kind of hand", command=self.add).pack(
+            anchor="w", pady=(2, 0)
+        )
+        self._relabel()
+
+    def _rule_row(self, frame: ttk.Frame, values: tuple[str, ...] | None) -> list[Getter]:
+        name, low, high = values or ("land", "1", "7")
+        lo_box, g_low = spin(frame, int(low), 0, 7, 3)
+        hi_box, g_high = spin(frame, int(high), 0, 7, 3)
+        type_box, g_name = choice(frame, name, self.names, 10)
+        lo_box.pack(side="left", padx=2)
+        ttk.Label(frame, text="to").pack(side="left")
+        hi_box.pack(side="left", padx=2)
+        type_box.pack(side="left", padx=2)
+        tip(frame, "keep")
+        return [g_name, g_low, g_high]
+
+    def add(self, rules: Sequence[tuple[str, ...]] | None = None) -> None:
+        """Append a kind of hand (by default, 2 to 5 land)."""
+        frame = ttk.Frame(self.body)
+        head = ttk.Frame(frame)
+        title = ttk.Label(head)
+        title.pack(side="left")
+        rows = RowList(frame, self._rule_row, "And also")
+        entry = (frame, title, rows)
+        ttk.Button(head, text="x", width=2, command=lambda: self._remove(entry)).pack(
+            side="left", padx=4
+        )
+        head.pack(anchor="w")
+        rows.pack(anchor="w", padx=(16, 0))
+        rows.set(list(rules) if rules is not None else [("land", "2", "5")])
+        frame.pack(anchor="w", pady=(2, 0))
+        self.kinds.append(entry)
+        self._relabel()
+
+    def _remove(self, entry: tuple[ttk.Frame, ttk.Label, RowList]) -> None:
+        entry[0].destroy()
+        self.kinds.remove(entry)
+        self._relabel()
+
+    def _relabel(self) -> None:
+        for i, (_, title, _) in enumerate(self.kinds):
+            title.configure(
+                text="Keep a hand with all of these:"
+                if i == 0
+                else "Or keep a hand with all of these:"
+            )
+        if self.kinds:
+            self.empty.pack_forget()
+        else:
+            self.empty.pack(anchor="w")
+
+    def values(self) -> list[list[tuple[str, ...]]]:
+        """Each kind of hand's lines, as (card type, smallest, largest)."""
+        return [rows.values() for _, _, rows in self.kinds]
+
+    def set(self, kinds: Sequence[Sequence[tuple[str, ...]]]) -> None:
+        """Replace every kind of hand."""
+        for frame, _, _ in self.kinds:
+            frame.destroy()
+        self.kinds.clear()
+        for k in kinds:
+            self.add(k)
+        self._relabel()
+
+
 # ---------------------------------------------------------------------------------------
 # Step 1 and step 2
 # ---------------------------------------------------------------------------------------
@@ -412,23 +491,11 @@ class PlayPanel(ttk.LabelFrame):
         c.pack(anchor="w")
         tip(c, "mull_on")
         self.mull = ttk.Frame(self)
-        self.keep_any = tk.BooleanVar(value=False)
-        ttk.Radiobutton(self.mull, text="Keep any hand", value=True, variable=self.keep_any).pack(
-            anchor="w"
-        )
-        rule = ttk.Frame(self.mull)
-        ttk.Radiobutton(rule, text="Keep a hand with", value=False, variable=self.keep_any).pack(
-            side="left"
-        )
-        self.kmin_box, self.kmin = spin(rule, 2, 0, 7, 3)
-        self.kmax_box, self.kmax = spin(rule, 5, 0, 7, 3)
-        self.ktype_box, self.ktype = choice(rule, "land", app.type_names, 10)
-        self.kmin_box.pack(side="left", padx=2)
-        ttk.Label(rule, text="to").pack(side="left")
-        self.kmax_box.pack(side="left", padx=2)
-        self.ktype_box.pack(side="left", padx=2)
-        rule.pack(anchor="w")
-        tip(rule, "keep")
+        keep_label = ttk.Label(self.mull, text="Which hands do you keep?")
+        keep_label.pack(anchor="w")
+        tip(keep_label, "keep")
+        self.keep = KeepKinds(self.mull, app.type_names)
+        self.keep.pack(anchor="w")
 
         protect_label = ttk.Label(
             self.mull, text="When I put cards on the bottom, I keep these first:"
@@ -487,9 +554,17 @@ class PlayPanel(ttk.LabelFrame):
         play = PlaySetup(self.first.get(), number(self.draws(), "cards drawn each turn"), extra)
         mull = MulliganSetup(
             enabled=self.mull_on.get(),
-            keep_type="" if self.keep_any.get() else self.ktype(),
-            keep_min=number(self.kmin(), "keep: smallest number"),
-            keep_max=number(self.kmax(), "keep: largest number"),
+            keep=tuple(
+                tuple(
+                    KeepRule(
+                        name,
+                        number(low, "keep: smallest number"),
+                        number(high, "keep: largest number"),
+                    )
+                    for name, low, high in kind
+                )
+                for kind in self.keep.values()
+            ),
             protect=tuple((n, number(k, f"keep up to ({n})")) for n, k in self.protect.values()),
             max_mulligans=number(self.maxm(), "mulligan at most"),
             free_first=self.free.get(),
@@ -502,10 +577,9 @@ class PlayPanel(ttk.LabelFrame):
         self.draws_box.set(str(play.draws_per_turn))
         self.extra.set([(str(t), str(n)) for t, n in play.extra_draws])
         self.mull_on.set(mull.enabled)
-        self.keep_any.set(not mull.keep_type)
-        self.kmin_box.set(str(mull.keep_min))
-        self.kmax_box.set(str(mull.keep_max))
-        self.ktype_box.set(mull.keep_type or "land")
+        self.keep.set(
+            [[(r.card_type, str(r.low), str(r.high)) for r in kind] for kind in mull.keep]
+        )
         self.protect.set([(n, str(k)) for n, k in mull.protect])
         self.maxm_box.set(str(mull.max_mulligans))
         self.free.set(mull.free_first)

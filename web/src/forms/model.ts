@@ -94,12 +94,20 @@ export type Question =
   | { readonly kind: "draws"; readonly cardType: string; readonly lastTurn: number }
   | { readonly kind: "turns"; readonly lastTurn: number };
 
+/** One line of a keep rule: the hand has `min` to `max` cards of `cardType` (Python's `KeepRule`). */
+export interface KeepRule {
+  readonly cardType: string;
+  readonly min: number;
+  readonly max: number;
+}
+
 /** Mulligan settings, checked (Python's `MulliganSetup` when enabled). */
 export interface MulliganSetup {
-  /** "" means "always keep the first hand". */
-  readonly keepType: string;
-  readonly keepMin: number;
-  readonly keepMax: number;
+  /**
+   * The kinds of hand you keep: a hand is kept when it fits any kind, and it fits a kind
+   * when every line of that kind holds. None means "always keep the first hand".
+   */
+  readonly keep: readonly (readonly KeepRule[])[];
   /** Card types to keep first when putting cards on the bottom, and up to how many. */
   readonly protect: readonly (readonly [string, number])[];
   readonly maxMulligans: number;
@@ -152,6 +160,20 @@ export interface ProtectRow {
   readonly upTo: string;
 }
 
+/** One line of a kind of hand to keep, as typed. */
+export interface KeepRuleRow {
+  readonly id: string;
+  readonly cardType: string;
+  readonly min: string;
+  readonly max: string;
+}
+
+/** A kind of hand to keep: every line must hold. */
+export interface KeepGroupRow {
+  readonly id: string;
+  readonly rules: readonly KeepRuleRow[];
+}
+
 export interface FormState {
   /** "types": the card-type table; "list": a pasted decklist. */
   readonly deckMode: DeckMode;
@@ -172,9 +194,8 @@ export interface FormState {
   readonly lastTurn: string;
   /** Step 2, mulligans (the London mulligan). */
   readonly mulligans: boolean;
-  readonly keepType: string;
-  readonly keepMin: string;
-  readonly keepMax: string;
+  /** The kinds of hand you keep (any one will do); none means "always keep". */
+  readonly keep: readonly KeepGroupRow[];
   readonly protect: readonly ProtectRow[];
   readonly maxMulligans: string;
   readonly freeFirst: boolean;

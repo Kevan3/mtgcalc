@@ -38,6 +38,10 @@ export interface QuestionCase {
 export interface MulliganCase {
   readonly name: string;
   readonly form: FormState;
+  /** Python's `keep_rule_words` for the case's keep rule. */
+  readonly keepWords: string;
+  /** Python's `to_dict(build_scenario(...))`. */
+  readonly scenario: unknown;
   readonly headline: string;
   readonly details: readonly string[];
   readonly rows: readonly unknown[];

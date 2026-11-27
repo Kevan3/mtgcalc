@@ -66,6 +66,7 @@ from mtgcalc_gui.forms import (  # noqa: E402
     DeckSetup,
     Goal,
     HowMany,
+    KeepRule,
     MulliganSetup,
     PlaySetup,
     Requirement,
@@ -76,6 +77,7 @@ from mtgcalc_gui.forms import (  # noqa: E402
     goal_condition,
     how_many,
     in_words,
+    keep_rule_words,
     mulligan_advice,
     pct,
     turn_by_turn,
@@ -299,9 +301,21 @@ def _question_cases(rng: random.Random) -> list[Json]:
 def _mulligan_form(m: MulliganSetup) -> Json:
     return {
         "mulligans": m.enabled,
-        "keepType": m.keep_type,
-        "keepMin": str(m.keep_min),
-        "keepMax": str(m.keep_max),
+        "keep": [
+            {
+                "id": f"k{i}",
+                "rules": [
+                    {
+                        "id": f"k{i}r{j}",
+                        "cardType": r.card_type,
+                        "min": str(r.low),
+                        "max": str(r.high),
+                    }
+                    for j, r in enumerate(rules)
+                ],
+            }
+            for i, rules in enumerate(m.keep)
+        ],
         "protect": [
             {"id": f"p{i}", "cardType": t, "upTo": str(n)} for i, (t, n) in enumerate(m.protect)
         ],
@@ -310,20 +324,34 @@ def _mulligan_form(m: MulliganSetup) -> Json:
     }
 
 
+def _random_keep(rng: random.Random) -> tuple[tuple[KeepRule, ...], ...]:
+    """0 to 3 kinds of hand (keep any hand, one rule, ands, ors and both), 1 to 3 lines each."""
+    kinds = rng.choice([0, 1, 1, 1, 2, 2, 3])
+    out = []
+    for _ in range(kinds):
+        lines = []
+        for _ in range(rng.choice([1, 1, 2, 3])):
+            card_type = rng.choice(["land", "land", "ramp"])
+            low = rng.randint(0, 3) if card_type == "land" else rng.randint(0, 1)
+            lines.append(KeepRule(card_type, low, low + rng.randint(0, 4)))
+        out.append(tuple(lines))
+    return tuple(out)
+
+
 def _mulligan_cases(rng: random.Random) -> list[Json]:
     """Mulligans: "What are my chances?" with a plan, and "Should I mulligan?"."""
     out = []
-    for i in range(10):
+    for i in range(14):
         size = rng.choice([40, 60, 99])
-        types = (CardType("land", rng.randint(14, 38)), CardType("ramp", rng.randint(0, 10)))
+        types = (
+            CardType("land", rng.randint(14, min(38, size - 10))),
+            CardType("ramp", rng.randint(0, 10)),
+        )
         deck = DeckSetup(size, types)
         play = PlaySetup(go_first=rng.random() < 0.5)
-        keep_type = rng.choice(["land", "land", ""])
         mull = MulliganSetup(
             enabled=True,
-            keep_type=keep_type,
-            keep_min=rng.randint(1, 3),
-            keep_max=rng.randint(4, 6),
+            keep=_random_keep(rng),
             protect=(("land", rng.randint(2, 4)), ("ramp", rng.randint(0, 2)))[: rng.randint(1, 2)],
             max_mulligans=rng.randint(0, 3),
             free_first=rng.random() < 0.4,
@@ -353,6 +381,8 @@ def _mulligan_cases(rng: random.Random) -> list[Json]:
             {
                 "name": f"mulligan {i}",
                 "form": form,
+                "keepWords": keep_rule_words(mull),
+                "scenario": to_dict(sc),
                 "headline": view.headline,
                 "details": list(view.details),
                 "rows": rows,

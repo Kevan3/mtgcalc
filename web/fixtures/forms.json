@@ -9723,9 +9723,19 @@
       "low": "14"
      }
     ],
-    "keepMax": "5",
-    "keepMin": "2",
-    "keepType": "land",
+    "keep": [
+     {
+      "id": "k0",
+      "rules": [
+       {
+        "cardType": "land",
+        "id": "k0r0",
+        "max": "5",
+        "min": "2"
+       }
+      ]
+     }
+    ],
     "lastTurn": "5",
     "maxMulligans": "2",
     "mulligans": false,
@@ -9799,9 +9809,19 @@
       "low": "14"
      }
     ],
-    "keepMax": "5",
-    "keepMin": "2",
-    "keepType": "land",
+    "keep": [
+     {
+      "id": "k0",
+      "rules": [
+       {
+        "cardType": "land",
+        "id": "k0r0",
+        "max": "5",
+        "min": "2"
+       }
+      ]
+     }
+    ],
     "lastTurn": "5",
     "maxMulligans": "2",
     "mulligans": false,
@@ -9875,9 +9895,19 @@
       "low": "14"
      }
     ],
-    "keepMax": "5",
-    "keepMin": "2",
-    "keepType": "land",
+    "keep": [
+     {
+      "id": "k0",
+      "rules": [
+       {
+        "cardType": "land",
+        "id": "k0r0",
+        "max": "5",
+        "min": "2"
+       }
+      ]
+     }
+    ],
     "lastTurn": "5",
     "maxMulligans": "2",
     "mulligans": false,
@@ -9951,9 +9981,19 @@
       "low": "14"
      }
     ],
-    "keepMax": "5",
-    "keepMin": "2",
-    "keepType": "land",
+    "keep": [
+     {
+      "id": "k0",
+      "rules": [
+       {
+        "cardType": "land",
+        "id": "k0r0",
+        "max": "5",
+        "min": "2"
+       }
+      ]
+     }
+    ],
     "lastTurn": "5",
     "maxMulligans": "2",
     "mulligans": false,
@@ -10034,9 +10074,19 @@
       "low": "14"
      }
     ],
-    "keepMax": "5",
-    "keepMin": "2",
-    "keepType": "land",
+    "keep": [
+     {
+      "id": "k0",
+      "rules": [
+       {
+        "cardType": "land",
+        "id": "k0r0",
+        "max": "5",
+        "min": "2"
+       }
+      ]
+     }
+    ],
     "lastTurn": "5",
     "maxMulligans": "2",
     "mulligans": false,
@@ -10117,9 +10167,19 @@
       "low": "14"
      }
     ],
-    "keepMax": "5",
-    "keepMin": "2",
-    "keepType": "land",
+    "keep": [
+     {
+      "id": "k0",
+      "rules": [
+       {
+        "cardType": "land",
+        "id": "k0r0",
+        "max": "5",
+        "min": "2"
+       }
+      ]
+     }
+    ],
     "lastTurn": "5",
     "maxMulligans": "2",
     "mulligans": false,
@@ -10200,9 +10260,19 @@
       "low": "14"
      }
     ],
-    "keepMax": "5",
-    "keepMin": "2",
-    "keepType": "land",
+    "keep": [
+     {
+      "id": "k0",
+      "rules": [
+       {
+        "cardType": "land",
+        "id": "k0r0",
+        "max": "5",
+        "min": "2"
+       }
+      ]
+     }
+    ],
     "lastTurn": "5",
     "maxMulligans": "2",
     "mulligans": false,
@@ -10276,9 +10346,19 @@
       "low": "14"
      }
     ],
-    "keepMax": "5",
-    "keepMin": "2",
-    "keepType": "land",
+    "keep": [
+     {
+      "id": "k0",
+      "rules": [
+       {
+        "cardType": "land",
+        "id": "k0r0",
+        "max": "5",
+        "min": "2"
+       }
+      ]
+     }
+    ],
     "lastTurn": "5",
     "maxMulligans": "2",
     "mulligans": false,
@@ -10352,9 +10432,19 @@
       "low": "14"
      }
     ],
-    "keepMax": "5",
-    "keepMin": "2",
-    "keepType": "land",
+    "keep": [
+     {
+      "id": "k0",
+      "rules": [
+       {
+        "cardType": "land",
+        "id": "k0r0",
+        "max": "5",
+        "min": "2"
+       }
+      ]
+     }
+    ],
     "lastTurn": "5",
     "maxMulligans": "2",
     "mulligans": false,
@@ -10428,9 +10518,19 @@
       "low": "14"
      }
     ],
-    "keepMax": "5",
-    "keepMin": "2",
-    "keepType": "land",
+    "keep": [
+     {
+      "id": "k0",
+      "rules": [
+       {
+        "cardType": "land",
+        "id": "k0r0",
+        "max": "5",
+        "min": "2"
+       }
+      ]
+     }
+    ],
     "lastTurn": "5",
     "maxMulligans": "2",
     "mulligans": false,
@@ -10504,9 +10604,19 @@
       "low": "14"
      }
     ],
-    "keepMax": "5",
-    "keepMin": "2",
-    "keepType": "land",
+    "keep": [
+     {
+      "id": "k0",
+      "rules": [
+       {
+        "cardType": "land",
+        "id": "k0r0",
+        "max": "5",
+        "min": "2"
+       }
+      ]
+     }
+    ],
     "lastTurn": "5",
     "maxMulligans": "2",
     "mulligans": false,
@@ -10587,9 +10697,19 @@
       "low": "14"
      }
     ],
-    "keepMax": "5",
-    "keepMin": "2",
-    "keepType": "land",
+    "keep": [
+     {
+      "id": "k0",
+      "rules": [
+       {
+        "cardType": "land",
+        "id": "k0r0",
+        "max": "5",
+        "min": "2"
+       }
+      ]
+     }
+    ],
     "lastTurn": "5",
     "maxMulligans": "2",
     "mulligans": false,
@@ -10670,9 +10790,19 @@
       "low": "14"
      }
     ],
-    "keepMax": "5",
-    "keepMin": "2",
-    "keepType": "land",
+    "keep": [
+     {
+      "id": "k0",
+      "rules": [
+       {
+        "cardType": "land",
+        "id": "k0r0",
+        "max": "5",
+        "min": "2"
+       }
+      ]
+     }
+    ],
     "lastTurn": "5",
     "maxMulligans": "2",
     "mulligans": false,
@@ -10746,9 +10876,19 @@
       "low": "14"
      }
     ],
-    "keepMax": "5",
-    "keepMin": "2",
-    "keepType": "land",
+    "keep": [
+     {
+      "id": "k0",
+      "rules": [
+       {
+        "cardType": "land",
+        "id": "k0r0",
+        "max": "5",
+        "min": "2"
+       }
+      ]
+     }
+    ],
     "lastTurn": "5",
     "maxMulligans": "2",
     "mulligans": false,
@@ -10829,9 +10969,19 @@
       "low": "14"
      }
     ],
-    "keepMax": "5",
-    "keepMin": "2",
-    "keepType": "land",
+    "keep": [
+     {
+      "id": "k0",
+      "rules": [
+       {
+        "cardType": "land",
+        "id": "k0r0",
+        "max": "5",
+        "min": "2"
+       }
+      ]
+     }
+    ],
     "lastTurn": "5",
     "maxMulligans": "2",
     "mulligans": false,
@@ -10905,9 +11055,19 @@
       "low": "14"
      }
     ],
-    "keepMax": "5",
-    "keepMin": "2",
-    "keepType": "land",
+    "keep": [
+     {
+      "id": "k0",
+      "rules": [
+       {
+        "cardType": "land",
+        "id": "k0r0",
+        "max": "5",
+        "min": "2"
+       }
+      ]
+     }
+    ],
     "lastTurn": "5",
     "maxMulligans": "2",
     "mulligans": false,
@@ -10988,9 +11148,19 @@
       "low": "14"
      }
     ],
-    "keepMax": "5",
-    "keepMin": "2",
-    "keepType": "land",
+    "keep": [
+     {
+      "id": "k0",
+      "rules": [
+       {
+        "cardType": "land",
+        "id": "k0r0",
+        "max": "5",
+        "min": "2"
+       }
+      ]
+     }
+    ],
     "lastTurn": "5",
     "maxMulligans": "2",
     "mulligans": false,
@@ -11064,9 +11234,19 @@
       "low": "14"
      }
     ],
-    "keepMax": "5",
-    "keepMin": "2",
-    "keepType": "land",
+    "keep": [
+     {
+      "id": "k0",
+      "rules": [
+       {
+        "cardType": "land",
+        "id": "k0r0",
+        "max": "5",
+        "min": "2"
+       }
+      ]
+     }
+    ],
     "lastTurn": "5",
     "maxMulligans": "2",
     "mulligans": false,
@@ -11147,9 +11327,19 @@
       "low": "14"
      }
     ],
-    "keepMax": "5",
-    "keepMin": "2",
-    "keepType": "land",
+    "keep": [
+     {
+      "id": "k0",
+      "rules": [
+       {
+        "cardType": "land",
+        "id": "k0r0",
+        "max": "5",
+        "min": "2"
+       }
+      ]
+     }
+    ],
     "lastTurn": "5",
     "maxMulligans": "2",
     "mulligans": false,
@@ -11230,9 +11420,19 @@
       "low": "14"
      }
     ],
-    "keepMax": "5",
-    "keepMin": "2",
-    "keepType": "land",
+    "keep": [
+     {
+      "id": "k0",
+      "rules": [
+       {
+        "cardType": "land",
+        "id": "k0r0",
+        "max": "5",
+        "min": "2"
+       }
+      ]
+     }
+    ],
     "lastTurn": "5",
     "maxMulligans": "2",
     "mulligans": false,
@@ -11306,9 +11506,19 @@
       "low": "14"
      }
     ],
-    "keepMax": "5",
-    "keepMin": "2",
-    "keepType": "land",
+    "keep": [
+     {
+      "id": "k0",
+      "rules": [
+       {
+        "cardType": "land",
+        "id": "k0r0",
+        "max": "5",
+        "min": "2"
+       }
+      ]
+     }
+    ],
     "lastTurn": "5",
     "maxMulligans": "2",
     "mulligans": false,
@@ -11389,9 +11599,19 @@
       "low": "14"
      }
     ],
-    "keepMax": "5",
-    "keepMin": "2",
-    "keepType": "land",
+    "keep": [
+     {
+      "id": "k0",
+      "rules": [
+       {
+        "cardType": "land",
+        "id": "k0r0",
+        "max": "5",
+        "min": "2"
+       }
+      ]
+     }
+    ],
     "lastTurn": "5",
     "maxMulligans": "2",
     "mulligans": false,
@@ -11472,9 +11692,19 @@
       "low": "14"
      }
     ],
-    "keepMax": "5",
-    "keepMin": "2",
-    "keepType": "land",
+    "keep": [
+     {
+      "id": "k0",
+      "rules": [
+       {
+        "cardType": "land",
+        "id": "k0r0",
+        "max": "5",
+        "min": "2"
+       }
+      ]
+     }
+    ],
     "lastTurn": "5",
     "maxMulligans": "2",
     "mulligans": false,
@@ -11555,9 +11785,19 @@
       "low": "14"
      }
     ],
-    "keepMax": "5",
-    "keepMin": "2",
-    "keepType": "land",
+    "keep": [
+     {
+      "id": "k0",
+      "rules": [
+       {
+        "cardType": "land",
+        "id": "k0r0",
+        "max": "5",
+        "min": "2"
+       }
+      ]
+     }
+    ],
     "lastTurn": "5",
     "maxMulligans": "2",
     "mulligans": false,
@@ -11638,9 +11878,19 @@
       "low": "14"
      }
     ],
-    "keepMax": "5",
-    "keepMin": "2",
-    "keepType": "land",
+    "keep": [
+     {
+      "id": "k0",
+      "rules": [
+       {
+        "cardType": "land",
+        "id": "k0r0",
+        "max": "5",
+        "min": "2"
+       }
+      ]
+     }
+    ],
     "lastTurn": "5",
     "maxMulligans": "2",
     "mulligans": false,
@@ -11714,9 +11964,19 @@
       "low": "14"
      }
     ],
-    "keepMax": "5",
-    "keepMin": "2",
-    "keepType": "land",
+    "keep": [
+     {
+      "id": "k0",
+      "rules": [
+       {
+        "cardType": "land",
+        "id": "k0r0",
+        "max": "5",
+        "min": "2"
+       }
+      ]
+     }
+    ],
     "lastTurn": "5",
     "maxMulligans": "2",
     "mulligans": false,
@@ -11790,9 +12050,19 @@
       "low": "14"
      }
     ],
-    "keepMax": "5",
-    "keepMin": "2",
-    "keepType": "land",
+    "keep": [
+     {
+      "id": "k0",
+      "rules": [
+       {
+        "cardType": "land",
+        "id": "k0r0",
+        "max": "5",
+        "min": "2"
+       }
+      ]
+     }
+    ],
     "lastTurn": "5",
     "maxMulligans": "2",
     "mulligans": false,
@@ -11866,9 +12136,19 @@
       "low": "14"
      }
     ],
-    "keepMax": "5",
-    "keepMin": "2",
-    "keepType": "land",
+    "keep": [
+     {
+      "id": "k0",
+      "rules": [
+       {
+        "cardType": "land",
+        "id": "k0r0",
+        "max": "5",
+        "min": "2"
+       }
+      ]
+     }
+    ],
     "lastTurn": "5",
     "maxMulligans": "2",
     "mulligans": false,
@@ -11942,9 +12222,19 @@
       "low": "14"
      }
     ],
-    "keepMax": "5",
-    "keepMin": "2",
-    "keepType": "land",
+    "keep": [
+     {
+      "id": "k0",
+      "rules": [
+       {
+        "cardType": "land",
+        "id": "k0r0",
+        "max": "5",
+        "min": "2"
+       }
+      ]
+     }
+    ],
     "lastTurn": "5",
     "maxMulligans": "2",
     "mulligans": false,
@@ -12018,9 +12308,19 @@
       "low": "14"
      }
     ],
-    "keepMax": "5",
-    "keepMin": "2",
-    "keepType": "land",
+    "keep": [
+     {
+      "id": "k0",
+      "rules": [
+       {
+        "cardType": "land",
+        "id": "k0r0",
+        "max": "5",
+        "min": "2"
+       }
+      ]
+     }
+    ],
     "lastTurn": "5",
     "maxMulligans": "2",
     "mulligans": false,
@@ -12094,9 +12394,19 @@
       "low": "14"
      }
     ],
-    "keepMax": "5",
-    "keepMin": "2",
-    "keepType": "land",
+    "keep": [
+     {
+      "id": "k0",
+      "rules": [
+       {
+        "cardType": "land",
+        "id": "k0r0",
+        "max": "5",
+        "min": "2"
+       }
+      ]
+     }
+    ],
     "lastTurn": "5",
     "maxMulligans": "2",
     "mulligans": false,
@@ -12182,9 +12492,19 @@
       "low": "14"
      }
     ],
-    "keepMax": "5",
-    "keepMin": "2",
-    "keepType": "land",
+    "keep": [
+     {
+      "id": "k0",
+      "rules": [
+       {
+        "cardType": "land",
+        "id": "k0r0",
+        "max": "5",
+        "min": "2"
+       }
+      ]
+     }
+    ],
     "lastTurn": "5",
     "maxMulligans": "2",
     "mulligans": false,
@@ -12258,9 +12578,19 @@
       "low": "14"
      }
     ],
-    "keepMax": "5",
-    "keepMin": "2",
-    "keepType": "land",
+    "keep": [
+     {
+      "id": "k0",
+      "rules": [
+       {
+        "cardType": "land",
+        "id": "k0r0",
+        "max": "5",
+        "min": "2"
+       }
+      ]
+     }
+    ],
     "lastTurn": "5",
     "maxMulligans": "2",
     "mulligans": false,
@@ -12346,9 +12676,19 @@
       "low": "14"
      }
     ],
-    "keepMax": "5",
-    "keepMin": "2",
-    "keepType": "land",
+    "keep": [
+     {
+      "id": "k0",
+      "rules": [
+       {
+        "cardType": "land",
+        "id": "k0r0",
+        "max": "5",
+        "min": "2"
+       }
+      ]
+     }
+    ],
     "lastTurn": "5",
     "maxMulligans": "2",
     "mulligans": false,
@@ -12434,9 +12774,19 @@
       "low": "14"
      }
     ],
-    "keepMax": "5",
-    "keepMin": "2",
-    "keepType": "land",
+    "keep": [
+     {
+      "id": "k0",
+      "rules": [
+       {
+        "cardType": "land",
+        "id": "k0r0",
+        "max": "5",
+        "min": "2"
+       }
+      ]
+     }
+    ],
     "lastTurn": "5",
     "maxMulligans": "2",
     "mulligans": false,
@@ -12505,9 +12855,19 @@
       "low": "14"
      }
     ],
-    "keepMax": "5",
-    "keepMin": "2",
-    "keepType": "land",
+    "keep": [
+     {
+      "id": "k0",
+      "rules": [
+       {
+        "cardType": "land",
+        "id": "k0r0",
+        "max": "5",
+        "min": "2"
+       }
+      ]
+     }
+    ],
     "lastTurn": "5",
     "maxMulligans": "2",
     "mulligans": false,
@@ -12604,9 +12964,19 @@
       "low": "20"
      }
     ],
-    "keepMax": "5",
-    "keepMin": "2",
-    "keepType": "land",
+    "keep": [
+     {
+      "id": "k0",
+      "rules": [
+       {
+        "cardType": "land",
+        "id": "k0r0",
+        "max": "5",
+        "min": "2"
+       }
+      ]
+     }
+    ],
     "lastTurn": "5",
     "maxMulligans": "2",
     "mulligans": false,
@@ -12690,9 +13060,19 @@
       "low": "0"
      }
     ],
-    "keepMax": "5",
-    "keepMin": "2",
-    "keepType": "land",
+    "keep": [
+     {
+      "id": "k0",
+      "rules": [
+       {
+        "cardType": "land",
+        "id": "k0r0",
+        "max": "5",
+        "min": "2"
+       }
+      ]
+     }
+    ],
     "lastTurn": "5",
     "maxMulligans": "2",
     "mulligans": false,
@@ -12804,9 +13184,19 @@
       "low": "0"
      }
     ],
-    "keepMax": "5",
-    "keepMin": "2",
-    "keepType": "land",
+    "keep": [
+     {
+      "id": "k0",
+      "rules": [
+       {
+        "cardType": "land",
+        "id": "k0r0",
+        "max": "5",
+        "min": "2"
+       }
+      ]
+     }
+    ],
     "lastTurn": "5",
     "maxMulligans": "2",
     "mulligans": false,
@@ -12951,9 +13341,19 @@
       "low": "0"
      }
     ],
-    "keepMax": "5",
-    "keepMin": "2",
-    "keepType": "land",
+    "keep": [
+     {
+      "id": "k0",
+      "rules": [
+       {
+        "cardType": "land",
+        "id": "k0r0",
+        "max": "5",
+        "min": "2"
+       }
+      ]
+     }
+    ],
     "lastTurn": "5",
     "maxMulligans": "2",
     "mulligans": false,
@@ -13035,9 +13435,19 @@
       "low": "0"
      }
     ],
-    "keepMax": "5",
-    "keepMin": "2",
-    "keepType": "land",
+    "keep": [
+     {
+      "id": "k0",
+      "rules": [
+       {
+        "cardType": "land",
+        "id": "k0r0",
+        "max": "5",
+        "min": "2"
+       }
+      ]
+     }
+    ],
     "lastTurn": "5",
     "maxMulligans": "2",
     "mulligans": false,
@@ -13109,9 +13519,19 @@
       "low": "0"
      }
     ],
-    "keepMax": "5",
-    "keepMin": "2",
-    "keepType": "land",
+    "keep": [
+     {
+      "id": "k0",
+      "rules": [
+       {
+        "cardType": "land",
+        "id": "k0r0",
+        "max": "5",
+        "min": "2"
+       }
+      ]
+     }
+    ],
     "lastTurn": "5",
     "maxMulligans": "2",
     "mulligans": false,
@@ -13207,9 +13627,19 @@
       "low": "14"
      }
     ],
-    "keepMax": "5",
-    "keepMin": "2",
-    "keepType": "land",
+    "keep": [
+     {
+      "id": "k0",
+      "rules": [
+       {
+        "cardType": "land",
+        "id": "k0r0",
+        "max": "5",
+        "min": "2"
+       }
+      ]
+     }
+    ],
     "lastTurn": "5",
     "maxMulligans": "2",
     "mulligans": false,
@@ -13296,9 +13726,19 @@
       "low": "10"
      }
     ],
-    "keepMax": "5",
-    "keepMin": "2",
-    "keepType": "land",
+    "keep": [
+     {
+      "id": "k0",
+      "rules": [
+       {
+        "cardType": "land",
+        "id": "k0r0",
+        "max": "5",
+        "min": "2"
+       }
+      ]
+     }
+    ],
     "lastTurn": "5",
     "maxMulligans": "2",
     "mulligans": false,
@@ -13416,10 +13856,10 @@
     "goal": [
      {
       "amount": "2",
-      "cardType": "land",
+      "cardType": "ramp",
       "id": "g0",
       "kind": "at least",
-      "turn": "2"
+      "turn": "4"
      }
     ],
     "hmAim": "target",
@@ -13434,9 +13874,7 @@
       "low": "14"
      }
     ],
-    "keepMax": "5",
-    "keepMin": "3",
-    "keepType": "land",
+    "keep": [],
     "lastTurn": "5",
     "maxMulligans": "3",
     "mulligans": true,
@@ -13444,7 +13882,12 @@
      {
       "cardType": "land",
       "id": "p0",
-      "upTo": "3"
+      "upTo": "4"
+     },
+     {
+      "cardType": "ramp",
+      "id": "p1",
+      "upTo": "1"
      }
     ],
     "question": "chances",
@@ -13465,432 +13908,99 @@
     ],
     "useRule": false
    },
-   "headline": "You have at least 2 land by turn 2 in 97.7% of games (all but about 1 game in 44).",
+   "headline": "You have at least 2 ramp by turn 4 in 46.7% of games (about 5 games in 10).",
+   "keepWords": "always keep your first hand",
    "name": "mulligan 0",
-   "rows": []
-  },
-  {
-   "details": [
-    "A good game means: at least 4 ramp by turn 2.",
-    "On average you mulligan 0.12 times and keep 6.99 cards.",
-    "The best plan (below) keeps a hand only when that hand is at least as good as mulliganing would be on average."
-   ],
-   "form": {
-    "combine": "all",
-    "deckMode": "types",
-    "deckSize": "60",
-    "decklist": "",
-    "drawsPerTurn": "1",
-    "drawsType": "",
-    "freeFirst": true,
-    "goFirst": true,
-    "goal": [
-     {
-      "amount": "4",
-      "cardType": "ramp",
-      "id": "g0",
-      "kind": "at least",
-      "turn": "2"
-     }
-    ],
-    "hmAim": "target",
-    "hmMode": "one",
-    "hmSlots": "20",
-    "hmTarget": "90",
-    "hmVary": [
-     {
-      "cardType": "land",
-      "high": "40",
-      "id": "v0",
-      "low": "14"
-     }
-    ],
-    "keepMax": "5",
-    "keepMin": "1",
-    "keepType": "land",
-    "lastTurn": "5",
-    "maxMulligans": "2",
-    "mulligans": true,
-    "protect": [
-     {
-      "cardType": "land",
-      "id": "p0",
-      "upTo": "3"
-     }
-    ],
-    "question": "mulligan",
-    "rule": "",
-    "types": [
-     {
-      "also": "",
-      "count": "34",
-      "id": "t0",
-      "name": "land"
+   "rows": [],
+   "scenario": {
+    "deck": {
+     "cards": [
+      {
+       "name": "land",
+       "quantity": 21,
+       "tags": {
+        "items": [
+         "land"
+        ],
+        "type": "frozenset"
+       },
+       "type": "Card",
+       "zone": "library"
+      },
+      {
+       "name": "ramp",
+       "quantity": 9,
+       "tags": {
+        "items": [
+         "ramp"
+        ],
+        "type": "frozenset"
+       },
+       "type": "Card",
+       "zone": "library"
+      },
+      {
+       "name": "(other)",
+       "quantity": 30,
+       "tags": {
+        "items": [
+         "(other)"
+        ],
+        "type": "frozenset"
+       },
+       "type": "Card",
+       "zone": "library"
+      }
+     ],
+     "name": null,
+     "type": "Deck"
+    },
+    "game": {
+     "draw_overrides": [],
+     "draws_per_turn": 1,
+     "extra_draws": [],
+     "hand_size": 7,
+     "on_play": true,
+     "type": "GameConfig"
+    },
+    "mulligan": {
+     "draw_size": 7,
+     "free_mulligans": 0,
+     "keep_rule": {
+      "type": "Const",
+      "value": true
      },
-     {
-      "also": "",
-      "count": "1",
-      "id": "t1",
-      "name": "ramp"
-     }
-    ],
-    "useRule": false
-   },
-   "headline": "With your mulligan plan you get a good game 0.0% of the time. Never mulliganing: 0.0%. The best possible plan: 0.0%.",
-   "name": "mulligan 1",
-   "rows": [
-    [
-     [
-      "Your plan",
-      "",
-      "",
-      ""
+     "max_mulligans": 3,
+     "priority": [
+      {
+       "name": null,
+       "quota": 4,
+       "selector": {
+        "name": "land",
+        "type": "Tag"
+       },
+       "type": "PriorityGroup"
+      },
+      {
+       "name": null,
+       "quota": 1,
+       "selector": {
+        "name": "ramp",
+        "type": "Tag"
+       },
+       "type": "PriorityGroup"
+      }
      ],
-     [
-      [
-       [
-        "First 7 cards",
-        "100.0%",
-        "89.4%",
-        "0.0%"
-       ],
-       []
-      ],
-      [
-       [
-        "After 1 mulligan (keep 7)",
-        "10.6%",
-        "89.4%",
-        "0.0%"
-       ],
-       []
-      ],
-      [
-       [
-        "After 2 mulligans (keep 6)",
-        "1.1%",
-        "100.0%",
-        "0.0%"
-       ],
-       []
-      ]
-     ]
-    ],
-    [
-     [
-      "Best possible plan",
-      "",
-      "",
-      "0.0%"
-     ],
-     [
-      [
-       [
-        "First 7 cards: keep if its chance is at least 0.0%",
-        "",
-        "100.0%",
-        ""
-       ],
-       [
-        [
-         "4 land, 3 other  ->  keep",
-         "",
-         "27.6%",
-         "0.0%"
-        ],
-        [
-         "5 land, 2 other  ->  keep",
-         "",
-         "21.6%",
-         "0.0%"
-        ],
-        [
-         "3 land, 4 other  ->  keep",
-         "",
-         "19.6%",
-         "0.0%"
-        ],
-        [
-         "6 land, 1 other  ->  keep",
-         "",
-         "8.7%",
-         "0.0%"
-        ],
-        [
-         "2 land, 5 other  ->  keep",
-         "",
-         "7.7%",
-         "0.0%"
-        ],
-        [
-         "1 ramp, 4 land, 2 other  ->  keep",
-         "",
-         "3.6%",
-         "0.0%"
-        ],
-        [
-         "1 ramp, 3 land, 3 other  ->  keep",
-         "",
-         "3.6%",
-         "0.0%"
-        ],
-        [
-         "1 ramp, 2 land, 4 other  ->  keep",
-         "",
-         "1.8%",
-         "0.0%"
-        ],
-        [
-         "1 ramp, 5 land, 1 other  ->  keep",
-         "",
-         "1.8%",
-         "0.0%"
-        ],
-        [
-         "1 land, 6 other  ->  keep",
-         "",
-         "1.6%",
-         "0.0%"
-        ],
-        [
-         "7 land  ->  keep",
-         "",
-         "1.4%",
-         "0.0%"
-        ],
-        [
-         "1 ramp, 1 land, 5 other  ->  keep",
-         "",
-         "0.5%",
-         "0.0%"
-        ],
-        [
-         "1 ramp, 6 land  ->  keep",
-         "",
-         "0.3%",
-         "0.0%"
-        ],
-        [
-         "7 other  ->  keep",
-         "",
-         "0.1%",
-         "0.0%"
-        ],
-        [
-         "1 ramp, 6 other  ->  keep",
-         "",
-         "0.046%",
-         "0.0%"
-        ]
-       ]
-      ],
-      [
-       [
-        "After 1 mulligan (keep 7): keep if its chance is at least 0.0%",
-        "",
-        "100.0%",
-        ""
-       ],
-       [
-        [
-         "4 land, 3 other  ->  keep",
-         "",
-         "27.6%",
-         "0.0%"
-        ],
-        [
-         "5 land, 2 other  ->  keep",
-         "",
-         "21.6%",
-         "0.0%"
-        ],
-        [
-         "3 land, 4 other  ->  keep",
-         "",
-         "19.6%",
-         "0.0%"
-        ],
-        [
-         "6 land, 1 other  ->  keep",
-         "",
-         "8.7%",
-         "0.0%"
-        ],
-        [
-         "2 land, 5 other  ->  keep",
-         "",
-         "7.7%",
-         "0.0%"
-        ],
-        [
-         "1 ramp, 4 land, 2 other  ->  keep",
-         "",
-         "3.6%",
-         "0.0%"
-        ],
-        [
-         "1 ramp, 3 land, 3 other  ->  keep",
-         "",
-         "3.6%",
-         "0.0%"
-        ],
-        [
-         "1 ramp, 2 land, 4 other  ->  keep",
-         "",
-         "1.8%",
-         "0.0%"
-        ],
-        [
-         "1 ramp, 5 land, 1 other  ->  keep",
-         "",
-         "1.8%",
-         "0.0%"
-        ],
-        [
-         "1 land, 6 other  ->  keep",
-         "",
-         "1.6%",
-         "0.0%"
-        ],
-        [
-         "7 land  ->  keep",
-         "",
-         "1.4%",
-         "0.0%"
-        ],
-        [
-         "1 ramp, 1 land, 5 other  ->  keep",
-         "",
-         "0.5%",
-         "0.0%"
-        ],
-        [
-         "1 ramp, 6 land  ->  keep",
-         "",
-         "0.3%",
-         "0.0%"
-        ],
-        [
-         "7 other  ->  keep",
-         "",
-         "0.1%",
-         "0.0%"
-        ],
-        [
-         "1 ramp, 6 other  ->  keep",
-         "",
-         "0.046%",
-         "0.0%"
-        ]
-       ]
-      ],
-      [
-       [
-        "After 2 mulligans (keep 6): keep any hand",
-        "",
-        "100.0%",
-        ""
-       ],
-       [
-        [
-         "4 land, 3 other  ->  keep",
-         "",
-         "27.6%",
-         "0.0%"
-        ],
-        [
-         "5 land, 2 other  ->  keep",
-         "",
-         "21.6%",
-         "0.0%"
-        ],
-        [
-         "3 land, 4 other  ->  keep",
-         "",
-         "19.6%",
-         "0.0%"
-        ],
-        [
-         "6 land, 1 other  ->  keep",
-         "",
-         "8.7%",
-         "0.0%"
-        ],
-        [
-         "2 land, 5 other  ->  keep",
-         "",
-         "7.7%",
-         "0.0%"
-        ],
-        [
-         "1 ramp, 4 land, 2 other  ->  keep",
-         "",
-         "3.6%",
-         "0.0%"
-        ],
-        [
-         "1 ramp, 3 land, 3 other  ->  keep",
-         "",
-         "3.6%",
-         "0.0%"
-        ],
-        [
-         "1 ramp, 2 land, 4 other  ->  keep",
-         "",
-         "1.8%",
-         "0.0%"
-        ],
-        [
-         "1 ramp, 5 land, 1 other  ->  keep",
-         "",
-         "1.8%",
-         "0.0%"
-        ],
-        [
-         "1 land, 6 other  ->  keep",
-         "",
-         "1.6%",
-         "0.0%"
-        ],
-        [
-         "7 land  ->  keep",
-         "",
-         "1.4%",
-         "0.0%"
-        ],
-        [
-         "1 ramp, 1 land, 5 other  ->  keep",
-         "",
-         "0.5%",
-         "0.0%"
-        ],
-        [
-         "1 ramp, 6 land  ->  keep",
-         "",
-         "0.3%",
-         "0.0%"
-        ],
-        [
-         "7 other  ->  keep",
-         "",
-         "0.1%",
-         "0.0%"
-        ],
-        [
-         "1 ramp, 6 other  ->  keep",
-         "",
-         "0.046%",
-         "0.0%"
-        ]
-       ]
-      ]
-     ]
-    ]
-   ]
+     "type": "MulliganConfig"
+    },
+    "type": "Scenario"
+   }
   },
   {
    "details": [
-    "This includes the games where you mulligan, following your plan."
+    "A good game means: at least 3 land in your opening hand.",
+    "On average you mulligan 0.05 times and keep 6.95 cards.",
+    "The best plan (below) keeps a hand only when that hand is at least as good as mulliganing would be on average."
    ],
    "form": {
     "combine": "all",
@@ -13899,11 +14009,11 @@
     "decklist": "",
     "drawsPerTurn": "1",
     "drawsType": "",
-    "freeFirst": true,
+    "freeFirst": false,
     "goFirst": false,
     "goal": [
      {
-      "amount": "2",
+      "amount": "3",
       "cardType": "land",
       "id": "g0",
       "kind": "at least",
@@ -13922,88 +14032,49 @@
       "low": "14"
      }
     ],
-    "keepMax": "5",
-    "keepMin": "1",
-    "keepType": "land",
-    "lastTurn": "5",
-    "maxMulligans": "0",
-    "mulligans": true,
-    "protect": [
+    "keep": [
      {
-      "cardType": "land",
-      "id": "p0",
-      "upTo": "4"
-     }
-    ],
-    "question": "chances",
-    "rule": "",
-    "types": [
-     {
-      "also": "",
-      "count": "15",
-      "id": "t0",
-      "name": "land"
+      "id": "k0",
+      "rules": [
+       {
+        "cardType": "land",
+        "id": "k0r0",
+        "max": "2",
+        "min": "1"
+       }
+      ]
      },
      {
-      "also": "",
-      "count": "5",
-      "id": "t1",
-      "name": "ramp"
+      "id": "k1",
+      "rules": [
+       {
+        "cardType": "land",
+        "id": "k1r0",
+        "max": "5",
+        "min": "1"
+       },
+       {
+        "cardType": "ramp",
+        "id": "k1r1",
+        "max": "2",
+        "min": "0"
+       }
+      ]
      }
     ],
-    "useRule": false
-   },
-   "headline": "You have at least 2 land in your opening hand in 83.2% of games (about 8 games in 10).",
-   "name": "mulligan 2",
-   "rows": []
-  },
-  {
-   "details": [
-    "A good game means: at least 2 ramp by turn 2.",
-    "On average you mulligan 0.00 times and keep 7.00 cards.",
-    "The best plan (below) keeps a hand only when that hand is at least as good as mulliganing would be on average."
-   ],
-   "form": {
-    "combine": "all",
-    "deckMode": "types",
-    "deckSize": "99",
-    "decklist": "",
-    "drawsPerTurn": "1",
-    "drawsType": "",
-    "freeFirst": true,
-    "goFirst": false,
-    "goal": [
-     {
-      "amount": "2",
-      "cardType": "ramp",
-      "id": "g0",
-      "kind": "at least",
-      "turn": "2"
-     }
-    ],
-    "hmAim": "target",
-    "hmMode": "one",
-    "hmSlots": "20",
-    "hmTarget": "90",
-    "hmVary": [
-     {
-      "cardType": "land",
-      "high": "40",
-      "id": "v0",
-      "low": "14"
-     }
-    ],
-    "keepMax": "5",
-    "keepMin": "2",
-    "keepType": "",
     "lastTurn": "5",
-    "maxMulligans": "1",
+    "maxMulligans": "2",
     "mulligans": true,
     "protect": [
      {
       "cardType": "land",
       "id": "p0",
-      "upTo": "4"
+      "upTo": "3"
+     },
+     {
+      "cardType": "ramp",
+      "id": "p1",
+      "upTo": "0"
      }
     ],
     "question": "mulligan",
@@ -14011,21 +14082,22 @@
     "types": [
      {
       "also": "",
-      "count": "26",
+      "count": "19",
       "id": "t0",
       "name": "land"
      },
      {
       "also": "",
-      "count": "3",
+      "count": "4",
       "id": "t1",
       "name": "ramp"
      }
     ],
     "useRule": false
    },
-   "headline": "With your mulligan plan you get a good game 2.1% of the time. Never mulliganing: 2.1%. The best possible plan: 3.8%.",
-   "name": "mulligan 3",
+   "headline": "With your mulligan plan you get a good game 74.7% of the time. Never mulliganing: 75.2%. The best possible plan: 98.5%.",
+   "keepWords": "keep a hand with 1 to 2 land, or with 1 to 5 land and 0 to 2 ramp",
+   "name": "mulligan 1",
    "rows": [
     [
      [
@@ -14039,17 +14111,26 @@
        [
         "First 7 cards",
         "100.0%",
-        "100.0%",
-        "2.1%"
+        "95.6%",
+        "75.2%"
        ],
        []
       ],
       [
        [
-        "After 1 mulligan (keep 7)",
-        "0.0%",
+        "After 1 mulligan (keep 6)",
+        "4.4%",
+        "95.7%",
+        "75.2%"
+       ],
+       []
+      ],
+      [
+       [
+        "After 2 mulligans (keep 5)",
+        "0.2%",
         "100.0%",
-        "2.1%"
+        "75.2%"
        ],
        []
       ]
@@ -14060,344 +14141,698 @@
       "Best possible plan",
       "",
       "",
-      "3.8%"
+      "98.5%"
      ],
      [
       [
        [
-        "First 7 cards: keep if its chance is at least 2.1%",
+        "First 7 cards: keep if its chance is at least 93.8%",
         "",
-        "19.9%",
+        "75.2%",
         ""
        ],
        [
         [
-         "2 ramp, 1 land, 4 other  ->  keep",
+         "3 land, 1 ramp, 3 other  ->  keep",
          "",
-         "0.5%",
+         "14.1%",
          "100.0%"
         ],
         [
-         "2 ramp, 2 land, 3 other  ->  keep",
+         "4 land, 3 other  ->  keep",
+         "",
+         "14.1%",
+         "100.0%"
+        ],
+        [
+         "3 land, 4 other  ->  keep",
+         "",
+         "12.4%",
+         "100.0%"
+        ],
+        [
+         "4 land, 1 ramp, 2 other  ->  keep",
+         "",
+         "11.3%",
+         "100.0%"
+        ],
+        [
+         "5 land, 2 other  ->  keep",
+         "",
+         "8.5%",
+         "100.0%"
+        ],
+        [
+         "3 land, 2 ramp, 2 other  ->  keep",
+         "",
+         "4.2%",
+         "100.0%"
+        ],
+        [
+         "5 land, 1 ramp, 1 other  ->  keep",
+         "",
+         "4.2%",
+         "100.0%"
+        ],
+        [
+         "6 land, 1 other  ->  keep",
+         "",
+         "2.5%",
+         "100.0%"
+        ],
+        [
+         "4 land, 2 ramp, 1 other  ->  keep",
+         "",
+         "2.1%",
+         "100.0%"
+        ],
+        [
+         "6 land, 1 ramp  ->  keep",
+         "",
+         "0.6%",
+         "100.0%"
+        ],
+        [
+         "5 land, 2 ramp  ->  keep",
          "",
          "0.4%",
          "100.0%"
         ],
         [
-         "2 ramp, 5 other  ->  keep",
+         "3 land, 3 ramp, 1 other  ->  keep",
          "",
-         "0.2%",
+         "0.4%",
          "100.0%"
         ],
         [
-         "2 ramp, 3 land, 2 other  ->  keep",
+         "7 land  ->  keep",
          "",
-         "0.1%",
+         "0.3%",
          "100.0%"
         ],
         [
-         "2 ramp, 4 land, 1 other  ->  keep",
+         "4 land, 3 ramp  ->  keep",
          "",
-         "0.021%",
+         "0.083%",
          "100.0%"
         ],
         [
-         "3 ramp, 1 land, 3 other  ->  keep",
-         "",
-         "0.010%",
-         "100.0%"
-        ],
-        [
-         "3 ramp, 4 other  ->  keep",
-         "",
-         "0.006%",
-         "100.0%"
-        ],
-        [
-         "3 ramp, 2 land, 2 other  ->  keep",
+         "3 land, 4 ramp  ->  keep",
          "",
          "0.005%",
          "100.0%"
         ],
         [
-         "2 ramp, 5 land  ->  keep",
+         "2 land, 1 ramp, 4 other  ->  mulligan",
          "",
-         "0.001%",
-         "100.0%"
-        ],
-        [
-         "3 ramp, 3 land, 1 other  ->  keep",
-         "",
-         "0.001%",
-         "100.0%"
-        ],
-        [
-         "3 ramp, 4 land  ->  keep",
-         "",
-         "less than 0.001%",
-         "100.0%"
-        ],
-        [
-         "1 ramp, 1 land, 5 other  ->  keep",
-         "",
-         "6.3%",
-         "4.3%"
-        ],
-        [
-         "1 ramp, 2 land, 4 other  ->  keep",
-         "",
-         "6.0%",
-         "4.3%"
-        ],
-        [
-         "1 ramp, 3 land, 3 other  ->  keep",
-         "",
-         "2.9%",
-         "4.3%"
-        ],
-        [
-         "1 ramp, 6 other  ->  keep",
-         "",
-         "2.6%",
-         "4.3%"
-        ],
-        [
-         "1 ramp, 4 land, 2 other  ->  keep",
-         "",
-         "0.7%",
-         "4.3%"
-        ],
-        [
-         "1 ramp, 5 land, 1 other  ->  keep",
-         "",
-         "0.093%",
-         "4.3%"
-        ],
-        [
-         "1 ramp, 6 land  ->  keep",
-         "",
-         "0.005%",
-         "4.3%"
+         "8.7%",
+         "0.0%"
         ],
         [
          "2 land, 5 other  ->  mulligan",
          "",
-         "26.4%",
-         "0.072%"
+         "5.7%",
+         "0.0%"
+        ],
+        [
+         "2 land, 2 ramp, 3 other  ->  mulligan",
+         "",
+         "3.7%",
+         "0.0%"
+        ],
+        [
+         "1 land, 1 ramp, 5 other  ->  mulligan",
+         "",
+         "2.5%",
+         "0.0%"
+        ],
+        [
+         "1 land, 2 ramp, 4 other  ->  mulligan",
+         "",
+         "1.5%",
+         "0.0%"
         ],
         [
          "1 land, 6 other  ->  mulligan",
          "",
-         "22.9%",
-         "0.072%"
+         "1.3%",
+         "0.0%"
         ],
         [
-         "3 land, 4 other  ->  mulligan",
+         "2 land, 3 ramp, 2 other  ->  mulligan",
          "",
-         "16.0%",
-         "0.072%"
+         "0.5%",
+         "0.0%"
+        ],
+        [
+         "1 land, 3 ramp, 3 other  ->  mulligan",
+         "",
+         "0.3%",
+         "0.0%"
+        ],
+        [
+         "1 ramp, 6 other  ->  mulligan",
+         "",
+         "0.3%",
+         "0.0%"
+        ],
+        [
+         "2 ramp, 5 other  ->  mulligan",
+         "",
+         "0.2%",
+         "0.0%"
         ],
         [
          "7 other  ->  mulligan",
          "",
-         "8.1%",
-         "0.072%"
-        ],
-        [
-         "4 land, 3 other  ->  mulligan",
-         "",
-         "5.5%",
-         "0.072%"
-        ],
-        [
-         "5 land, 2 other  ->  mulligan",
-         "",
-         "1.1%",
-         "0.072%"
-        ],
-        [
-         "6 land, 1 other  ->  mulligan",
-         "",
          "0.1%",
-         "0.072%"
+         "0.0%"
         ],
         [
-         "7 land  ->  mulligan",
+         "3 ramp, 4 other  ->  mulligan",
+         "",
+         "0.051%",
+         "0.0%"
+        ],
+        [
+         "2 land, 4 ramp, 1 other  ->  mulligan",
+         "",
+         "0.016%",
+         "0.0%"
+        ],
+        [
+         "1 land, 4 ramp, 2 other  ->  mulligan",
+         "",
+         "0.014%",
+         "0.0%"
+        ],
+        [
+         "4 ramp, 3 other  ->  mulligan",
          "",
          "0.004%",
-         "0.072%"
+         "0.0%"
         ]
        ]
       ],
       [
        [
-        "After 1 mulligan (keep 7): keep any hand",
+        "After 1 mulligan (keep 6): keep if its chance is at least 75.2%",
+        "",
+        "75.2%",
+        ""
+       ],
+       [
+        [
+         "3 land, 1 ramp, 3 other  ->  keep",
+         "",
+         "14.1%",
+         "100.0%"
+        ],
+        [
+         "4 land, 3 other  ->  keep",
+         "",
+         "14.1%",
+         "100.0%"
+        ],
+        [
+         "3 land, 4 other  ->  keep",
+         "",
+         "12.4%",
+         "100.0%"
+        ],
+        [
+         "4 land, 1 ramp, 2 other  ->  keep",
+         "",
+         "11.3%",
+         "100.0%"
+        ],
+        [
+         "5 land, 2 other  ->  keep",
+         "",
+         "8.5%",
+         "100.0%"
+        ],
+        [
+         "3 land, 2 ramp, 2 other  ->  keep",
+         "",
+         "4.2%",
+         "100.0%"
+        ],
+        [
+         "5 land, 1 ramp, 1 other  ->  keep",
+         "",
+         "4.2%",
+         "100.0%"
+        ],
+        [
+         "6 land, 1 other  ->  keep",
+         "",
+         "2.5%",
+         "100.0%"
+        ],
+        [
+         "4 land, 2 ramp, 1 other  ->  keep",
+         "",
+         "2.1%",
+         "100.0%"
+        ],
+        [
+         "6 land, 1 ramp  ->  keep",
+         "",
+         "0.6%",
+         "100.0%"
+        ],
+        [
+         "5 land, 2 ramp  ->  keep",
+         "",
+         "0.4%",
+         "100.0%"
+        ],
+        [
+         "3 land, 3 ramp, 1 other  ->  keep",
+         "",
+         "0.4%",
+         "100.0%"
+        ],
+        [
+         "7 land  ->  keep",
+         "",
+         "0.3%",
+         "100.0%"
+        ],
+        [
+         "4 land, 3 ramp  ->  keep",
+         "",
+         "0.083%",
+         "100.0%"
+        ],
+        [
+         "3 land, 4 ramp  ->  keep",
+         "",
+         "0.005%",
+         "100.0%"
+        ],
+        [
+         "2 land, 1 ramp, 4 other  ->  mulligan",
+         "",
+         "8.7%",
+         "0.0%"
+        ],
+        [
+         "2 land, 5 other  ->  mulligan",
+         "",
+         "5.7%",
+         "0.0%"
+        ],
+        [
+         "2 land, 2 ramp, 3 other  ->  mulligan",
+         "",
+         "3.7%",
+         "0.0%"
+        ],
+        [
+         "1 land, 1 ramp, 5 other  ->  mulligan",
+         "",
+         "2.5%",
+         "0.0%"
+        ],
+        [
+         "1 land, 2 ramp, 4 other  ->  mulligan",
+         "",
+         "1.5%",
+         "0.0%"
+        ],
+        [
+         "1 land, 6 other  ->  mulligan",
+         "",
+         "1.3%",
+         "0.0%"
+        ],
+        [
+         "2 land, 3 ramp, 2 other  ->  mulligan",
+         "",
+         "0.5%",
+         "0.0%"
+        ],
+        [
+         "1 land, 3 ramp, 3 other  ->  mulligan",
+         "",
+         "0.3%",
+         "0.0%"
+        ],
+        [
+         "1 ramp, 6 other  ->  mulligan",
+         "",
+         "0.3%",
+         "0.0%"
+        ],
+        [
+         "2 ramp, 5 other  ->  mulligan",
+         "",
+         "0.2%",
+         "0.0%"
+        ],
+        [
+         "7 other  ->  mulligan",
+         "",
+         "0.1%",
+         "0.0%"
+        ],
+        [
+         "3 ramp, 4 other  ->  mulligan",
+         "",
+         "0.051%",
+         "0.0%"
+        ],
+        [
+         "2 land, 4 ramp, 1 other  ->  mulligan",
+         "",
+         "0.016%",
+         "0.0%"
+        ],
+        [
+         "1 land, 4 ramp, 2 other  ->  mulligan",
+         "",
+         "0.014%",
+         "0.0%"
+        ],
+        [
+         "4 ramp, 3 other  ->  mulligan",
+         "",
+         "0.004%",
+         "0.0%"
+        ]
+       ]
+      ],
+      [
+       [
+        "After 2 mulligans (keep 5): keep any hand",
         "",
         "100.0%",
         ""
        ],
        [
         [
-         "2 ramp, 1 land, 4 other  ->  keep",
+         "3 land, 1 ramp, 3 other  ->  keep",
          "",
-         "0.5%",
+         "14.1%",
          "100.0%"
         ],
         [
-         "2 ramp, 2 land, 3 other  ->  keep",
+         "4 land, 3 other  ->  keep",
+         "",
+         "14.1%",
+         "100.0%"
+        ],
+        [
+         "3 land, 4 other  ->  keep",
+         "",
+         "12.4%",
+         "100.0%"
+        ],
+        [
+         "4 land, 1 ramp, 2 other  ->  keep",
+         "",
+         "11.3%",
+         "100.0%"
+        ],
+        [
+         "5 land, 2 other  ->  keep",
+         "",
+         "8.5%",
+         "100.0%"
+        ],
+        [
+         "3 land, 2 ramp, 2 other  ->  keep",
+         "",
+         "4.2%",
+         "100.0%"
+        ],
+        [
+         "5 land, 1 ramp, 1 other  ->  keep",
+         "",
+         "4.2%",
+         "100.0%"
+        ],
+        [
+         "6 land, 1 other  ->  keep",
+         "",
+         "2.5%",
+         "100.0%"
+        ],
+        [
+         "4 land, 2 ramp, 1 other  ->  keep",
+         "",
+         "2.1%",
+         "100.0%"
+        ],
+        [
+         "6 land, 1 ramp  ->  keep",
+         "",
+         "0.6%",
+         "100.0%"
+        ],
+        [
+         "5 land, 2 ramp  ->  keep",
          "",
          "0.4%",
          "100.0%"
         ],
         [
-         "2 ramp, 5 other  ->  keep",
+         "3 land, 3 ramp, 1 other  ->  keep",
          "",
-         "0.2%",
+         "0.4%",
          "100.0%"
-        ],
-        [
-         "2 ramp, 3 land, 2 other  ->  keep",
-         "",
-         "0.1%",
-         "100.0%"
-        ],
-        [
-         "2 ramp, 4 land, 1 other  ->  keep",
-         "",
-         "0.021%",
-         "100.0%"
-        ],
-        [
-         "3 ramp, 1 land, 3 other  ->  keep",
-         "",
-         "0.010%",
-         "100.0%"
-        ],
-        [
-         "3 ramp, 4 other  ->  keep",
-         "",
-         "0.006%",
-         "100.0%"
-        ],
-        [
-         "3 ramp, 2 land, 2 other  ->  keep",
-         "",
-         "0.005%",
-         "100.0%"
-        ],
-        [
-         "2 ramp, 5 land  ->  keep",
-         "",
-         "0.001%",
-         "100.0%"
-        ],
-        [
-         "3 ramp, 3 land, 1 other  ->  keep",
-         "",
-         "0.001%",
-         "100.0%"
-        ],
-        [
-         "3 ramp, 4 land  ->  keep",
-         "",
-         "less than 0.001%",
-         "100.0%"
-        ],
-        [
-         "1 ramp, 1 land, 5 other  ->  keep",
-         "",
-         "6.3%",
-         "4.3%"
-        ],
-        [
-         "1 ramp, 2 land, 4 other  ->  keep",
-         "",
-         "6.0%",
-         "4.3%"
-        ],
-        [
-         "1 ramp, 3 land, 3 other  ->  keep",
-         "",
-         "2.9%",
-         "4.3%"
-        ],
-        [
-         "1 ramp, 6 other  ->  keep",
-         "",
-         "2.6%",
-         "4.3%"
-        ],
-        [
-         "1 ramp, 4 land, 2 other  ->  keep",
-         "",
-         "0.7%",
-         "4.3%"
-        ],
-        [
-         "1 ramp, 5 land, 1 other  ->  keep",
-         "",
-         "0.093%",
-         "4.3%"
-        ],
-        [
-         "1 ramp, 6 land  ->  keep",
-         "",
-         "0.005%",
-         "4.3%"
-        ],
-        [
-         "2 land, 5 other  ->  keep",
-         "",
-         "26.4%",
-         "0.072%"
-        ],
-        [
-         "1 land, 6 other  ->  keep",
-         "",
-         "22.9%",
-         "0.072%"
-        ],
-        [
-         "3 land, 4 other  ->  keep",
-         "",
-         "16.0%",
-         "0.072%"
-        ],
-        [
-         "7 other  ->  keep",
-         "",
-         "8.1%",
-         "0.072%"
-        ],
-        [
-         "4 land, 3 other  ->  keep",
-         "",
-         "5.5%",
-         "0.072%"
-        ],
-        [
-         "5 land, 2 other  ->  keep",
-         "",
-         "1.1%",
-         "0.072%"
-        ],
-        [
-         "6 land, 1 other  ->  keep",
-         "",
-         "0.1%",
-         "0.072%"
         ],
         [
          "7 land  ->  keep",
          "",
+         "0.3%",
+         "100.0%"
+        ],
+        [
+         "4 land, 3 ramp  ->  keep",
+         "",
+         "0.083%",
+         "100.0%"
+        ],
+        [
+         "3 land, 4 ramp  ->  keep",
+         "",
+         "0.005%",
+         "100.0%"
+        ],
+        [
+         "2 land, 1 ramp, 4 other  ->  keep",
+         "",
+         "8.7%",
+         "0.0%"
+        ],
+        [
+         "2 land, 5 other  ->  keep",
+         "",
+         "5.7%",
+         "0.0%"
+        ],
+        [
+         "2 land, 2 ramp, 3 other  ->  keep",
+         "",
+         "3.7%",
+         "0.0%"
+        ],
+        [
+         "1 land, 1 ramp, 5 other  ->  keep",
+         "",
+         "2.5%",
+         "0.0%"
+        ],
+        [
+         "1 land, 2 ramp, 4 other  ->  keep",
+         "",
+         "1.5%",
+         "0.0%"
+        ],
+        [
+         "1 land, 6 other  ->  keep",
+         "",
+         "1.3%",
+         "0.0%"
+        ],
+        [
+         "2 land, 3 ramp, 2 other  ->  keep",
+         "",
+         "0.5%",
+         "0.0%"
+        ],
+        [
+         "1 land, 3 ramp, 3 other  ->  keep",
+         "",
+         "0.3%",
+         "0.0%"
+        ],
+        [
+         "1 ramp, 6 other  ->  keep",
+         "",
+         "0.3%",
+         "0.0%"
+        ],
+        [
+         "2 ramp, 5 other  ->  keep",
+         "",
+         "0.2%",
+         "0.0%"
+        ],
+        [
+         "7 other  ->  keep",
+         "",
+         "0.1%",
+         "0.0%"
+        ],
+        [
+         "3 ramp, 4 other  ->  keep",
+         "",
+         "0.051%",
+         "0.0%"
+        ],
+        [
+         "2 land, 4 ramp, 1 other  ->  keep",
+         "",
+         "0.016%",
+         "0.0%"
+        ],
+        [
+         "1 land, 4 ramp, 2 other  ->  keep",
+         "",
+         "0.014%",
+         "0.0%"
+        ],
+        [
+         "4 ramp, 3 other  ->  keep",
+         "",
          "0.004%",
-         "0.072%"
+         "0.0%"
         ]
        ]
       ]
      ]
     ]
-   ]
+   ],
+   "scenario": {
+    "deck": {
+     "cards": [
+      {
+       "name": "land",
+       "quantity": 19,
+       "tags": {
+        "items": [
+         "land"
+        ],
+        "type": "frozenset"
+       },
+       "type": "Card",
+       "zone": "library"
+      },
+      {
+       "name": "ramp",
+       "quantity": 4,
+       "tags": {
+        "items": [
+         "ramp"
+        ],
+        "type": "frozenset"
+       },
+       "type": "Card",
+       "zone": "library"
+      },
+      {
+       "name": "(other)",
+       "quantity": 17,
+       "tags": {
+        "items": [
+         "(other)"
+        ],
+        "type": "frozenset"
+       },
+       "type": "Card",
+       "zone": "library"
+      }
+     ],
+     "name": null,
+     "type": "Deck"
+    },
+    "game": {
+     "draw_overrides": [],
+     "draws_per_turn": 1,
+     "extra_draws": [],
+     "hand_size": 7,
+     "on_play": false,
+     "type": "GameConfig"
+    },
+    "mulligan": {
+     "draw_size": 7,
+     "free_mulligans": 0,
+     "keep_rule": {
+      "items": [
+       {
+        "hi": 2,
+        "lo": 1,
+        "sel": {
+         "name": "land",
+         "type": "Tag"
+        },
+        "type": "Between"
+       },
+       {
+        "items": [
+         {
+          "hi": 5,
+          "lo": 1,
+          "sel": {
+           "name": "land",
+           "type": "Tag"
+          },
+          "type": "Between"
+         },
+         {
+          "hi": 2,
+          "lo": 0,
+          "sel": {
+           "name": "ramp",
+           "type": "Tag"
+          },
+          "type": "Between"
+         }
+        ],
+        "type": "And"
+       }
+      ],
+      "type": "Or"
+     },
+     "max_mulligans": 2,
+     "priority": [
+      {
+       "name": null,
+       "quota": 3,
+       "selector": {
+        "name": "land",
+        "type": "Tag"
+       },
+       "type": "PriorityGroup"
+      },
+      {
+       "name": null,
+       "quota": 0,
+       "selector": {
+        "name": "ramp",
+        "type": "Tag"
+       },
+       "type": "PriorityGroup"
+      }
+     ],
+     "type": "MulliganConfig"
+    },
+    "type": "Scenario"
+   }
   },
   {
    "details": [
@@ -14411,86 +14846,10 @@
     "drawsPerTurn": "1",
     "drawsType": "",
     "freeFirst": false,
-    "goFirst": false,
+    "goFirst": true,
     "goal": [
      {
-      "amount": "2",
-      "cardType": "ramp",
-      "id": "g0",
-      "kind": "at least",
-      "turn": "3"
-     }
-    ],
-    "hmAim": "target",
-    "hmMode": "one",
-    "hmSlots": "20",
-    "hmTarget": "90",
-    "hmVary": [
-     {
-      "cardType": "land",
-      "high": "40",
-      "id": "v0",
-      "low": "14"
-     }
-    ],
-    "keepMax": "6",
-    "keepMin": "2",
-    "keepType": "land",
-    "lastTurn": "5",
-    "maxMulligans": "2",
-    "mulligans": true,
-    "protect": [
-     {
-      "cardType": "land",
-      "id": "p0",
-      "upTo": "4"
-     },
-     {
-      "cardType": "ramp",
-      "id": "p1",
-      "upTo": "0"
-     }
-    ],
-    "question": "chances",
-    "rule": "",
-    "types": [
-     {
-      "also": "",
-      "count": "36",
-      "id": "t0",
-      "name": "land"
-     },
-     {
-      "also": "",
-      "count": "10",
-      "id": "t1",
-      "name": "ramp"
-     }
-    ],
-    "useRule": false
-   },
-   "headline": "You have at least 2 ramp by turn 3 in 53.4% of games (about 5 games in 10).",
-   "name": "mulligan 4",
-   "rows": []
-  },
-  {
-   "details": [
-    "A good game means: at least 3 ramp by turn 1.",
-    "On average you mulligan 0.27 times and keep 7.00 cards.",
-    "The best plan (below) keeps a hand only when that hand is at least as good as mulliganing would be on average."
-   ],
-   "form": {
-    "combine": "all",
-    "deckMode": "types",
-    "deckSize": "99",
-    "decklist": "",
-    "drawsPerTurn": "1",
-    "drawsType": "",
-    "freeFirst": true,
-    "goFirst": false,
-    "goal": [
-     {
-      "amount": "3",
+      "amount": "4",
       "cardType": "ramp",
       "id": "g0",
       "kind": "at least",
@@ -14509,9 +14868,25 @@
       "low": "14"
      }
     ],
-    "keepMax": "6",
-    "keepMin": "2",
-    "keepType": "land",
+    "keep": [
+     {
+      "id": "k0",
+      "rules": [
+       {
+        "cardType": "land",
+        "id": "k0r0",
+        "max": "2",
+        "min": "0"
+       },
+       {
+        "cardType": "land",
+        "id": "k0r1",
+        "max": "2",
+        "min": "1"
+       }
+      ]
+     }
+    ],
     "lastTurn": "5",
     "maxMulligans": "1",
     "mulligans": true,
@@ -14524,555 +14899,7 @@
      {
       "cardType": "ramp",
       "id": "p1",
-      "upTo": "1"
-     }
-    ],
-    "question": "mulligan",
-    "rule": "",
-    "types": [
-     {
-      "also": "",
-      "count": "32",
-      "id": "t0",
-      "name": "land"
-     },
-     {
-      "also": "",
-      "count": "6",
-      "id": "t1",
-      "name": "ramp"
-     }
-    ],
-    "useRule": false
-   },
-   "headline": "With your mulligan plan you get a good game 0.5% of the time. Never mulliganing: 0.6%. The best possible plan: 1.2%.",
-   "name": "mulligan 5",
-   "rows": [
-    [
-     [
-      "Your plan",
-      "",
-      "",
-      ""
-     ],
-     [
-      [
-       [
-        "First 7 cards",
-        "100.0%",
-        "72.7%",
-        "0.6%"
-       ],
-       []
-      ],
-      [
-       [
-        "After 1 mulligan (keep 7)",
-        "27.3%",
-        "100.0%",
-        "0.6%"
-       ],
-       []
-      ]
-     ]
-    ],
-    [
-     [
-      "Best possible plan",
-      "",
-      "",
-      "1.2%"
-     ],
-     [
-      [
-       [
-        "First 7 cards: keep if its chance is at least 0.6%",
-        "",
-        "5.6%",
-        ""
-       ],
-       [
-        [
-         "3 ramp, 1 land, 3 other  ->  keep",
-         "",
-         "0.2%",
-         "100.0%"
-        ],
-        [
-         "3 ramp, 2 land, 2 other  ->  keep",
-         "",
-         "0.1%",
-         "100.0%"
-        ],
-        [
-         "3 ramp, 4 other  ->  keep",
-         "",
-         "0.070%",
-         "100.0%"
-        ],
-        [
-         "3 ramp, 3 land, 1 other  ->  keep",
-         "",
-         "0.041%",
-         "100.0%"
-        ],
-        [
-         "4 ramp, 1 land, 2 other  ->  keep",
-         "",
-         "0.006%",
-         "100.0%"
-        ],
-        [
-         "3 ramp, 4 land  ->  keep",
-         "",
-         "0.005%",
-         "100.0%"
-        ],
-        [
-         "4 ramp, 3 other  ->  keep",
-         "",
-         "0.004%",
-         "100.0%"
-        ],
-        [
-         "4 ramp, 2 land, 1 other  ->  keep",
-         "",
-         "0.003%",
-         "100.0%"
-        ],
-        [
-         "4 ramp, 3 land  ->  keep",
-         "",
-         "less than 0.001%",
-         "100.0%"
-        ],
-        [
-         "5 ramp, 1 land, 1 other  ->  keep",
-         "",
-         "less than 0.001%",
-         "100.0%"
-        ],
-        [
-         "5 ramp, 2 other  ->  keep",
-         "",
-         "less than 0.001%",
-         "100.0%"
-        ],
-        [
-         "5 ramp, 2 land  ->  keep",
-         "",
-         "less than 0.001%",
-         "100.0%"
-        ],
-        [
-         "6 ramp, 1 other  ->  keep",
-         "",
-         "less than 0.001%",
-         "100.0%"
-        ],
-        [
-         "6 ramp, 1 land  ->  keep",
-         "",
-         "less than 0.001%",
-         "100.0%"
-        ],
-        [
-         "2 ramp, 2 land, 3 other  ->  keep",
-         "",
-         "1.8%",
-         "4.3%"
-        ],
-        [
-         "2 ramp, 1 land, 4 other  ->  keep",
-         "",
-         "1.7%",
-         "4.3%"
-        ],
-        [
-         "2 ramp, 3 land, 2 other  ->  keep",
-         "",
-         "0.9%",
-         "4.3%"
-        ],
-        [
-         "2 ramp, 5 other  ->  keep",
-         "",
-         "0.6%",
-         "4.3%"
-        ],
-        [
-         "2 ramp, 4 land, 1 other  ->  keep",
-         "",
-         "0.2%",
-         "4.3%"
-        ],
-        [
-         "2 ramp, 5 land  ->  keep",
-         "",
-         "0.020%",
-         "4.3%"
-        ],
-        [
-         "2 land, 5 other  ->  mulligan",
-         "",
-         "19.8%",
-         "0.0%"
-        ],
-        [
-         "3 land, 4 other  ->  mulligan",
-         "",
-         "17.4%",
-         "0.0%"
-        ],
-        [
-         "1 land, 6 other  ->  mulligan",
-         "",
-         "11.9%",
-         "0.0%"
-        ],
-        [
-         "1 ramp, 2 land, 4 other  ->  mulligan",
-         "",
-         "10.4%",
-         "0.0%"
-        ],
-        [
-         "4 land, 3 other  ->  mulligan",
-         "",
-         "8.7%",
-         "0.0%"
-        ],
-        [
-         "1 ramp, 1 land, 5 other  ->  mulligan",
-         "",
-         "7.7%",
-         "0.0%"
-        ],
-        [
-         "1 ramp, 3 land, 3 other  ->  mulligan",
-         "",
-         "7.2%",
-         "0.0%"
-        ],
-        [
-         "7 other  ->  mulligan",
-         "",
-         "2.9%",
-         "0.0%"
-        ],
-        [
-         "1 ramp, 4 land, 2 other  ->  mulligan",
-         "",
-         "2.7%",
-         "0.0%"
-        ],
-        [
-         "5 land, 2 other  ->  mulligan",
-         "",
-         "2.5%",
-         "0.0%"
-        ],
-        [
-         "1 ramp, 6 other  ->  mulligan",
-         "",
-         "2.2%",
-         "0.0%"
-        ],
-        [
-         "1 ramp, 5 land, 1 other  ->  mulligan",
-         "",
-         "0.5%",
-         "0.0%"
-        ],
-        [
-         "6 land, 1 other  ->  mulligan",
-         "",
-         "0.4%",
-         "0.0%"
-        ],
-        [
-         "1 ramp, 6 land  ->  mulligan",
-         "",
-         "0.037%",
-         "0.0%"
-        ],
-        [
-         "7 land  ->  mulligan",
-         "",
-         "0.023%",
-         "0.0%"
-        ]
-       ]
-      ],
-      [
-       [
-        "After 1 mulligan (keep 7): keep any hand",
-        "",
-        "100.0%",
-        ""
-       ],
-       [
-        [
-         "3 ramp, 1 land, 3 other  ->  keep",
-         "",
-         "0.2%",
-         "100.0%"
-        ],
-        [
-         "3 ramp, 2 land, 2 other  ->  keep",
-         "",
-         "0.1%",
-         "100.0%"
-        ],
-        [
-         "3 ramp, 4 other  ->  keep",
-         "",
-         "0.070%",
-         "100.0%"
-        ],
-        [
-         "3 ramp, 3 land, 1 other  ->  keep",
-         "",
-         "0.041%",
-         "100.0%"
-        ],
-        [
-         "4 ramp, 1 land, 2 other  ->  keep",
-         "",
-         "0.006%",
-         "100.0%"
-        ],
-        [
-         "3 ramp, 4 land  ->  keep",
-         "",
-         "0.005%",
-         "100.0%"
-        ],
-        [
-         "4 ramp, 3 other  ->  keep",
-         "",
-         "0.004%",
-         "100.0%"
-        ],
-        [
-         "4 ramp, 2 land, 1 other  ->  keep",
-         "",
-         "0.003%",
-         "100.0%"
-        ],
-        [
-         "4 ramp, 3 land  ->  keep",
-         "",
-         "less than 0.001%",
-         "100.0%"
-        ],
-        [
-         "5 ramp, 1 land, 1 other  ->  keep",
-         "",
-         "less than 0.001%",
-         "100.0%"
-        ],
-        [
-         "5 ramp, 2 other  ->  keep",
-         "",
-         "less than 0.001%",
-         "100.0%"
-        ],
-        [
-         "5 ramp, 2 land  ->  keep",
-         "",
-         "less than 0.001%",
-         "100.0%"
-        ],
-        [
-         "6 ramp, 1 other  ->  keep",
-         "",
-         "less than 0.001%",
-         "100.0%"
-        ],
-        [
-         "6 ramp, 1 land  ->  keep",
-         "",
-         "less than 0.001%",
-         "100.0%"
-        ],
-        [
-         "2 ramp, 2 land, 3 other  ->  keep",
-         "",
-         "1.8%",
-         "4.3%"
-        ],
-        [
-         "2 ramp, 1 land, 4 other  ->  keep",
-         "",
-         "1.7%",
-         "4.3%"
-        ],
-        [
-         "2 ramp, 3 land, 2 other  ->  keep",
-         "",
-         "0.9%",
-         "4.3%"
-        ],
-        [
-         "2 ramp, 5 other  ->  keep",
-         "",
-         "0.6%",
-         "4.3%"
-        ],
-        [
-         "2 ramp, 4 land, 1 other  ->  keep",
-         "",
-         "0.2%",
-         "4.3%"
-        ],
-        [
-         "2 ramp, 5 land  ->  keep",
-         "",
-         "0.020%",
-         "4.3%"
-        ],
-        [
-         "2 land, 5 other  ->  keep",
-         "",
-         "19.8%",
-         "0.0%"
-        ],
-        [
-         "3 land, 4 other  ->  keep",
-         "",
-         "17.4%",
-         "0.0%"
-        ],
-        [
-         "1 land, 6 other  ->  keep",
-         "",
-         "11.9%",
-         "0.0%"
-        ],
-        [
-         "1 ramp, 2 land, 4 other  ->  keep",
-         "",
-         "10.4%",
-         "0.0%"
-        ],
-        [
-         "4 land, 3 other  ->  keep",
-         "",
-         "8.7%",
-         "0.0%"
-        ],
-        [
-         "1 ramp, 1 land, 5 other  ->  keep",
-         "",
-         "7.7%",
-         "0.0%"
-        ],
-        [
-         "1 ramp, 3 land, 3 other  ->  keep",
-         "",
-         "7.2%",
-         "0.0%"
-        ],
-        [
-         "7 other  ->  keep",
-         "",
-         "2.9%",
-         "0.0%"
-        ],
-        [
-         "1 ramp, 4 land, 2 other  ->  keep",
-         "",
-         "2.7%",
-         "0.0%"
-        ],
-        [
-         "5 land, 2 other  ->  keep",
-         "",
-         "2.5%",
-         "0.0%"
-        ],
-        [
-         "1 ramp, 6 other  ->  keep",
-         "",
-         "2.2%",
-         "0.0%"
-        ],
-        [
-         "1 ramp, 5 land, 1 other  ->  keep",
-         "",
-         "0.5%",
-         "0.0%"
-        ],
-        [
-         "6 land, 1 other  ->  keep",
-         "",
-         "0.4%",
-         "0.0%"
-        ],
-        [
-         "1 ramp, 6 land  ->  keep",
-         "",
-         "0.037%",
-         "0.0%"
-        ],
-        [
-         "7 land  ->  keep",
-         "",
-         "0.023%",
-         "0.0%"
-        ]
-       ]
-      ]
-     ]
-    ]
-   ]
-  },
-  {
-   "details": [
-    "This includes the games where you mulligan, following your plan."
-   ],
-   "form": {
-    "combine": "all",
-    "deckMode": "types",
-    "deckSize": "99",
-    "decklist": "",
-    "drawsPerTurn": "1",
-    "drawsType": "",
-    "freeFirst": false,
-    "goFirst": true,
-    "goal": [
-     {
-      "amount": "4",
-      "cardType": "land",
-      "id": "g0",
-      "kind": "at least",
-      "turn": "2"
-     }
-    ],
-    "hmAim": "target",
-    "hmMode": "one",
-    "hmSlots": "20",
-    "hmTarget": "90",
-    "hmVary": [
-     {
-      "cardType": "land",
-      "high": "40",
-      "id": "v0",
-      "low": "14"
-     }
-    ],
-    "keepMax": "5",
-    "keepMin": "2",
-    "keepType": "land",
-    "lastTurn": "5",
-    "maxMulligans": "0",
-    "mulligans": true,
-    "protect": [
-     {
-      "cardType": "land",
-      "id": "p0",
-      "upTo": "4"
+      "upTo": "0"
      }
     ],
     "question": "chances",
@@ -15080,83 +14907,7 @@
     "types": [
      {
       "also": "",
-      "count": "17",
-      "id": "t0",
-      "name": "land"
-     },
-     {
-      "also": "",
-      "count": "6",
-      "id": "t1",
-      "name": "ramp"
-     }
-    ],
-    "useRule": false
-   },
-   "headline": "You have at least 4 land by turn 2 in 2.8% of games (about 1 game in 36).",
-   "name": "mulligan 6",
-   "rows": []
-  },
-  {
-   "details": [
-    "A good game means: at least 4 ramp in your opening hand.",
-    "On average you mulligan 0.16 times and keep 6.84 cards.",
-    "The best plan (below) keeps a hand only when that hand is at least as good as mulliganing would be on average."
-   ],
-   "form": {
-    "combine": "all",
-    "deckMode": "types",
-    "deckSize": "40",
-    "decklist": "",
-    "drawsPerTurn": "1",
-    "drawsType": "",
-    "freeFirst": false,
-    "goFirst": false,
-    "goal": [
-     {
-      "amount": "4",
-      "cardType": "ramp",
-      "id": "g0",
-      "kind": "at least",
-      "turn": "0"
-     }
-    ],
-    "hmAim": "target",
-    "hmMode": "one",
-    "hmSlots": "20",
-    "hmTarget": "90",
-    "hmVary": [
-     {
-      "cardType": "land",
-      "high": "40",
-      "id": "v0",
-      "low": "14"
-     }
-    ],
-    "keepMax": "5",
-    "keepMin": "2",
-    "keepType": "land",
-    "lastTurn": "5",
-    "maxMulligans": "2",
-    "mulligans": true,
-    "protect": [
-     {
-      "cardType": "land",
-      "id": "p0",
-      "upTo": "4"
-     },
-     {
-      "cardType": "ramp",
-      "id": "p1",
-      "upTo": "1"
-     }
-    ],
-    "question": "mulligan",
-    "rule": "",
-    "types": [
-     {
-      "also": "",
-      "count": "24",
+      "count": "33",
       "id": "t0",
       "name": "land"
      },
@@ -15169,8 +14920,204 @@
     ],
     "useRule": false
    },
+   "headline": "You have at least 4 ramp by turn 1 in 0.0% of games (never).",
+   "keepWords": "keep a hand with 0 to 2 land and 1 to 2 land",
+   "name": "mulligan 2",
+   "rows": [],
+   "scenario": {
+    "deck": {
+     "cards": [
+      {
+       "name": "land",
+       "quantity": 33,
+       "tags": {
+        "items": [
+         "land"
+        ],
+        "type": "frozenset"
+       },
+       "type": "Card",
+       "zone": "library"
+      },
+      {
+       "name": "ramp",
+       "quantity": 1,
+       "tags": {
+        "items": [
+         "ramp"
+        ],
+        "type": "frozenset"
+       },
+       "type": "Card",
+       "zone": "library"
+      },
+      {
+       "name": "(other)",
+       "quantity": 26,
+       "tags": {
+        "items": [
+         "(other)"
+        ],
+        "type": "frozenset"
+       },
+       "type": "Card",
+       "zone": "library"
+      }
+     ],
+     "name": null,
+     "type": "Deck"
+    },
+    "game": {
+     "draw_overrides": [],
+     "draws_per_turn": 1,
+     "extra_draws": [],
+     "hand_size": 7,
+     "on_play": true,
+     "type": "GameConfig"
+    },
+    "mulligan": {
+     "draw_size": 7,
+     "free_mulligans": 0,
+     "keep_rule": {
+      "items": [
+       {
+        "hi": 2,
+        "lo": 0,
+        "sel": {
+         "name": "land",
+         "type": "Tag"
+        },
+        "type": "Between"
+       },
+       {
+        "hi": 2,
+        "lo": 1,
+        "sel": {
+         "name": "land",
+         "type": "Tag"
+        },
+        "type": "Between"
+       }
+      ],
+      "type": "And"
+     },
+     "max_mulligans": 1,
+     "priority": [
+      {
+       "name": null,
+       "quota": 4,
+       "selector": {
+        "name": "land",
+        "type": "Tag"
+       },
+       "type": "PriorityGroup"
+      },
+      {
+       "name": null,
+       "quota": 0,
+       "selector": {
+        "name": "ramp",
+        "type": "Tag"
+       },
+       "type": "PriorityGroup"
+      }
+     ],
+     "type": "MulliganConfig"
+    },
+    "type": "Scenario"
+   }
+  },
+  {
+   "details": [
+    "A good game means: at least 4 ramp by turn 1.",
+    "On average you mulligan 0.59 times and keep 6.41 cards.",
+    "The best plan (below) keeps a hand only when that hand is at least as good as mulliganing would be on average."
+   ],
+   "form": {
+    "combine": "all",
+    "deckMode": "types",
+    "deckSize": "40",
+    "decklist": "",
+    "drawsPerTurn": "1",
+    "drawsType": "",
+    "freeFirst": false,
+    "goFirst": true,
+    "goal": [
+     {
+      "amount": "4",
+      "cardType": "ramp",
+      "id": "g0",
+      "kind": "at least",
+      "turn": "1"
+     }
+    ],
+    "hmAim": "target",
+    "hmMode": "one",
+    "hmSlots": "20",
+    "hmTarget": "90",
+    "hmVary": [
+     {
+      "cardType": "land",
+      "high": "40",
+      "id": "v0",
+      "low": "14"
+     }
+    ],
+    "keep": [
+     {
+      "id": "k0",
+      "rules": [
+       {
+        "cardType": "land",
+        "id": "k0r0",
+        "max": "5",
+        "min": "2"
+       },
+       {
+        "cardType": "land",
+        "id": "k0r1",
+        "max": "3",
+        "min": "1"
+       }
+      ]
+     }
+    ],
+    "lastTurn": "5",
+    "maxMulligans": "1",
+    "mulligans": true,
+    "protect": [
+     {
+      "cardType": "land",
+      "id": "p0",
+      "upTo": "3"
+     },
+     {
+      "cardType": "ramp",
+      "id": "p1",
+      "upTo": "2"
+     }
+    ],
+    "question": "mulligan",
+    "rule": "",
+    "types": [
+     {
+      "also": "",
+      "count": "21",
+      "id": "t0",
+      "name": "land"
+     },
+     {
+      "also": "",
+      "count": "3",
+      "id": "t1",
+      "name": "ramp"
+     }
+    ],
+    "useRule": false
+   },
    "headline": "With your mulligan plan you get a good game 0.0% of the time. Never mulliganing: 0.0%. The best possible plan: 0.0%.",
-   "name": "mulligan 7",
+   "keepWords": "keep a hand with 2 to 5 land and 1 to 3 land",
+   "name": "mulligan 3",
    "rows": [
     [
      [
@@ -15184,7 +15131,7 @@
        [
         "First 7 cards",
         "100.0%",
-        "85.5%",
+        "40.7%",
         "0.0%"
        ],
        []
@@ -15192,16 +15139,7 @@
       [
        [
         "After 1 mulligan (keep 6)",
-        "14.5%",
-        "86.2%",
-        "0.0%"
-       ],
-       []
-      ],
-      [
-       [
-        "After 2 mulligans (keep 5)",
-        "2.0%",
+        "59.3%",
         "100.0%",
         "0.0%"
        ],
@@ -15228,98 +15166,164 @@
         [
          "4 land, 3 other  ->  keep",
          "",
-         "25.9%",
+         "18.0%",
          "0.0%"
         ],
         [
          "5 land, 2 other  ->  keep",
          "",
-         "23.9%",
+         "13.1%",
          "0.0%"
         ],
         [
          "3 land, 4 other  ->  keep",
          "",
-         "14.8%",
-         "0.0%"
-        ],
-        [
-         "6 land, 1 other  ->  keep",
-         "",
-         "10.8%",
-         "0.0%"
-        ],
-        [
-         "1 ramp, 4 land, 2 other  ->  keep",
-         "",
-         "6.0%",
+         "13.0%",
          "0.0%"
         ],
         [
          "1 ramp, 3 land, 3 other  ->  keep",
          "",
-         "4.9%",
+         "12.0%",
          "0.0%"
         ],
         [
-         "2 land, 5 other  ->  keep",
+         "1 ramp, 4 land, 2 other  ->  keep",
          "",
-         "4.4%",
-         "0.0%"
-        ],
-        [
-         "1 ramp, 5 land, 1 other  ->  keep",
-         "",
-         "3.4%",
+         "11.6%",
          "0.0%"
         ],
         [
          "1 ramp, 2 land, 4 other  ->  keep",
          "",
-         "2.0%",
+         "6.2%",
          "0.0%"
         ],
         [
-         "7 land  ->  keep",
+         "1 ramp, 5 land, 1 other  ->  keep",
+         "",
+         "5.2%",
+         "0.0%"
+        ],
+        [
+         "2 land, 5 other  ->  keep",
+         "",
+         "4.9%",
+         "0.0%"
+        ],
+        [
+         "6 land, 1 other  ->  keep",
+         "",
+         "4.7%",
+         "0.0%"
+        ],
+        [
+         "2 ramp, 3 land, 2 other  ->  keep",
+         "",
+         "2.6%",
+         "0.0%"
+        ],
+        [
+         "2 ramp, 2 land, 3 other  ->  keep",
          "",
          "1.9%",
          "0.0%"
         ],
         [
-         "1 ramp, 6 land  ->  keep",
+         "2 ramp, 4 land, 1 other  ->  keep",
          "",
-         "0.7%",
-         "0.0%"
-        ],
-        [
-         "1 land, 6 other  ->  keep",
-         "",
-         "0.6%",
+         "1.5%",
          "0.0%"
         ],
         [
          "1 ramp, 1 land, 5 other  ->  keep",
          "",
-         "0.4%",
+         "1.5%",
          "0.0%"
         ],
         [
-         "7 other  ->  keep",
+         "1 land, 6 other  ->  keep",
          "",
-         "0.035%",
+         "0.9%",
+         "0.0%"
+        ],
+        [
+         "1 ramp, 6 land  ->  keep",
+         "",
+         "0.9%",
+         "0.0%"
+        ],
+        [
+         "7 land  ->  keep",
+         "",
+         "0.6%",
+         "0.0%"
+        ],
+        [
+         "2 ramp, 1 land, 4 other  ->  keep",
+         "",
+         "0.6%",
+         "0.0%"
+        ],
+        [
+         "2 ramp, 5 land  ->  keep",
+         "",
+         "0.3%",
+         "0.0%"
+        ],
+        [
+         "3 ramp, 2 land, 2 other  ->  keep",
+         "",
+         "0.1%",
          "0.0%"
         ],
         [
          "1 ramp, 6 other  ->  keep",
          "",
-         "0.027%",
+         "0.1%",
+         "0.0%"
+        ],
+        [
+         "3 ramp, 3 land, 1 other  ->  keep",
+         "",
+         "0.1%",
+         "0.0%"
+        ],
+        [
+         "2 ramp, 5 other  ->  keep",
+         "",
+         "0.070%",
+         "0.0%"
+        ],
+        [
+         "3 ramp, 1 land, 3 other  ->  keep",
+         "",
+         "0.063%",
+         "0.0%"
+        ],
+        [
+         "7 other  ->  keep",
+         "",
+         "0.061%",
+         "0.0%"
+        ],
+        [
+         "3 ramp, 4 land  ->  keep",
+         "",
+         "0.032%",
+         "0.0%"
+        ],
+        [
+         "3 ramp, 4 other  ->  keep",
+         "",
+         "0.010%",
          "0.0%"
         ]
        ]
       ],
       [
        [
-        "After 1 mulligan (keep 6): keep if its chance is at least 0.0%",
+        "After 1 mulligan (keep 6): keep any hand",
         "",
         "100.0%",
         ""
@@ -15328,198 +15332,266 @@
         [
          "4 land, 3 other  ->  keep",
          "",
-         "25.9%",
+         "18.0%",
          "0.0%"
         ],
         [
          "5 land, 2 other  ->  keep",
          "",
-         "23.9%",
+         "13.1%",
          "0.0%"
         ],
         [
          "3 land, 4 other  ->  keep",
          "",
-         "14.8%",
-         "0.0%"
-        ],
-        [
-         "6 land, 1 other  ->  keep",
-         "",
-         "10.8%",
-         "0.0%"
-        ],
-        [
-         "1 ramp, 4 land, 2 other  ->  keep",
-         "",
-         "6.0%",
+         "13.0%",
          "0.0%"
         ],
         [
          "1 ramp, 3 land, 3 other  ->  keep",
          "",
-         "4.9%",
-         "0.0%"
-        ],
-        [
-         "2 land, 5 other  ->  keep",
-         "",
-         "4.4%",
-         "0.0%"
-        ],
-        [
-         "1 ramp, 5 land, 1 other  ->  keep",
-         "",
-         "3.4%",
-         "0.0%"
-        ],
-        [
-         "1 ramp, 2 land, 4 other  ->  keep",
-         "",
-         "2.0%",
-         "0.0%"
-        ],
-        [
-         "7 land  ->  keep",
-         "",
-         "1.9%",
-         "0.0%"
-        ],
-        [
-         "1 ramp, 6 land  ->  keep",
-         "",
-         "0.7%",
-         "0.0%"
-        ],
-        [
-         "1 land, 6 other  ->  keep",
-         "",
-         "0.6%",
-         "0.0%"
-        ],
-        [
-         "1 ramp, 1 land, 5 other  ->  keep",
-         "",
-         "0.4%",
-         "0.0%"
-        ],
-        [
-         "7 other  ->  keep",
-         "",
-         "0.035%",
-         "0.0%"
-        ],
-        [
-         "1 ramp, 6 other  ->  keep",
-         "",
-         "0.027%",
-         "0.0%"
-        ]
-       ]
-      ],
-      [
-       [
-        "After 2 mulligans (keep 5): keep any hand",
-        "",
-        "100.0%",
-        ""
-       ],
-       [
-        [
-         "4 land, 3 other  ->  keep",
-         "",
-         "25.9%",
-         "0.0%"
-        ],
-        [
-         "5 land, 2 other  ->  keep",
-         "",
-         "23.9%",
-         "0.0%"
-        ],
-        [
-         "3 land, 4 other  ->  keep",
-         "",
-         "14.8%",
-         "0.0%"
-        ],
-        [
-         "6 land, 1 other  ->  keep",
-         "",
-         "10.8%",
+         "12.0%",
          "0.0%"
         ],
         [
          "1 ramp, 4 land, 2 other  ->  keep",
          "",
-         "6.0%",
-         "0.0%"
-        ],
-        [
-         "1 ramp, 3 land, 3 other  ->  keep",
-         "",
-         "4.9%",
-         "0.0%"
-        ],
-        [
-         "2 land, 5 other  ->  keep",
-         "",
-         "4.4%",
-         "0.0%"
-        ],
-        [
-         "1 ramp, 5 land, 1 other  ->  keep",
-         "",
-         "3.4%",
+         "11.6%",
          "0.0%"
         ],
         [
          "1 ramp, 2 land, 4 other  ->  keep",
          "",
-         "2.0%",
+         "6.2%",
          "0.0%"
         ],
         [
-         "7 land  ->  keep",
+         "1 ramp, 5 land, 1 other  ->  keep",
+         "",
+         "5.2%",
+         "0.0%"
+        ],
+        [
+         "2 land, 5 other  ->  keep",
+         "",
+         "4.9%",
+         "0.0%"
+        ],
+        [
+         "6 land, 1 other  ->  keep",
+         "",
+         "4.7%",
+         "0.0%"
+        ],
+        [
+         "2 ramp, 3 land, 2 other  ->  keep",
+         "",
+         "2.6%",
+         "0.0%"
+        ],
+        [
+         "2 ramp, 2 land, 3 other  ->  keep",
          "",
          "1.9%",
          "0.0%"
         ],
         [
-         "1 ramp, 6 land  ->  keep",
+         "2 ramp, 4 land, 1 other  ->  keep",
          "",
-         "0.7%",
-         "0.0%"
-        ],
-        [
-         "1 land, 6 other  ->  keep",
-         "",
-         "0.6%",
+         "1.5%",
          "0.0%"
         ],
         [
          "1 ramp, 1 land, 5 other  ->  keep",
          "",
-         "0.4%",
+         "1.5%",
          "0.0%"
         ],
         [
-         "7 other  ->  keep",
+         "1 land, 6 other  ->  keep",
          "",
-         "0.035%",
+         "0.9%",
+         "0.0%"
+        ],
+        [
+         "1 ramp, 6 land  ->  keep",
+         "",
+         "0.9%",
+         "0.0%"
+        ],
+        [
+         "7 land  ->  keep",
+         "",
+         "0.6%",
+         "0.0%"
+        ],
+        [
+         "2 ramp, 1 land, 4 other  ->  keep",
+         "",
+         "0.6%",
+         "0.0%"
+        ],
+        [
+         "2 ramp, 5 land  ->  keep",
+         "",
+         "0.3%",
+         "0.0%"
+        ],
+        [
+         "3 ramp, 2 land, 2 other  ->  keep",
+         "",
+         "0.1%",
          "0.0%"
         ],
         [
          "1 ramp, 6 other  ->  keep",
          "",
-         "0.027%",
+         "0.1%",
+         "0.0%"
+        ],
+        [
+         "3 ramp, 3 land, 1 other  ->  keep",
+         "",
+         "0.1%",
+         "0.0%"
+        ],
+        [
+         "2 ramp, 5 other  ->  keep",
+         "",
+         "0.070%",
+         "0.0%"
+        ],
+        [
+         "3 ramp, 1 land, 3 other  ->  keep",
+         "",
+         "0.063%",
+         "0.0%"
+        ],
+        [
+         "7 other  ->  keep",
+         "",
+         "0.061%",
+         "0.0%"
+        ],
+        [
+         "3 ramp, 4 land  ->  keep",
+         "",
+         "0.032%",
+         "0.0%"
+        ],
+        [
+         "3 ramp, 4 other  ->  keep",
+         "",
+         "0.010%",
          "0.0%"
         ]
        ]
       ]
      ]
     ]
-   ]
+   ],
+   "scenario": {
+    "deck": {
+     "cards": [
+      {
+       "name": "land",
+       "quantity": 21,
+       "tags": {
+        "items": [
+         "land"
+        ],
+        "type": "frozenset"
+       },
+       "type": "Card",
+       "zone": "library"
+      },
+      {
+       "name": "ramp",
+       "quantity": 3,
+       "tags": {
+        "items": [
+         "ramp"
+        ],
+        "type": "frozenset"
+       },
+       "type": "Card",
+       "zone": "library"
+      },
+      {
+       "name": "(other)",
+       "quantity": 16,
+       "tags": {
+        "items": [
+         "(other)"
+        ],
+        "type": "frozenset"
+       },
+       "type": "Card",
+       "zone": "library"
+      }
+     ],
+     "name": null,
+     "type": "Deck"
+    },
+    "game": {
+     "draw_overrides": [],
+     "draws_per_turn": 1,
+     "extra_draws": [],
+     "hand_size": 7,
+     "on_play": true,
+     "type": "GameConfig"
+    },
+    "mulligan": {
+     "draw_size": 7,
+     "free_mulligans": 0,
+     "keep_rule": {
+      "items": [
+       {
+        "hi": 5,
+        "lo": 2,
+        "sel": {
+         "name": "land",
+         "type": "Tag"
+        },
+        "type": "Between"
+       },
+       {
+        "hi": 3,
+        "lo": 1,
+        "sel": {
+         "name": "land",
+         "type": "Tag"
+        },
+        "type": "Between"
+       }
+      ],
+      "type": "And"
+     },
+     "max_mulligans": 1,
+     "priority": [
+      {
+       "name": null,
+       "quota": 3,
+       "selector": {
+        "name": "land",
+        "type": "Tag"
+       },
+       "type": "PriorityGroup"
+      },
+      {
+       "name": null,
+       "quota": 2,
+       "selector": {
+        "name": "ramp",
+        "type": "Tag"
+       },
+       "type": "PriorityGroup"
+      }
+     ],
+     "type": "MulliganConfig"
+    },
+    "type": "Scenario"
+   }
   },
   {
    "details": [
@@ -15532,15 +15604,15 @@
     "decklist": "",
     "drawsPerTurn": "1",
     "drawsType": "",
-    "freeFirst": true,
-    "goFirst": true,
+    "freeFirst": false,
+    "goFirst": false,
     "goal": [
      {
-      "amount": "3",
+      "amount": "1",
       "cardType": "ramp",
       "id": "g0",
       "kind": "at least",
-      "turn": "0"
+      "turn": "3"
      }
     ],
     "hmAim": "target",
@@ -15555,11 +15627,1157 @@
       "low": "14"
      }
     ],
-    "keepMax": "4",
-    "keepMin": "1",
-    "keepType": "land",
+    "keep": [
+     {
+      "id": "k0",
+      "rules": [
+       {
+        "cardType": "land",
+        "id": "k0r0",
+        "max": "3",
+        "min": "1"
+       }
+      ]
+     }
+    ],
     "lastTurn": "5",
-    "maxMulligans": "2",
+    "maxMulligans": "3",
+    "mulligans": true,
+    "protect": [
+     {
+      "cardType": "land",
+      "id": "p0",
+      "upTo": "3"
+     }
+    ],
+    "question": "chances",
+    "rule": "",
+    "types": [
+     {
+      "also": "",
+      "count": "28",
+      "id": "t0",
+      "name": "land"
+     },
+     {
+      "also": "",
+      "count": "10",
+      "id": "t1",
+      "name": "ramp"
+     }
+    ],
+    "useRule": false
+   },
+   "headline": "You have at least 1 ramp by turn 3 in 74.3% of games (about 7 games in 10).",
+   "keepWords": "keep a hand with 1 to 3 land",
+   "name": "mulligan 4",
+   "rows": [],
+   "scenario": {
+    "deck": {
+     "cards": [
+      {
+       "name": "land",
+       "quantity": 28,
+       "tags": {
+        "items": [
+         "land"
+        ],
+        "type": "frozenset"
+       },
+       "type": "Card",
+       "zone": "library"
+      },
+      {
+       "name": "ramp",
+       "quantity": 10,
+       "tags": {
+        "items": [
+         "ramp"
+        ],
+        "type": "frozenset"
+       },
+       "type": "Card",
+       "zone": "library"
+      },
+      {
+       "name": "(other)",
+       "quantity": 2,
+       "tags": {
+        "items": [
+         "(other)"
+        ],
+        "type": "frozenset"
+       },
+       "type": "Card",
+       "zone": "library"
+      }
+     ],
+     "name": null,
+     "type": "Deck"
+    },
+    "game": {
+     "draw_overrides": [],
+     "draws_per_turn": 1,
+     "extra_draws": [],
+     "hand_size": 7,
+     "on_play": false,
+     "type": "GameConfig"
+    },
+    "mulligan": {
+     "draw_size": 7,
+     "free_mulligans": 0,
+     "keep_rule": {
+      "hi": 3,
+      "lo": 1,
+      "sel": {
+       "name": "land",
+       "type": "Tag"
+      },
+      "type": "Between"
+     },
+     "max_mulligans": 3,
+     "priority": [
+      {
+       "name": null,
+       "quota": 3,
+       "selector": {
+        "name": "land",
+        "type": "Tag"
+       },
+       "type": "PriorityGroup"
+      }
+     ],
+     "type": "MulliganConfig"
+    },
+    "type": "Scenario"
+   }
+  },
+  {
+   "details": [
+    "A good game means: at least 2 land by turn 1.",
+    "On average you mulligan 1.57 times and keep 6.14 cards.",
+    "The best plan (below) keeps a hand only when that hand is at least as good as mulliganing would be on average."
+   ],
+   "form": {
+    "combine": "all",
+    "deckMode": "types",
+    "deckSize": "99",
+    "decklist": "",
+    "drawsPerTurn": "1",
+    "drawsType": "",
+    "freeFirst": true,
+    "goFirst": true,
+    "goal": [
+     {
+      "amount": "2",
+      "cardType": "land",
+      "id": "g0",
+      "kind": "at least",
+      "turn": "1"
+     }
+    ],
+    "hmAim": "target",
+    "hmMode": "one",
+    "hmSlots": "20",
+    "hmTarget": "90",
+    "hmVary": [
+     {
+      "cardType": "land",
+      "high": "40",
+      "id": "v0",
+      "low": "14"
+     }
+    ],
+    "keep": [
+     {
+      "id": "k0",
+      "rules": [
+       {
+        "cardType": "ramp",
+        "id": "k0r0",
+        "max": "2",
+        "min": "0"
+       },
+       {
+        "cardType": "land",
+        "id": "k0r1",
+        "max": "2",
+        "min": "2"
+       },
+       {
+        "cardType": "ramp",
+        "id": "k0r2",
+        "max": "3",
+        "min": "0"
+       }
+      ]
+     },
+     {
+      "id": "k1",
+      "rules": [
+       {
+        "cardType": "ramp",
+        "id": "k1r0",
+        "max": "3",
+        "min": "1"
+       },
+       {
+        "cardType": "land",
+        "id": "k1r1",
+        "max": "5",
+        "min": "3"
+       },
+       {
+        "cardType": "land",
+        "id": "k1r2",
+        "max": "2",
+        "min": "1"
+       }
+      ]
+     }
+    ],
+    "lastTurn": "5",
+    "maxMulligans": "3",
+    "mulligans": true,
+    "protect": [
+     {
+      "cardType": "land",
+      "id": "p0",
+      "upTo": "4"
+     }
+    ],
+    "question": "mulligan",
+    "rule": "",
+    "types": [
+     {
+      "also": "",
+      "count": "37",
+      "id": "t0",
+      "name": "land"
+     },
+     {
+      "also": "",
+      "count": "3",
+      "id": "t1",
+      "name": "ramp"
+     }
+    ],
+    "useRule": false
+   },
+   "headline": "With your mulligan plan you get a good game 93.3% of the time. Never mulliganing: 81.4%. The best possible plan: 99.9%.",
+   "keepWords": "keep a hand with 0 to 2 ramp and 2 land and 0 to 3 ramp, or with 1 to 3 ramp and 3 to 5 land and 1 to 2 land",
+   "name": "mulligan 5",
+   "rows": [
+    [
+     [
+      "Your plan",
+      "",
+      "",
+      ""
+     ],
+     [
+      [
+       [
+        "First 7 cards",
+        "100.0%",
+        "28.9%",
+        "81.4%"
+       ],
+       []
+      ],
+      [
+       [
+        "After 1 mulligan (keep 7)",
+        "71.1%",
+        "28.9%",
+        "81.4%"
+       ],
+       []
+      ],
+      [
+       [
+        "After 2 mulligans (keep 6)",
+        "50.5%",
+        "28.9%",
+        "81.4%"
+       ],
+       []
+      ],
+      [
+       [
+        "After 3 mulligans (keep 5)",
+        "35.9%",
+        "100.0%",
+        "81.4%"
+       ],
+       []
+      ]
+     ]
+    ],
+    [
+     [
+      "Best possible plan",
+      "",
+      "",
+      "99.9%"
+     ],
+     [
+      [
+       [
+        "First 7 cards: keep if its chance is at least 99.4%",
+        "",
+        "81.4%",
+        ""
+       ],
+       [
+        [
+         "3 land, 4 other  ->  keep",
+         "",
+         "23.8%",
+         "100.0%"
+        ],
+        [
+         "2 land, 5 other  ->  keep",
+         "",
+         "22.4%",
+         "100.0%"
+        ],
+        [
+         "4 land, 3 other  ->  keep",
+         "",
+         "14.4%",
+         "100.0%"
+        ],
+        [
+         "2 land, 1 ramp, 4 other  ->  keep",
+         "",
+         "6.1%",
+         "100.0%"
+        ],
+        [
+         "3 land, 1 ramp, 3 other  ->  keep",
+         "",
+         "5.1%",
+         "100.0%"
+        ],
+        [
+         "5 land, 2 other  ->  keep",
+         "",
+         "5.0%",
+         "100.0%"
+        ],
+        [
+         "4 land, 1 ramp, 2 other  ->  keep",
+         "",
+         "2.3%",
+         "100.0%"
+        ],
+        [
+         "6 land, 1 other  ->  keep",
+         "",
+         "0.9%",
+         "100.0%"
+        ],
+        [
+         "5 land, 1 ramp, 1 other  ->  keep",
+         "",
+         "0.5%",
+         "100.0%"
+        ],
+        [
+         "2 land, 2 ramp, 3 other  ->  keep",
+         "",
+         "0.4%",
+         "100.0%"
+        ],
+        [
+         "3 land, 2 ramp, 2 other  ->  keep",
+         "",
+         "0.3%",
+         "100.0%"
+        ],
+        [
+         "4 land, 2 ramp, 1 other  ->  keep",
+         "",
+         "0.079%",
+         "100.0%"
+        ],
+        [
+         "7 land  ->  keep",
+         "",
+         "0.069%",
+         "100.0%"
+        ],
+        [
+         "6 land, 1 ramp  ->  keep",
+         "",
+         "0.047%",
+         "100.0%"
+        ],
+        [
+         "5 land, 2 ramp  ->  keep",
+         "",
+         "0.009%",
+         "100.0%"
+        ],
+        [
+         "2 land, 3 ramp, 2 other  ->  keep",
+         "",
+         "0.008%",
+         "100.0%"
+        ],
+        [
+         "3 land, 3 ramp, 1 other  ->  keep",
+         "",
+         "0.003%",
+         "100.0%"
+        ],
+        [
+         "4 land, 3 ramp  ->  keep",
+         "",
+         "less than 0.001%",
+         "100.0%"
+        ],
+        [
+         "1 land, 6 other  ->  mulligan",
+         "",
+         "11.2%",
+         "0.0%"
+        ],
+        [
+         "1 land, 1 ramp, 5 other  ->  mulligan",
+         "",
+         "3.7%",
+         "0.0%"
+        ],
+        [
+         "7 other  ->  mulligan",
+         "",
+         "2.3%",
+         "0.0%"
+        ],
+        [
+         "1 ramp, 6 other  ->  mulligan",
+         "",
+         "0.9%",
+         "0.0%"
+        ],
+        [
+         "1 land, 2 ramp, 4 other  ->  mulligan",
+         "",
+         "0.3%",
+         "0.0%"
+        ],
+        [
+         "2 ramp, 5 other  ->  mulligan",
+         "",
+         "0.1%",
+         "0.0%"
+        ],
+        [
+         "1 land, 3 ramp, 3 other  ->  mulligan",
+         "",
+         "0.008%",
+         "0.0%"
+        ],
+        [
+         "3 ramp, 4 other  ->  mulligan",
+         "",
+         "0.003%",
+         "0.0%"
+        ]
+       ]
+      ],
+      [
+       [
+        "After 1 mulligan (keep 7): keep if its chance is at least 96.5%",
+        "",
+        "81.4%",
+        ""
+       ],
+       [
+        [
+         "3 land, 4 other  ->  keep",
+         "",
+         "23.8%",
+         "100.0%"
+        ],
+        [
+         "2 land, 5 other  ->  keep",
+         "",
+         "22.4%",
+         "100.0%"
+        ],
+        [
+         "4 land, 3 other  ->  keep",
+         "",
+         "14.4%",
+         "100.0%"
+        ],
+        [
+         "2 land, 1 ramp, 4 other  ->  keep",
+         "",
+         "6.1%",
+         "100.0%"
+        ],
+        [
+         "3 land, 1 ramp, 3 other  ->  keep",
+         "",
+         "5.1%",
+         "100.0%"
+        ],
+        [
+         "5 land, 2 other  ->  keep",
+         "",
+         "5.0%",
+         "100.0%"
+        ],
+        [
+         "4 land, 1 ramp, 2 other  ->  keep",
+         "",
+         "2.3%",
+         "100.0%"
+        ],
+        [
+         "6 land, 1 other  ->  keep",
+         "",
+         "0.9%",
+         "100.0%"
+        ],
+        [
+         "5 land, 1 ramp, 1 other  ->  keep",
+         "",
+         "0.5%",
+         "100.0%"
+        ],
+        [
+         "2 land, 2 ramp, 3 other  ->  keep",
+         "",
+         "0.4%",
+         "100.0%"
+        ],
+        [
+         "3 land, 2 ramp, 2 other  ->  keep",
+         "",
+         "0.3%",
+         "100.0%"
+        ],
+        [
+         "4 land, 2 ramp, 1 other  ->  keep",
+         "",
+         "0.079%",
+         "100.0%"
+        ],
+        [
+         "7 land  ->  keep",
+         "",
+         "0.069%",
+         "100.0%"
+        ],
+        [
+         "6 land, 1 ramp  ->  keep",
+         "",
+         "0.047%",
+         "100.0%"
+        ],
+        [
+         "5 land, 2 ramp  ->  keep",
+         "",
+         "0.009%",
+         "100.0%"
+        ],
+        [
+         "2 land, 3 ramp, 2 other  ->  keep",
+         "",
+         "0.008%",
+         "100.0%"
+        ],
+        [
+         "3 land, 3 ramp, 1 other  ->  keep",
+         "",
+         "0.003%",
+         "100.0%"
+        ],
+        [
+         "4 land, 3 ramp  ->  keep",
+         "",
+         "less than 0.001%",
+         "100.0%"
+        ],
+        [
+         "1 land, 6 other  ->  mulligan",
+         "",
+         "11.2%",
+         "0.0%"
+        ],
+        [
+         "1 land, 1 ramp, 5 other  ->  mulligan",
+         "",
+         "3.7%",
+         "0.0%"
+        ],
+        [
+         "7 other  ->  mulligan",
+         "",
+         "2.3%",
+         "0.0%"
+        ],
+        [
+         "1 ramp, 6 other  ->  mulligan",
+         "",
+         "0.9%",
+         "0.0%"
+        ],
+        [
+         "1 land, 2 ramp, 4 other  ->  mulligan",
+         "",
+         "0.3%",
+         "0.0%"
+        ],
+        [
+         "2 ramp, 5 other  ->  mulligan",
+         "",
+         "0.1%",
+         "0.0%"
+        ],
+        [
+         "1 land, 3 ramp, 3 other  ->  mulligan",
+         "",
+         "0.008%",
+         "0.0%"
+        ],
+        [
+         "3 ramp, 4 other  ->  mulligan",
+         "",
+         "0.003%",
+         "0.0%"
+        ]
+       ]
+      ],
+      [
+       [
+        "After 2 mulligans (keep 6): keep if its chance is at least 81.4%",
+        "",
+        "81.4%",
+        ""
+       ],
+       [
+        [
+         "3 land, 4 other  ->  keep",
+         "",
+         "23.8%",
+         "100.0%"
+        ],
+        [
+         "2 land, 5 other  ->  keep",
+         "",
+         "22.4%",
+         "100.0%"
+        ],
+        [
+         "4 land, 3 other  ->  keep",
+         "",
+         "14.4%",
+         "100.0%"
+        ],
+        [
+         "2 land, 1 ramp, 4 other  ->  keep",
+         "",
+         "6.1%",
+         "100.0%"
+        ],
+        [
+         "3 land, 1 ramp, 3 other  ->  keep",
+         "",
+         "5.1%",
+         "100.0%"
+        ],
+        [
+         "5 land, 2 other  ->  keep",
+         "",
+         "5.0%",
+         "100.0%"
+        ],
+        [
+         "4 land, 1 ramp, 2 other  ->  keep",
+         "",
+         "2.3%",
+         "100.0%"
+        ],
+        [
+         "6 land, 1 other  ->  keep",
+         "",
+         "0.9%",
+         "100.0%"
+        ],
+        [
+         "5 land, 1 ramp, 1 other  ->  keep",
+         "",
+         "0.5%",
+         "100.0%"
+        ],
+        [
+         "2 land, 2 ramp, 3 other  ->  keep",
+         "",
+         "0.4%",
+         "100.0%"
+        ],
+        [
+         "3 land, 2 ramp, 2 other  ->  keep",
+         "",
+         "0.3%",
+         "100.0%"
+        ],
+        [
+         "4 land, 2 ramp, 1 other  ->  keep",
+         "",
+         "0.079%",
+         "100.0%"
+        ],
+        [
+         "7 land  ->  keep",
+         "",
+         "0.069%",
+         "100.0%"
+        ],
+        [
+         "6 land, 1 ramp  ->  keep",
+         "",
+         "0.047%",
+         "100.0%"
+        ],
+        [
+         "5 land, 2 ramp  ->  keep",
+         "",
+         "0.009%",
+         "100.0%"
+        ],
+        [
+         "2 land, 3 ramp, 2 other  ->  keep",
+         "",
+         "0.008%",
+         "100.0%"
+        ],
+        [
+         "3 land, 3 ramp, 1 other  ->  keep",
+         "",
+         "0.003%",
+         "100.0%"
+        ],
+        [
+         "4 land, 3 ramp  ->  keep",
+         "",
+         "less than 0.001%",
+         "100.0%"
+        ],
+        [
+         "1 land, 6 other  ->  mulligan",
+         "",
+         "11.2%",
+         "0.0%"
+        ],
+        [
+         "1 land, 1 ramp, 5 other  ->  mulligan",
+         "",
+         "3.7%",
+         "0.0%"
+        ],
+        [
+         "7 other  ->  mulligan",
+         "",
+         "2.3%",
+         "0.0%"
+        ],
+        [
+         "1 ramp, 6 other  ->  mulligan",
+         "",
+         "0.9%",
+         "0.0%"
+        ],
+        [
+         "1 land, 2 ramp, 4 other  ->  mulligan",
+         "",
+         "0.3%",
+         "0.0%"
+        ],
+        [
+         "2 ramp, 5 other  ->  mulligan",
+         "",
+         "0.1%",
+         "0.0%"
+        ],
+        [
+         "1 land, 3 ramp, 3 other  ->  mulligan",
+         "",
+         "0.008%",
+         "0.0%"
+        ],
+        [
+         "3 ramp, 4 other  ->  mulligan",
+         "",
+         "0.003%",
+         "0.0%"
+        ]
+       ]
+      ],
+      [
+       [
+        "After 3 mulligans (keep 5): keep any hand",
+        "",
+        "100.0%",
+        ""
+       ],
+       [
+        [
+         "3 land, 4 other  ->  keep",
+         "",
+         "23.8%",
+         "100.0%"
+        ],
+        [
+         "2 land, 5 other  ->  keep",
+         "",
+         "22.4%",
+         "100.0%"
+        ],
+        [
+         "4 land, 3 other  ->  keep",
+         "",
+         "14.4%",
+         "100.0%"
+        ],
+        [
+         "2 land, 1 ramp, 4 other  ->  keep",
+         "",
+         "6.1%",
+         "100.0%"
+        ],
+        [
+         "3 land, 1 ramp, 3 other  ->  keep",
+         "",
+         "5.1%",
+         "100.0%"
+        ],
+        [
+         "5 land, 2 other  ->  keep",
+         "",
+         "5.0%",
+         "100.0%"
+        ],
+        [
+         "4 land, 1 ramp, 2 other  ->  keep",
+         "",
+         "2.3%",
+         "100.0%"
+        ],
+        [
+         "6 land, 1 other  ->  keep",
+         "",
+         "0.9%",
+         "100.0%"
+        ],
+        [
+         "5 land, 1 ramp, 1 other  ->  keep",
+         "",
+         "0.5%",
+         "100.0%"
+        ],
+        [
+         "2 land, 2 ramp, 3 other  ->  keep",
+         "",
+         "0.4%",
+         "100.0%"
+        ],
+        [
+         "3 land, 2 ramp, 2 other  ->  keep",
+         "",
+         "0.3%",
+         "100.0%"
+        ],
+        [
+         "4 land, 2 ramp, 1 other  ->  keep",
+         "",
+         "0.079%",
+         "100.0%"
+        ],
+        [
+         "7 land  ->  keep",
+         "",
+         "0.069%",
+         "100.0%"
+        ],
+        [
+         "6 land, 1 ramp  ->  keep",
+         "",
+         "0.047%",
+         "100.0%"
+        ],
+        [
+         "5 land, 2 ramp  ->  keep",
+         "",
+         "0.009%",
+         "100.0%"
+        ],
+        [
+         "2 land, 3 ramp, 2 other  ->  keep",
+         "",
+         "0.008%",
+         "100.0%"
+        ],
+        [
+         "3 land, 3 ramp, 1 other  ->  keep",
+         "",
+         "0.003%",
+         "100.0%"
+        ],
+        [
+         "4 land, 3 ramp  ->  keep",
+         "",
+         "less than 0.001%",
+         "100.0%"
+        ],
+        [
+         "1 land, 6 other  ->  keep",
+         "",
+         "11.2%",
+         "0.0%"
+        ],
+        [
+         "1 land, 1 ramp, 5 other  ->  keep",
+         "",
+         "3.7%",
+         "0.0%"
+        ],
+        [
+         "7 other  ->  keep",
+         "",
+         "2.3%",
+         "0.0%"
+        ],
+        [
+         "1 ramp, 6 other  ->  keep",
+         "",
+         "0.9%",
+         "0.0%"
+        ],
+        [
+         "1 land, 2 ramp, 4 other  ->  keep",
+         "",
+         "0.3%",
+         "0.0%"
+        ],
+        [
+         "2 ramp, 5 other  ->  keep",
+         "",
+         "0.1%",
+         "0.0%"
+        ],
+        [
+         "1 land, 3 ramp, 3 other  ->  keep",
+         "",
+         "0.008%",
+         "0.0%"
+        ],
+        [
+         "3 ramp, 4 other  ->  keep",
+         "",
+         "0.003%",
+         "0.0%"
+        ]
+       ]
+      ]
+     ]
+    ]
+   ],
+   "scenario": {
+    "deck": {
+     "cards": [
+      {
+       "name": "land",
+       "quantity": 37,
+       "tags": {
+        "items": [
+         "land"
+        ],
+        "type": "frozenset"
+       },
+       "type": "Card",
+       "zone": "library"
+      },
+      {
+       "name": "ramp",
+       "quantity": 3,
+       "tags": {
+        "items": [
+         "ramp"
+        ],
+        "type": "frozenset"
+       },
+       "type": "Card",
+       "zone": "library"
+      },
+      {
+       "name": "(other)",
+       "quantity": 59,
+       "tags": {
+        "items": [
+         "(other)"
+        ],
+        "type": "frozenset"
+       },
+       "type": "Card",
+       "zone": "library"
+      }
+     ],
+     "name": null,
+     "type": "Deck"
+    },
+    "game": {
+     "draw_overrides": [],
+     "draws_per_turn": 1,
+     "extra_draws": [],
+     "hand_size": 7,
+     "on_play": true,
+     "type": "GameConfig"
+    },
+    "mulligan": {
+     "draw_size": 7,
+     "free_mulligans": 1,
+     "keep_rule": {
+      "items": [
+       {
+        "items": [
+         {
+          "hi": 2,
+          "lo": 0,
+          "sel": {
+           "name": "ramp",
+           "type": "Tag"
+          },
+          "type": "Between"
+         },
+         {
+          "hi": 2,
+          "lo": 2,
+          "sel": {
+           "name": "land",
+           "type": "Tag"
+          },
+          "type": "Between"
+         },
+         {
+          "hi": 3,
+          "lo": 0,
+          "sel": {
+           "name": "ramp",
+           "type": "Tag"
+          },
+          "type": "Between"
+         }
+        ],
+        "type": "And"
+       },
+       {
+        "items": [
+         {
+          "hi": 3,
+          "lo": 1,
+          "sel": {
+           "name": "ramp",
+           "type": "Tag"
+          },
+          "type": "Between"
+         },
+         {
+          "hi": 5,
+          "lo": 3,
+          "sel": {
+           "name": "land",
+           "type": "Tag"
+          },
+          "type": "Between"
+         },
+         {
+          "hi": 2,
+          "lo": 1,
+          "sel": {
+           "name": "land",
+           "type": "Tag"
+          },
+          "type": "Between"
+         }
+        ],
+        "type": "And"
+       }
+      ],
+      "type": "Or"
+     },
+     "max_mulligans": 3,
+     "priority": [
+      {
+       "name": null,
+       "quota": 4,
+       "selector": {
+        "name": "land",
+        "type": "Tag"
+       },
+       "type": "PriorityGroup"
+      }
+     ],
+     "type": "MulliganConfig"
+    },
+    "type": "Scenario"
+   }
+  },
+  {
+   "details": [
+    "This includes the games where you mulligan, following your plan."
+   ],
+   "form": {
+    "combine": "all",
+    "deckMode": "types",
+    "deckSize": "60",
+    "decklist": "",
+    "drawsPerTurn": "1",
+    "drawsType": "",
+    "freeFirst": true,
+    "goFirst": true,
+    "goal": [
+     {
+      "amount": "2",
+      "cardType": "ramp",
+      "id": "g0",
+      "kind": "at least",
+      "turn": "2"
+     }
+    ],
+    "hmAim": "target",
+    "hmMode": "one",
+    "hmSlots": "20",
+    "hmTarget": "90",
+    "hmVary": [
+     {
+      "cardType": "land",
+      "high": "40",
+      "id": "v0",
+      "low": "14"
+     }
+    ],
+    "keep": [
+     {
+      "id": "k0",
+      "rules": [
+       {
+        "cardType": "ramp",
+        "id": "k0r0",
+        "max": "3",
+        "min": "0"
+       }
+      ]
+     }
+    ],
+    "lastTurn": "5",
+    "maxMulligans": "3",
     "mulligans": true,
     "protect": [
      {
@@ -15570,7 +16788,7 @@
      {
       "cardType": "ramp",
       "id": "p1",
-      "upTo": "0"
+      "upTo": "2"
      }
     ],
     "question": "chances",
@@ -15578,33 +16796,110 @@
     "types": [
      {
       "also": "",
-      "count": "20",
+      "count": "22",
       "id": "t0",
       "name": "land"
      },
      {
       "also": "",
-      "count": "6",
+      "count": "0",
       "id": "t1",
       "name": "ramp"
      }
     ],
     "useRule": false
    },
-   "headline": "You have at least 3 ramp in your opening hand in 6.7% of games (about 1 game in 15).",
-   "name": "mulligan 8",
-   "rows": []
+   "headline": "You have at least 2 ramp by turn 2 in 0.0% of games (never).",
+   "keepWords": "keep a hand with 0 to 3 ramp",
+   "name": "mulligan 6",
+   "rows": [],
+   "scenario": {
+    "deck": {
+     "cards": [
+      {
+       "name": "land",
+       "quantity": 22,
+       "tags": {
+        "items": [
+         "land"
+        ],
+        "type": "frozenset"
+       },
+       "type": "Card",
+       "zone": "library"
+      },
+      {
+       "name": "(other)",
+       "quantity": 38,
+       "tags": {
+        "items": [
+         "(other)"
+        ],
+        "type": "frozenset"
+       },
+       "type": "Card",
+       "zone": "library"
+      }
+     ],
+     "name": null,
+     "type": "Deck"
+    },
+    "game": {
+     "draw_overrides": [],
+     "draws_per_turn": 1,
+     "extra_draws": [],
+     "hand_size": 7,
+     "on_play": true,
+     "type": "GameConfig"
+    },
+    "mulligan": {
+     "draw_size": 7,
+     "free_mulligans": 1,
+     "keep_rule": {
+      "hi": 3,
+      "lo": 0,
+      "sel": {
+       "name": "ramp",
+       "type": "Tag"
+      },
+      "type": "Between"
+     },
+     "max_mulligans": 3,
+     "priority": [
+      {
+       "name": null,
+       "quota": 2,
+       "selector": {
+        "name": "land",
+        "type": "Tag"
+       },
+       "type": "PriorityGroup"
+      },
+      {
+       "name": null,
+       "quota": 2,
+       "selector": {
+        "name": "ramp",
+        "type": "Tag"
+       },
+       "type": "PriorityGroup"
+      }
+     ],
+     "type": "MulliganConfig"
+    },
+    "type": "Scenario"
+   }
   },
   {
    "details": [
-    "A good game means: at least 1 land in your opening hand.",
+    "A good game means: at least 4 land by turn 3.",
     "On average you mulligan 0.00 times and keep 7.00 cards.",
     "The best plan (below) keeps a hand only when that hand is at least as good as mulliganing would be on average."
    ],
    "form": {
     "combine": "all",
     "deckMode": "types",
-    "deckSize": "99",
+    "deckSize": "40",
     "decklist": "",
     "drawsPerTurn": "1",
     "drawsType": "",
@@ -15612,11 +16907,11 @@
     "goFirst": true,
     "goal": [
      {
-      "amount": "1",
+      "amount": "4",
       "cardType": "land",
       "id": "g0",
       "kind": "at least",
-      "turn": "0"
+      "turn": "3"
      }
     ],
     "hmAim": "target",
@@ -15631,17 +16926,50 @@
       "low": "14"
      }
     ],
-    "keepMax": "5",
-    "keepMin": "2",
-    "keepType": "",
+    "keep": [
+     {
+      "id": "k0",
+      "rules": [
+       {
+        "cardType": "ramp",
+        "id": "k0r0",
+        "max": "2",
+        "min": "0"
+       }
+      ]
+     },
+     {
+      "id": "k1",
+      "rules": [
+       {
+        "cardType": "ramp",
+        "id": "k1r0",
+        "max": "0",
+        "min": "0"
+       },
+       {
+        "cardType": "ramp",
+        "id": "k1r1",
+        "max": "1",
+        "min": "1"
+       },
+       {
+        "cardType": "land",
+        "id": "k1r2",
+        "max": "4",
+        "min": "0"
+       }
+      ]
+     }
+    ],
     "lastTurn": "5",
-    "maxMulligans": "2",
+    "maxMulligans": "1",
     "mulligans": true,
     "protect": [
      {
       "cardType": "land",
       "id": "p0",
-      "upTo": "2"
+      "upTo": "4"
      }
     ],
     "question": "mulligan",
@@ -15649,7 +16977,7 @@
     "types": [
      {
       "also": "",
-      "count": "32",
+      "count": "17",
       "id": "t0",
       "name": "land"
      },
@@ -15662,8 +16990,9 @@
     ],
     "useRule": false
    },
-   "headline": "With your mulligan plan you get a good game 94.2% of the time. Never mulliganing: 94.2%. The best possible plan: 99.980%.",
-   "name": "mulligan 9",
+   "headline": "With your mulligan plan you get a good game 59.4% of the time. Never mulliganing: 59.4%. The best possible plan: 75.3%.",
+   "keepWords": "keep a hand with 0 to 2 ramp, or with 0 ramp and 1 ramp and 0 to 4 land",
+   "name": "mulligan 7",
    "rows": [
     [
      [
@@ -15678,7 +17007,7 @@
         "First 7 cards",
         "100.0%",
         "100.0%",
-        "94.2%"
+        "59.4%"
        ],
        []
       ],
@@ -15687,16 +17016,7 @@
         "After 1 mulligan (keep 6)",
         "0.0%",
         "100.0%",
-        "94.2%"
-       ],
-       []
-      ],
-      [
-       [
-        "After 2 mulligans (keep 5)",
-        "0.0%",
-        "100.0%",
-        "94.2%"
+        "59.4%"
        ],
        []
       ]
@@ -15707,186 +17027,2318 @@
       "Best possible plan",
       "",
       "",
-      "99.980%"
+      "75.3%"
      ],
      [
       [
        [
-        "First 7 cards: keep if its chance is at least 99.7%",
+        "First 7 cards: keep if its chance is at least 59.4%",
         "",
-        "94.2%",
+        "64.9%",
         ""
        ],
        [
         [
-         "2 land, 5 other  ->  keep",
-         "",
-         "32.2%",
-         "100.0%"
-        ],
-        [
-         "3 land, 4 other  ->  keep",
-         "",
-         "25.5%",
-         "100.0%"
-        ],
-        [
-         "1 land, 6 other  ->  keep",
-         "",
-         "21.5%",
-         "100.0%"
-        ],
-        [
          "4 land, 3 other  ->  keep",
          "",
-         "11.6%",
+         "19.7%",
          "100.0%"
         ],
         [
          "5 land, 2 other  ->  keep",
          "",
-         "3.0%",
+         "7.7%",
+         "100.0%"
+        ],
+        [
+         "4 land, 1 ramp, 2 other  ->  keep",
+         "",
+         "2.9%",
          "100.0%"
         ],
         [
          "6 land, 1 other  ->  keep",
          "",
-         "0.4%",
+         "1.5%",
+         "100.0%"
+        ],
+        [
+         "5 land, 1 ramp, 1 other  ->  keep",
+         "",
+         "0.7%",
          "100.0%"
         ],
         [
          "7 land  ->  keep",
          "",
-         "0.023%",
+         "0.1%",
          "100.0%"
+        ],
+        [
+         "6 land, 1 ramp  ->  keep",
+         "",
+         "0.066%",
+         "100.0%"
+        ],
+        [
+         "3 land, 4 other  ->  keep",
+         "",
+         "26.7%",
+         "67.6%"
+        ],
+        [
+         "3 land, 1 ramp, 3 other  ->  keep",
+         "",
+         "5.6%",
+         "67.6%"
+        ],
+        [
+         "2 land, 5 other  ->  mulligan",
+         "",
+         "19.2%",
+         "19.9%"
+        ],
+        [
+         "2 land, 1 ramp, 4 other  ->  mulligan",
+         "",
+         "5.3%",
+         "19.9%"
+        ],
+        [
+         "1 land, 6 other  ->  mulligan",
+         "",
+         "6.8%",
+         "0.0%"
+        ],
+        [
+         "1 land, 1 ramp, 5 other  ->  mulligan",
+         "",
+         "2.4%",
+         "0.0%"
         ],
         [
          "7 other  ->  mulligan",
          "",
-         "5.8%",
+         "0.9%",
+         "0.0%"
+        ],
+        [
+         "1 ramp, 6 other  ->  mulligan",
+         "",
+         "0.4%",
          "0.0%"
         ]
        ]
       ],
       [
        [
-        "After 1 mulligan (keep 6): keep if its chance is at least 94.2%",
-        "",
-        "94.2%",
-        ""
-       ],
-       [
-        [
-         "2 land, 5 other  ->  keep",
-         "",
-         "32.2%",
-         "100.0%"
-        ],
-        [
-         "3 land, 4 other  ->  keep",
-         "",
-         "25.5%",
-         "100.0%"
-        ],
-        [
-         "1 land, 6 other  ->  keep",
-         "",
-         "21.5%",
-         "100.0%"
-        ],
-        [
-         "4 land, 3 other  ->  keep",
-         "",
-         "11.6%",
-         "100.0%"
-        ],
-        [
-         "5 land, 2 other  ->  keep",
-         "",
-         "3.0%",
-         "100.0%"
-        ],
-        [
-         "6 land, 1 other  ->  keep",
-         "",
-         "0.4%",
-         "100.0%"
-        ],
-        [
-         "7 land  ->  keep",
-         "",
-         "0.023%",
-         "100.0%"
-        ],
-        [
-         "7 other  ->  mulligan",
-         "",
-         "5.8%",
-         "0.0%"
-        ]
-       ]
-      ],
-      [
-       [
-        "After 2 mulligans (keep 5): keep any hand",
+        "After 1 mulligan (keep 6): keep any hand",
         "",
         "100.0%",
         ""
        ],
        [
         [
-         "2 land, 5 other  ->  keep",
-         "",
-         "32.2%",
-         "100.0%"
-        ],
-        [
-         "3 land, 4 other  ->  keep",
-         "",
-         "25.5%",
-         "100.0%"
-        ],
-        [
-         "1 land, 6 other  ->  keep",
-         "",
-         "21.5%",
-         "100.0%"
-        ],
-        [
          "4 land, 3 other  ->  keep",
          "",
-         "11.6%",
+         "19.7%",
          "100.0%"
         ],
         [
          "5 land, 2 other  ->  keep",
          "",
-         "3.0%",
+         "7.7%",
+         "100.0%"
+        ],
+        [
+         "4 land, 1 ramp, 2 other  ->  keep",
+         "",
+         "2.9%",
          "100.0%"
         ],
         [
          "6 land, 1 other  ->  keep",
          "",
-         "0.4%",
+         "1.5%",
+         "100.0%"
+        ],
+        [
+         "5 land, 1 ramp, 1 other  ->  keep",
+         "",
+         "0.7%",
          "100.0%"
         ],
         [
          "7 land  ->  keep",
          "",
-         "0.023%",
+         "0.1%",
          "100.0%"
+        ],
+        [
+         "6 land, 1 ramp  ->  keep",
+         "",
+         "0.066%",
+         "100.0%"
+        ],
+        [
+         "3 land, 4 other  ->  keep",
+         "",
+         "26.7%",
+         "67.6%"
+        ],
+        [
+         "3 land, 1 ramp, 3 other  ->  keep",
+         "",
+         "5.6%",
+         "67.6%"
+        ],
+        [
+         "2 land, 5 other  ->  keep",
+         "",
+         "19.2%",
+         "19.9%"
+        ],
+        [
+         "2 land, 1 ramp, 4 other  ->  keep",
+         "",
+         "5.3%",
+         "19.9%"
+        ],
+        [
+         "1 land, 6 other  ->  keep",
+         "",
+         "6.8%",
+         "0.0%"
+        ],
+        [
+         "1 land, 1 ramp, 5 other  ->  keep",
+         "",
+         "2.4%",
+         "0.0%"
         ],
         [
          "7 other  ->  keep",
          "",
-         "5.8%",
+         "0.9%",
+         "0.0%"
+        ],
+        [
+         "1 ramp, 6 other  ->  keep",
+         "",
+         "0.4%",
          "0.0%"
         ]
        ]
       ]
      ]
     ]
-   ]
+   ],
+   "scenario": {
+    "deck": {
+     "cards": [
+      {
+       "name": "land",
+       "quantity": 17,
+       "tags": {
+        "items": [
+         "land"
+        ],
+        "type": "frozenset"
+       },
+       "type": "Card",
+       "zone": "library"
+      },
+      {
+       "name": "ramp",
+       "quantity": 1,
+       "tags": {
+        "items": [
+         "ramp"
+        ],
+        "type": "frozenset"
+       },
+       "type": "Card",
+       "zone": "library"
+      },
+      {
+       "name": "(other)",
+       "quantity": 22,
+       "tags": {
+        "items": [
+         "(other)"
+        ],
+        "type": "frozenset"
+       },
+       "type": "Card",
+       "zone": "library"
+      }
+     ],
+     "name": null,
+     "type": "Deck"
+    },
+    "game": {
+     "draw_overrides": [],
+     "draws_per_turn": 1,
+     "extra_draws": [],
+     "hand_size": 7,
+     "on_play": true,
+     "type": "GameConfig"
+    },
+    "mulligan": {
+     "draw_size": 7,
+     "free_mulligans": 0,
+     "keep_rule": {
+      "items": [
+       {
+        "hi": 2,
+        "lo": 0,
+        "sel": {
+         "name": "ramp",
+         "type": "Tag"
+        },
+        "type": "Between"
+       },
+       {
+        "items": [
+         {
+          "hi": 0,
+          "lo": 0,
+          "sel": {
+           "name": "ramp",
+           "type": "Tag"
+          },
+          "type": "Between"
+         },
+         {
+          "hi": 1,
+          "lo": 1,
+          "sel": {
+           "name": "ramp",
+           "type": "Tag"
+          },
+          "type": "Between"
+         },
+         {
+          "hi": 4,
+          "lo": 0,
+          "sel": {
+           "name": "land",
+           "type": "Tag"
+          },
+          "type": "Between"
+         }
+        ],
+        "type": "And"
+       }
+      ],
+      "type": "Or"
+     },
+     "max_mulligans": 1,
+     "priority": [
+      {
+       "name": null,
+       "quota": 4,
+       "selector": {
+        "name": "land",
+        "type": "Tag"
+       },
+       "type": "PriorityGroup"
+      }
+     ],
+     "type": "MulliganConfig"
+    },
+    "type": "Scenario"
+   }
+  },
+  {
+   "details": [
+    "This includes the games where you mulligan, following your plan."
+   ],
+   "form": {
+    "combine": "all",
+    "deckMode": "types",
+    "deckSize": "40",
+    "decklist": "",
+    "drawsPerTurn": "1",
+    "drawsType": "",
+    "freeFirst": false,
+    "goFirst": false,
+    "goal": [
+     {
+      "amount": "3",
+      "cardType": "land",
+      "id": "g0",
+      "kind": "at least",
+      "turn": "3"
+     }
+    ],
+    "hmAim": "target",
+    "hmMode": "one",
+    "hmSlots": "20",
+    "hmTarget": "90",
+    "hmVary": [
+     {
+      "cardType": "land",
+      "high": "40",
+      "id": "v0",
+      "low": "14"
+     }
+    ],
+    "keep": [
+     {
+      "id": "k0",
+      "rules": [
+       {
+        "cardType": "land",
+        "id": "k0r0",
+        "max": "3",
+        "min": "1"
+       }
+      ]
+     }
+    ],
+    "lastTurn": "5",
+    "maxMulligans": "0",
+    "mulligans": true,
+    "protect": [
+     {
+      "cardType": "land",
+      "id": "p0",
+      "upTo": "4"
+     },
+     {
+      "cardType": "ramp",
+      "id": "p1",
+      "upTo": "0"
+     }
+    ],
+    "question": "chances",
+    "rule": "",
+    "types": [
+     {
+      "also": "",
+      "count": "26",
+      "id": "t0",
+      "name": "land"
+     },
+     {
+      "also": "",
+      "count": "0",
+      "id": "t1",
+      "name": "ramp"
+     }
+    ],
+    "useRule": false
+   },
+   "headline": "You have at least 3 land by turn 3 in 99.9% of games (almost every game).",
+   "keepWords": "keep a hand with 1 to 3 land",
+   "name": "mulligan 8",
+   "rows": [],
+   "scenario": {
+    "deck": {
+     "cards": [
+      {
+       "name": "land",
+       "quantity": 26,
+       "tags": {
+        "items": [
+         "land"
+        ],
+        "type": "frozenset"
+       },
+       "type": "Card",
+       "zone": "library"
+      },
+      {
+       "name": "(other)",
+       "quantity": 14,
+       "tags": {
+        "items": [
+         "(other)"
+        ],
+        "type": "frozenset"
+       },
+       "type": "Card",
+       "zone": "library"
+      }
+     ],
+     "name": null,
+     "type": "Deck"
+    },
+    "game": {
+     "draw_overrides": [],
+     "draws_per_turn": 1,
+     "extra_draws": [],
+     "hand_size": 7,
+     "on_play": false,
+     "type": "GameConfig"
+    },
+    "mulligan": {
+     "draw_size": 7,
+     "free_mulligans": 0,
+     "keep_rule": {
+      "hi": 3,
+      "lo": 1,
+      "sel": {
+       "name": "land",
+       "type": "Tag"
+      },
+      "type": "Between"
+     },
+     "max_mulligans": 0,
+     "priority": [
+      {
+       "name": null,
+       "quota": 4,
+       "selector": {
+        "name": "land",
+        "type": "Tag"
+       },
+       "type": "PriorityGroup"
+      },
+      {
+       "name": null,
+       "quota": 0,
+       "selector": {
+        "name": "ramp",
+        "type": "Tag"
+       },
+       "type": "PriorityGroup"
+      }
+     ],
+     "type": "MulliganConfig"
+    },
+    "type": "Scenario"
+   }
+  },
+  {
+   "details": [
+    "A good game means: at least 3 land by turn 2.",
+    "On average you mulligan 0.12 times and keep 7.00 cards.",
+    "The best plan (below) keeps a hand only when that hand is at least as good as mulliganing would be on average."
+   ],
+   "form": {
+    "combine": "all",
+    "deckMode": "types",
+    "deckSize": "60",
+    "decklist": "",
+    "drawsPerTurn": "1",
+    "drawsType": "",
+    "freeFirst": true,
+    "goFirst": true,
+    "goal": [
+     {
+      "amount": "3",
+      "cardType": "land",
+      "id": "g0",
+      "kind": "at least",
+      "turn": "2"
+     }
+    ],
+    "hmAim": "target",
+    "hmMode": "one",
+    "hmSlots": "20",
+    "hmTarget": "90",
+    "hmVary": [
+     {
+      "cardType": "land",
+      "high": "40",
+      "id": "v0",
+      "low": "14"
+     }
+    ],
+    "keep": [
+     {
+      "id": "k0",
+      "rules": [
+       {
+        "cardType": "land",
+        "id": "k0r0",
+        "max": "3",
+        "min": "1"
+       },
+       {
+        "cardType": "land",
+        "id": "k0r1",
+        "max": "5",
+        "min": "2"
+       },
+       {
+        "cardType": "land",
+        "id": "k0r2",
+        "max": "4",
+        "min": "3"
+       }
+      ]
+     },
+     {
+      "id": "k1",
+      "rules": [
+       {
+        "cardType": "land",
+        "id": "k1r0",
+        "max": "5",
+        "min": "3"
+       },
+       {
+        "cardType": "land",
+        "id": "k1r1",
+        "max": "1",
+        "min": "1"
+       },
+       {
+        "cardType": "ramp",
+        "id": "k1r2",
+        "max": "0",
+        "min": "0"
+       }
+      ]
+     },
+     {
+      "id": "k2",
+      "rules": [
+       {
+        "cardType": "ramp",
+        "id": "k2r0",
+        "max": "3",
+        "min": "0"
+       },
+       {
+        "cardType": "land",
+        "id": "k2r1",
+        "max": "7",
+        "min": "3"
+       }
+      ]
+     }
+    ],
+    "lastTurn": "5",
+    "maxMulligans": "1",
+    "mulligans": true,
+    "protect": [
+     {
+      "cardType": "land",
+      "id": "p0",
+      "upTo": "3"
+     },
+     {
+      "cardType": "ramp",
+      "id": "p1",
+      "upTo": "1"
+     }
+    ],
+    "question": "mulligan",
+    "rule": "",
+    "types": [
+     {
+      "also": "",
+      "count": "34",
+      "id": "t0",
+      "name": "land"
+     },
+     {
+      "also": "",
+      "count": "2",
+      "id": "t1",
+      "name": "ramp"
+     }
+    ],
+    "useRule": false
+   },
+   "headline": "With your mulligan plan you get a good game 99.3% of the time. Never mulliganing: 94.0%. The best possible plan: 99.3%.",
+   "keepWords": "keep a hand with 1 to 3 land and 2 to 5 land and 3 to 4 land, or with 3 to 5 land and 1 land and 0 ramp, or with 0 to 3 ramp and 3 to 7 land",
+   "name": "mulligan 9",
+   "rows": [
+    [
+     [
+      "Your plan",
+      "",
+      "",
+      ""
+     ],
+     [
+      [
+       [
+        "First 7 cards",
+        "100.0%",
+        "88.2%",
+        "94.0%"
+       ],
+       []
+      ],
+      [
+       [
+        "After 1 mulligan (keep 7)",
+        "11.8%",
+        "100.0%",
+        "94.0%"
+       ],
+       []
+      ]
+     ]
+    ],
+    [
+     [
+      "Best possible plan",
+      "",
+      "",
+      "99.3%"
+     ],
+     [
+      [
+       [
+        "First 7 cards: keep if its chance is at least 94.0%",
+        "",
+        "88.2%",
+        ""
+       ],
+       [
+        [
+         "4 land, 3 other  ->  keep",
+         "",
+         "24.3%",
+         "100.0%"
+        ],
+        [
+         "5 land, 2 other  ->  keep",
+         "",
+         "19.9%",
+         "100.0%"
+        ],
+        [
+         "3 land, 4 other  ->  keep",
+         "",
+         "16.5%",
+         "100.0%"
+        ],
+        [
+         "6 land, 1 other  ->  keep",
+         "",
+         "8.4%",
+         "100.0%"
+        ],
+        [
+         "4 land, 1 ramp, 2 other  ->  keep",
+         "",
+         "6.6%",
+         "100.0%"
+        ],
+        [
+         "3 land, 1 ramp, 3 other  ->  keep",
+         "",
+         "6.3%",
+         "100.0%"
+        ],
+        [
+         "5 land, 1 ramp, 1 other  ->  keep",
+         "",
+         "3.5%",
+         "100.0%"
+        ],
+        [
+         "7 land  ->  keep",
+         "",
+         "1.4%",
+         "100.0%"
+        ],
+        [
+         "6 land, 1 ramp  ->  keep",
+         "",
+         "0.7%",
+         "100.0%"
+        ],
+        [
+         "3 land, 2 ramp, 2 other  ->  keep",
+         "",
+         "0.4%",
+         "100.0%"
+        ],
+        [
+         "4 land, 2 ramp, 1 other  ->  keep",
+         "",
+         "0.3%",
+         "100.0%"
+        ],
+        [
+         "5 land, 2 ramp  ->  keep",
+         "",
+         "0.072%",
+         "100.0%"
+        ],
+        [
+         "2 land, 5 other  ->  mulligan",
+         "",
+         "6.2%",
+         "60.4%"
+        ],
+        [
+         "2 land, 1 ramp, 4 other  ->  mulligan",
+         "",
+         "3.1%",
+         "60.4%"
+        ],
+        [
+         "2 land, 2 ramp, 3 other  ->  mulligan",
+         "",
+         "0.3%",
+         "60.4%"
+        ],
+        [
+         "1 land, 6 other  ->  mulligan",
+         "",
+         "1.2%",
+         "0.0%"
+        ],
+        [
+         "1 land, 1 ramp, 5 other  ->  mulligan",
+         "",
+         "0.7%",
+         "0.0%"
+        ],
+        [
+         "1 land, 2 ramp, 4 other  ->  mulligan",
+         "",
+         "0.094%",
+         "0.0%"
+        ],
+        [
+         "7 other  ->  mulligan",
+         "",
+         "0.090%",
+         "0.0%"
+        ],
+        [
+         "1 ramp, 6 other  ->  mulligan",
+         "",
+         "0.070%",
+         "0.0%"
+        ],
+        [
+         "2 ramp, 5 other  ->  mulligan",
+         "",
+         "0.011%",
+         "0.0%"
+        ]
+       ]
+      ],
+      [
+       [
+        "After 1 mulligan (keep 7): keep any hand",
+        "",
+        "100.0%",
+        ""
+       ],
+       [
+        [
+         "4 land, 3 other  ->  keep",
+         "",
+         "24.3%",
+         "100.0%"
+        ],
+        [
+         "5 land, 2 other  ->  keep",
+         "",
+         "19.9%",
+         "100.0%"
+        ],
+        [
+         "3 land, 4 other  ->  keep",
+         "",
+         "16.5%",
+         "100.0%"
+        ],
+        [
+         "6 land, 1 other  ->  keep",
+         "",
+         "8.4%",
+         "100.0%"
+        ],
+        [
+         "4 land, 1 ramp, 2 other  ->  keep",
+         "",
+         "6.6%",
+         "100.0%"
+        ],
+        [
+         "3 land, 1 ramp, 3 other  ->  keep",
+         "",
+         "6.3%",
+         "100.0%"
+        ],
+        [
+         "5 land, 1 ramp, 1 other  ->  keep",
+         "",
+         "3.5%",
+         "100.0%"
+        ],
+        [
+         "7 land  ->  keep",
+         "",
+         "1.4%",
+         "100.0%"
+        ],
+        [
+         "6 land, 1 ramp  ->  keep",
+         "",
+         "0.7%",
+         "100.0%"
+        ],
+        [
+         "3 land, 2 ramp, 2 other  ->  keep",
+         "",
+         "0.4%",
+         "100.0%"
+        ],
+        [
+         "4 land, 2 ramp, 1 other  ->  keep",
+         "",
+         "0.3%",
+         "100.0%"
+        ],
+        [
+         "5 land, 2 ramp  ->  keep",
+         "",
+         "0.072%",
+         "100.0%"
+        ],
+        [
+         "2 land, 5 other  ->  keep",
+         "",
+         "6.2%",
+         "60.4%"
+        ],
+        [
+         "2 land, 1 ramp, 4 other  ->  keep",
+         "",
+         "3.1%",
+         "60.4%"
+        ],
+        [
+         "2 land, 2 ramp, 3 other  ->  keep",
+         "",
+         "0.3%",
+         "60.4%"
+        ],
+        [
+         "1 land, 6 other  ->  keep",
+         "",
+         "1.2%",
+         "0.0%"
+        ],
+        [
+         "1 land, 1 ramp, 5 other  ->  keep",
+         "",
+         "0.7%",
+         "0.0%"
+        ],
+        [
+         "1 land, 2 ramp, 4 other  ->  keep",
+         "",
+         "0.094%",
+         "0.0%"
+        ],
+        [
+         "7 other  ->  keep",
+         "",
+         "0.090%",
+         "0.0%"
+        ],
+        [
+         "1 ramp, 6 other  ->  keep",
+         "",
+         "0.070%",
+         "0.0%"
+        ],
+        [
+         "2 ramp, 5 other  ->  keep",
+         "",
+         "0.011%",
+         "0.0%"
+        ]
+       ]
+      ]
+     ]
+    ]
+   ],
+   "scenario": {
+    "deck": {
+     "cards": [
+      {
+       "name": "land",
+       "quantity": 34,
+       "tags": {
+        "items": [
+         "land"
+        ],
+        "type": "frozenset"
+       },
+       "type": "Card",
+       "zone": "library"
+      },
+      {
+       "name": "ramp",
+       "quantity": 2,
+       "tags": {
+        "items": [
+         "ramp"
+        ],
+        "type": "frozenset"
+       },
+       "type": "Card",
+       "zone": "library"
+      },
+      {
+       "name": "(other)",
+       "quantity": 24,
+       "tags": {
+        "items": [
+         "(other)"
+        ],
+        "type": "frozenset"
+       },
+       "type": "Card",
+       "zone": "library"
+      }
+     ],
+     "name": null,
+     "type": "Deck"
+    },
+    "game": {
+     "draw_overrides": [],
+     "draws_per_turn": 1,
+     "extra_draws": [],
+     "hand_size": 7,
+     "on_play": true,
+     "type": "GameConfig"
+    },
+    "mulligan": {
+     "draw_size": 7,
+     "free_mulligans": 1,
+     "keep_rule": {
+      "items": [
+       {
+        "items": [
+         {
+          "hi": 3,
+          "lo": 1,
+          "sel": {
+           "name": "land",
+           "type": "Tag"
+          },
+          "type": "Between"
+         },
+         {
+          "hi": 5,
+          "lo": 2,
+          "sel": {
+           "name": "land",
+           "type": "Tag"
+          },
+          "type": "Between"
+         },
+         {
+          "hi": 4,
+          "lo": 3,
+          "sel": {
+           "name": "land",
+           "type": "Tag"
+          },
+          "type": "Between"
+         }
+        ],
+        "type": "And"
+       },
+       {
+        "items": [
+         {
+          "hi": 5,
+          "lo": 3,
+          "sel": {
+           "name": "land",
+           "type": "Tag"
+          },
+          "type": "Between"
+         },
+         {
+          "hi": 1,
+          "lo": 1,
+          "sel": {
+           "name": "land",
+           "type": "Tag"
+          },
+          "type": "Between"
+         },
+         {
+          "hi": 0,
+          "lo": 0,
+          "sel": {
+           "name": "ramp",
+           "type": "Tag"
+          },
+          "type": "Between"
+         }
+        ],
+        "type": "And"
+       },
+       {
+        "items": [
+         {
+          "hi": 3,
+          "lo": 0,
+          "sel": {
+           "name": "ramp",
+           "type": "Tag"
+          },
+          "type": "Between"
+         },
+         {
+          "hi": 7,
+          "lo": 3,
+          "sel": {
+           "name": "land",
+           "type": "Tag"
+          },
+          "type": "Between"
+         }
+        ],
+        "type": "And"
+       }
+      ],
+      "type": "Or"
+     },
+     "max_mulligans": 1,
+     "priority": [
+      {
+       "name": null,
+       "quota": 3,
+       "selector": {
+        "name": "land",
+        "type": "Tag"
+       },
+       "type": "PriorityGroup"
+      },
+      {
+       "name": null,
+       "quota": 1,
+       "selector": {
+        "name": "ramp",
+        "type": "Tag"
+       },
+       "type": "PriorityGroup"
+      }
+     ],
+     "type": "MulliganConfig"
+    },
+    "type": "Scenario"
+   }
+  },
+  {
+   "details": [
+    "This includes the games where you mulligan, following your plan."
+   ],
+   "form": {
+    "combine": "all",
+    "deckMode": "types",
+    "deckSize": "99",
+    "decklist": "",
+    "drawsPerTurn": "1",
+    "drawsType": "",
+    "freeFirst": true,
+    "goFirst": false,
+    "goal": [
+     {
+      "amount": "3",
+      "cardType": "ramp",
+      "id": "g0",
+      "kind": "at least",
+      "turn": "3"
+     }
+    ],
+    "hmAim": "target",
+    "hmMode": "one",
+    "hmSlots": "20",
+    "hmTarget": "90",
+    "hmVary": [
+     {
+      "cardType": "land",
+      "high": "40",
+      "id": "v0",
+      "low": "14"
+     }
+    ],
+    "keep": [
+     {
+      "id": "k0",
+      "rules": [
+       {
+        "cardType": "ramp",
+        "id": "k0r0",
+        "max": "2",
+        "min": "1"
+       }
+      ]
+     },
+     {
+      "id": "k1",
+      "rules": [
+       {
+        "cardType": "ramp",
+        "id": "k1r0",
+        "max": "5",
+        "min": "1"
+       }
+      ]
+     },
+     {
+      "id": "k2",
+      "rules": [
+       {
+        "cardType": "land",
+        "id": "k2r0",
+        "max": "3",
+        "min": "0"
+       },
+       {
+        "cardType": "land",
+        "id": "k2r1",
+        "max": "3",
+        "min": "0"
+       }
+      ]
+     }
+    ],
+    "lastTurn": "5",
+    "maxMulligans": "1",
+    "mulligans": true,
+    "protect": [
+     {
+      "cardType": "land",
+      "id": "p0",
+      "upTo": "2"
+     }
+    ],
+    "question": "chances",
+    "rule": "",
+    "types": [
+     {
+      "also": "",
+      "count": "30",
+      "id": "t0",
+      "name": "land"
+     },
+     {
+      "also": "",
+      "count": "8",
+      "id": "t1",
+      "name": "ramp"
+     }
+    ],
+    "useRule": false
+   },
+   "headline": "You have at least 3 ramp by turn 3 in 3.5% of games (about 1 game in 29).",
+   "keepWords": "keep a hand with 1 to 2 ramp, or with 1 to 5 ramp, or with 0 to 3 land and 0 to 3 land",
+   "name": "mulligan 10",
+   "rows": [],
+   "scenario": {
+    "deck": {
+     "cards": [
+      {
+       "name": "land",
+       "quantity": 30,
+       "tags": {
+        "items": [
+         "land"
+        ],
+        "type": "frozenset"
+       },
+       "type": "Card",
+       "zone": "library"
+      },
+      {
+       "name": "ramp",
+       "quantity": 8,
+       "tags": {
+        "items": [
+         "ramp"
+        ],
+        "type": "frozenset"
+       },
+       "type": "Card",
+       "zone": "library"
+      },
+      {
+       "name": "(other)",
+       "quantity": 61,
+       "tags": {
+        "items": [
+         "(other)"
+        ],
+        "type": "frozenset"
+       },
+       "type": "Card",
+       "zone": "library"
+      }
+     ],
+     "name": null,
+     "type": "Deck"
+    },
+    "game": {
+     "draw_overrides": [],
+     "draws_per_turn": 1,
+     "extra_draws": [],
+     "hand_size": 7,
+     "on_play": false,
+     "type": "GameConfig"
+    },
+    "mulligan": {
+     "draw_size": 7,
+     "free_mulligans": 1,
+     "keep_rule": {
+      "items": [
+       {
+        "hi": 2,
+        "lo": 1,
+        "sel": {
+         "name": "ramp",
+         "type": "Tag"
+        },
+        "type": "Between"
+       },
+       {
+        "hi": 5,
+        "lo": 1,
+        "sel": {
+         "name": "ramp",
+         "type": "Tag"
+        },
+        "type": "Between"
+       },
+       {
+        "items": [
+         {
+          "hi": 3,
+          "lo": 0,
+          "sel": {
+           "name": "land",
+           "type": "Tag"
+          },
+          "type": "Between"
+         },
+         {
+          "hi": 3,
+          "lo": 0,
+          "sel": {
+           "name": "land",
+           "type": "Tag"
+          },
+          "type": "Between"
+         }
+        ],
+        "type": "And"
+       }
+      ],
+      "type": "Or"
+     },
+     "max_mulligans": 1,
+     "priority": [
+      {
+       "name": null,
+       "quota": 2,
+       "selector": {
+        "name": "land",
+        "type": "Tag"
+       },
+       "type": "PriorityGroup"
+      }
+     ],
+     "type": "MulliganConfig"
+    },
+    "type": "Scenario"
+   }
+  },
+  {
+   "details": [
+    "A good game means: at least 4 ramp in your opening hand.",
+    "On average you mulligan 0.00 times and keep 7.00 cards.",
+    "The best plan (below) keeps a hand only when that hand is at least as good as mulliganing would be on average."
+   ],
+   "form": {
+    "combine": "all",
+    "deckMode": "types",
+    "deckSize": "60",
+    "decklist": "",
+    "drawsPerTurn": "1",
+    "drawsType": "",
+    "freeFirst": true,
+    "goFirst": false,
+    "goal": [
+     {
+      "amount": "4",
+      "cardType": "ramp",
+      "id": "g0",
+      "kind": "at least",
+      "turn": "0"
+     }
+    ],
+    "hmAim": "target",
+    "hmMode": "one",
+    "hmSlots": "20",
+    "hmTarget": "90",
+    "hmVary": [
+     {
+      "cardType": "land",
+      "high": "40",
+      "id": "v0",
+      "low": "14"
+     }
+    ],
+    "keep": [
+     {
+      "id": "k0",
+      "rules": [
+       {
+        "cardType": "ramp",
+        "id": "k0r0",
+        "max": "2",
+        "min": "1"
+       },
+       {
+        "cardType": "land",
+        "id": "k0r1",
+        "max": "2",
+        "min": "1"
+       },
+       {
+        "cardType": "land",
+        "id": "k0r2",
+        "max": "6",
+        "min": "3"
+       }
+      ]
+     }
+    ],
+    "lastTurn": "5",
+    "maxMulligans": "0",
+    "mulligans": true,
+    "protect": [
+     {
+      "cardType": "land",
+      "id": "p0",
+      "upTo": "3"
+     }
+    ],
+    "question": "mulligan",
+    "rule": "",
+    "types": [
+     {
+      "also": "",
+      "count": "15",
+      "id": "t0",
+      "name": "land"
+     },
+     {
+      "also": "",
+      "count": "9",
+      "id": "t1",
+      "name": "ramp"
+     }
+    ],
+    "useRule": false
+   },
+   "headline": "With your mulligan plan you get a good game 0.7% of the time. Never mulliganing: 0.7%. The best possible plan: 0.7%.",
+   "keepWords": "keep a hand with 1 to 2 ramp and 1 to 2 land and 3 to 6 land",
+   "name": "mulligan 11",
+   "rows": [
+    [
+     [
+      "Your plan",
+      "",
+      "",
+      ""
+     ],
+     [
+      [
+       [
+        "First 7 cards",
+        "100.0%",
+        "100.0%",
+        "0.7%"
+       ],
+       []
+      ]
+     ]
+    ],
+    [
+     [
+      "Best possible plan",
+      "",
+      "",
+      "0.7%"
+     ],
+     [
+      [
+       [
+        "First 7 cards: keep any hand",
+        "",
+        "100.0%",
+        ""
+       ],
+       [
+        [
+         "4 ramp, 1 land, 2 other  ->  keep",
+         "",
+         "0.3%",
+         "100.0%"
+        ],
+        [
+         "4 ramp, 3 other  ->  keep",
+         "",
+         "0.2%",
+         "100.0%"
+        ],
+        [
+         "4 ramp, 2 land, 1 other  ->  keep",
+         "",
+         "0.1%",
+         "100.0%"
+        ],
+        [
+         "5 ramp, 2 other  ->  keep",
+         "",
+         "0.021%",
+         "100.0%"
+        ],
+        [
+         "5 ramp, 1 land, 1 other  ->  keep",
+         "",
+         "0.018%",
+         "100.0%"
+        ],
+        [
+         "4 ramp, 3 land  ->  keep",
+         "",
+         "0.015%",
+         "100.0%"
+        ],
+        [
+         "5 ramp, 2 land  ->  keep",
+         "",
+         "0.003%",
+         "100.0%"
+        ],
+        [
+         "6 ramp, 1 other  ->  keep",
+         "",
+         "less than 0.001%",
+         "100.0%"
+        ],
+        [
+         "6 ramp, 1 land  ->  keep",
+         "",
+         "less than 0.001%",
+         "100.0%"
+        ],
+        [
+         "7 ramp  ->  keep",
+         "",
+         "less than 0.001%",
+         "100.0%"
+        ],
+        [
+         "1 ramp, 2 land, 4 other  ->  keep",
+         "",
+         "14.4%",
+         "0.0%"
+        ],
+        [
+         "1 ramp, 1 land, 5 other  ->  keep",
+         "",
+         "13.2%",
+         "0.0%"
+        ],
+        [
+         "2 land, 5 other  ->  keep",
+         "",
+         "10.2%",
+         "0.0%"
+        ],
+        [
+         "2 ramp, 1 land, 4 other  ->  keep",
+         "",
+         "8.2%",
+         "0.0%"
+        ],
+        [
+         "1 ramp, 3 land, 3 other  ->  keep",
+         "",
+         "7.6%",
+         "0.0%"
+        ],
+        [
+         "1 land, 6 other  ->  keep",
+         "",
+         "7.6%",
+         "0.0%"
+        ],
+        [
+         "2 ramp, 2 land, 3 other  ->  keep",
+         "",
+         "7.0%",
+         "0.0%"
+        ],
+        [
+         "3 land, 4 other  ->  keep",
+         "",
+         "6.9%",
+         "0.0%"
+        ],
+        [
+         "1 ramp, 6 other  ->  keep",
+         "",
+         "4.5%",
+         "0.0%"
+        ],
+        [
+         "2 ramp, 5 other  ->  keep",
+         "",
+         "3.5%",
+         "0.0%"
+        ],
+        [
+         "2 ramp, 3 land, 2 other  ->  keep",
+         "",
+         "2.7%",
+         "0.0%"
+        ],
+        [
+         "4 land, 3 other  ->  keep",
+         "",
+         "2.5%",
+         "0.0%"
+        ],
+        [
+         "3 ramp, 1 land, 3 other  ->  keep",
+         "",
+         "2.3%",
+         "0.0%"
+        ],
+        [
+         "7 other  ->  keep",
+         "",
+         "2.2%",
+         "0.0%"
+        ],
+        [
+         "1 ramp, 4 land, 2 other  ->  keep",
+         "",
+         "2.0%",
+         "0.0%"
+        ],
+        [
+         "3 ramp, 2 land, 2 other  ->  keep",
+         "",
+         "1.4%",
+         "0.0%"
+        ],
+        [
+         "3 ramp, 4 other  ->  keep",
+         "",
+         "1.3%",
+         "0.0%"
+        ],
+        [
+         "5 land, 2 other  ->  keep",
+         "",
+         "0.5%",
+         "0.0%"
+        ],
+        [
+         "2 ramp, 4 land, 1 other  ->  keep",
+         "",
+         "0.5%",
+         "0.0%"
+        ],
+        [
+         "3 ramp, 3 land, 1 other  ->  keep",
+         "",
+         "0.4%",
+         "0.0%"
+        ],
+        [
+         "1 ramp, 5 land, 1 other  ->  keep",
+         "",
+         "0.3%",
+         "0.0%"
+        ],
+        [
+         "6 land, 1 other  ->  keep",
+         "",
+         "0.047%",
+         "0.0%"
+        ],
+        [
+         "3 ramp, 4 land  ->  keep",
+         "",
+         "0.030%",
+         "0.0%"
+        ],
+        [
+         "2 ramp, 5 land  ->  keep",
+         "",
+         "0.028%",
+         "0.0%"
+        ],
+        [
+         "1 ramp, 6 land  ->  keep",
+         "",
+         "0.012%",
+         "0.0%"
+        ],
+        [
+         "7 land  ->  keep",
+         "",
+         "0.002%",
+         "0.0%"
+        ]
+       ]
+      ]
+     ]
+    ]
+   ],
+   "scenario": {
+    "deck": {
+     "cards": [
+      {
+       "name": "land",
+       "quantity": 15,
+       "tags": {
+        "items": [
+         "land"
+        ],
+        "type": "frozenset"
+       },
+       "type": "Card",
+       "zone": "library"
+      },
+      {
+       "name": "ramp",
+       "quantity": 9,
+       "tags": {
+        "items": [
+         "ramp"
+        ],
+        "type": "frozenset"
+       },
+       "type": "Card",
+       "zone": "library"
+      },
+      {
+       "name": "(other)",
+       "quantity": 36,
+       "tags": {
+        "items": [
+         "(other)"
+        ],
+        "type": "frozenset"
+       },
+       "type": "Card",
+       "zone": "library"
+      }
+     ],
+     "name": null,
+     "type": "Deck"
+    },
+    "game": {
+     "draw_overrides": [],
+     "draws_per_turn": 1,
+     "extra_draws": [],
+     "hand_size": 7,
+     "on_play": false,
+     "type": "GameConfig"
+    },
+    "mulligan": {
+     "draw_size": 7,
+     "free_mulligans": 1,
+     "keep_rule": {
+      "items": [
+       {
+        "hi": 2,
+        "lo": 1,
+        "sel": {
+         "name": "ramp",
+         "type": "Tag"
+        },
+        "type": "Between"
+       },
+       {
+        "hi": 2,
+        "lo": 1,
+        "sel": {
+         "name": "land",
+         "type": "Tag"
+        },
+        "type": "Between"
+       },
+       {
+        "hi": 6,
+        "lo": 3,
+        "sel": {
+         "name": "land",
+         "type": "Tag"
+        },
+        "type": "Between"
+       }
+      ],
+      "type": "And"
+     },
+     "max_mulligans": 0,
+     "priority": [
+      {
+       "name": null,
+       "quota": 3,
+       "selector": {
+        "name": "land",
+        "type": "Tag"
+       },
+       "type": "PriorityGroup"
+      }
+     ],
+     "type": "MulliganConfig"
+    },
+    "type": "Scenario"
+   }
+  },
+  {
+   "details": [
+    "This includes the games where you mulligan, following your plan."
+   ],
+   "form": {
+    "combine": "all",
+    "deckMode": "types",
+    "deckSize": "40",
+    "decklist": "",
+    "drawsPerTurn": "1",
+    "drawsType": "",
+    "freeFirst": false,
+    "goFirst": true,
+    "goal": [
+     {
+      "amount": "3",
+      "cardType": "land",
+      "id": "g0",
+      "kind": "at least",
+      "turn": "0"
+     }
+    ],
+    "hmAim": "target",
+    "hmMode": "one",
+    "hmSlots": "20",
+    "hmTarget": "90",
+    "hmVary": [
+     {
+      "cardType": "land",
+      "high": "40",
+      "id": "v0",
+      "low": "14"
+     }
+    ],
+    "keep": [
+     {
+      "id": "k0",
+      "rules": [
+       {
+        "cardType": "ramp",
+        "id": "k0r0",
+        "max": "1",
+        "min": "0"
+       }
+      ]
+     },
+     {
+      "id": "k1",
+      "rules": [
+       {
+        "cardType": "land",
+        "id": "k1r0",
+        "max": "1",
+        "min": "0"
+       },
+       {
+        "cardType": "land",
+        "id": "k1r1",
+        "max": "3",
+        "min": "2"
+       }
+      ]
+     }
+    ],
+    "lastTurn": "5",
+    "maxMulligans": "1",
+    "mulligans": true,
+    "protect": [
+     {
+      "cardType": "land",
+      "id": "p0",
+      "upTo": "3"
+     }
+    ],
+    "question": "chances",
+    "rule": "",
+    "types": [
+     {
+      "also": "",
+      "count": "16",
+      "id": "t0",
+      "name": "land"
+     },
+     {
+      "also": "",
+      "count": "0",
+      "id": "t1",
+      "name": "ramp"
+     }
+    ],
+    "useRule": false
+   },
+   "headline": "You have at least 3 land in your opening hand in 59.2% of games (about 6 games in 10).",
+   "keepWords": "keep a hand with 0 to 1 ramp, or with 0 to 1 land and 2 to 3 land",
+   "name": "mulligan 12",
+   "rows": [],
+   "scenario": {
+    "deck": {
+     "cards": [
+      {
+       "name": "land",
+       "quantity": 16,
+       "tags": {
+        "items": [
+         "land"
+        ],
+        "type": "frozenset"
+       },
+       "type": "Card",
+       "zone": "library"
+      },
+      {
+       "name": "(other)",
+       "quantity": 24,
+       "tags": {
+        "items": [
+         "(other)"
+        ],
+        "type": "frozenset"
+       },
+       "type": "Card",
+       "zone": "library"
+      }
+     ],
+     "name": null,
+     "type": "Deck"
+    },
+    "game": {
+     "draw_overrides": [],
+     "draws_per_turn": 1,
+     "extra_draws": [],
+     "hand_size": 7,
+     "on_play": true,
+     "type": "GameConfig"
+    },
+    "mulligan": {
+     "draw_size": 7,
+     "free_mulligans": 0,
+     "keep_rule": {
+      "items": [
+       {
+        "hi": 1,
+        "lo": 0,
+        "sel": {
+         "name": "ramp",
+         "type": "Tag"
+        },
+        "type": "Between"
+       },
+       {
+        "items": [
+         {
+          "hi": 1,
+          "lo": 0,
+          "sel": {
+           "name": "land",
+           "type": "Tag"
+          },
+          "type": "Between"
+         },
+         {
+          "hi": 3,
+          "lo": 2,
+          "sel": {
+           "name": "land",
+           "type": "Tag"
+          },
+          "type": "Between"
+         }
+        ],
+        "type": "And"
+       }
+      ],
+      "type": "Or"
+     },
+     "max_mulligans": 1,
+     "priority": [
+      {
+       "name": null,
+       "quota": 3,
+       "selector": {
+        "name": "land",
+        "type": "Tag"
+       },
+       "type": "PriorityGroup"
+      }
+     ],
+     "type": "MulliganConfig"
+    },
+    "type": "Scenario"
+   }
+  },
+  {
+   "details": [
+    "A good game means: at least 2 ramp by turn 2.",
+    "On average you mulligan 0.00 times and keep 7.00 cards.",
+    "The best plan (below) keeps a hand only when that hand is at least as good as mulliganing would be on average."
+   ],
+   "form": {
+    "combine": "all",
+    "deckMode": "types",
+    "deckSize": "40",
+    "decklist": "",
+    "drawsPerTurn": "1",
+    "drawsType": "",
+    "freeFirst": true,
+    "goFirst": false,
+    "goal": [
+     {
+      "amount": "2",
+      "cardType": "ramp",
+      "id": "g0",
+      "kind": "at least",
+      "turn": "2"
+     }
+    ],
+    "hmAim": "target",
+    "hmMode": "one",
+    "hmSlots": "20",
+    "hmTarget": "90",
+    "hmVary": [
+     {
+      "cardType": "land",
+      "high": "40",
+      "id": "v0",
+      "low": "14"
+     }
+    ],
+    "keep": [],
+    "lastTurn": "5",
+    "maxMulligans": "0",
+    "mulligans": true,
+    "protect": [
+     {
+      "cardType": "land",
+      "id": "p0",
+      "upTo": "2"
+     }
+    ],
+    "question": "mulligan",
+    "rule": "",
+    "types": [
+     {
+      "also": "",
+      "count": "16",
+      "id": "t0",
+      "name": "land"
+     },
+     {
+      "also": "",
+      "count": "3",
+      "id": "t1",
+      "name": "ramp"
+     }
+    ],
+    "useRule": false
+   },
+   "headline": "With your mulligan plan you get a good game 12.1% of the time. Never mulliganing: 12.1%. The best possible plan: 12.1%.",
+   "keepWords": "always keep your first hand",
+   "name": "mulligan 13",
+   "rows": [
+    [
+     [
+      "Your plan",
+      "",
+      "",
+      ""
+     ],
+     [
+      [
+       [
+        "First 7 cards",
+        "100.0%",
+        "100.0%",
+        "12.1%"
+       ],
+       []
+      ]
+     ]
+    ],
+    [
+     [
+      "Best possible plan",
+      "",
+      "",
+      "12.1%"
+     ],
+     [
+      [
+       [
+        "First 7 cards: keep any hand",
+        "",
+        "100.0%",
+        ""
+       ],
+       [
+        [
+         "2 ramp, 2 land, 3 other  ->  keep",
+         "",
+         "2.6%",
+         "100.0%"
+        ],
+        [
+         "2 ramp, 3 land, 2 other  ->  keep",
+         "",
+         "1.9%",
+         "100.0%"
+        ],
+        [
+         "2 ramp, 1 land, 4 other  ->  keep",
+         "",
+         "1.5%",
+         "100.0%"
+        ],
+        [
+         "2 ramp, 4 land, 1 other  ->  keep",
+         "",
+         "0.6%",
+         "100.0%"
+        ],
+        [
+         "2 ramp, 5 other  ->  keep",
+         "",
+         "0.3%",
+         "100.0%"
+        ],
+        [
+         "3 ramp, 2 land, 2 other  ->  keep",
+         "",
+         "0.1%",
+         "100.0%"
+        ],
+        [
+         "3 ramp, 1 land, 3 other  ->  keep",
+         "",
+         "0.1%",
+         "100.0%"
+        ],
+        [
+         "2 ramp, 5 land  ->  keep",
+         "",
+         "0.070%",
+         "100.0%"
+        ],
+        [
+         "3 ramp, 3 land, 1 other  ->  keep",
+         "",
+         "0.063%",
+         "100.0%"
+        ],
+        [
+         "3 ramp, 4 other  ->  keep",
+         "",
+         "0.032%",
+         "100.0%"
+        ],
+        [
+         "3 ramp, 4 land  ->  keep",
+         "",
+         "0.010%",
+         "100.0%"
+        ],
+        [
+         "1 ramp, 3 land, 3 other  ->  keep",
+         "",
+         "12.0%",
+         "11.9%"
+        ],
+        [
+         "1 ramp, 2 land, 4 other  ->  keep",
+         "",
+         "11.6%",
+         "11.9%"
+        ],
+        [
+         "1 ramp, 4 land, 2 other  ->  keep",
+         "",
+         "6.2%",
+         "11.9%"
+        ],
+        [
+         "1 ramp, 1 land, 5 other  ->  keep",
+         "",
+         "5.2%",
+         "11.9%"
+        ],
+        [
+         "1 ramp, 5 land, 1 other  ->  keep",
+         "",
+         "1.5%",
+         "11.9%"
+        ],
+        [
+         "1 ramp, 6 other  ->  keep",
+         "",
+         "0.9%",
+         "11.9%"
+        ],
+        [
+         "1 ramp, 6 land  ->  keep",
+         "",
+         "0.1%",
+         "11.9%"
+        ],
+        [
+         "3 land, 4 other  ->  keep",
+         "",
+         "18.0%",
+         "0.6%"
+        ],
+        [
+         "2 land, 5 other  ->  keep",
+         "",
+         "13.1%",
+         "0.6%"
+        ],
+        [
+         "4 land, 3 other  ->  keep",
+         "",
+         "13.0%",
+         "0.6%"
+        ],
+        [
+         "5 land, 2 other  ->  keep",
+         "",
+         "4.9%",
+         "0.6%"
+        ],
+        [
+         "1 land, 6 other  ->  keep",
+         "",
+         "4.7%",
+         "0.6%"
+        ],
+        [
+         "6 land, 1 other  ->  keep",
+         "",
+         "0.9%",
+         "0.6%"
+        ],
+        [
+         "7 other  ->  keep",
+         "",
+         "0.6%",
+         "0.6%"
+        ],
+        [
+         "7 land  ->  keep",
+         "",
+         "0.061%",
+         "0.6%"
+        ]
+       ]
+      ]
+     ]
+    ]
+   ],
+   "scenario": {
+    "deck": {
+     "cards": [
+      {
+       "name": "land",
+       "quantity": 16,
+       "tags": {
+        "items": [
+         "land"
+        ],
+        "type": "frozenset"
+       },
+       "type": "Card",
+       "zone": "library"
+      },
+      {
+       "name": "ramp",
+       "quantity": 3,
+       "tags": {
+        "items": [
+         "ramp"
+        ],
+        "type": "frozenset"
+       },
+       "type": "Card",
+       "zone": "library"
+      },
+      {
+       "name": "(other)",
+       "quantity": 21,
+       "tags": {
+        "items": [
+         "(other)"
+        ],
+        "type": "frozenset"
+       },
+       "type": "Card",
+       "zone": "library"
+      }
+     ],
+     "name": null,
+     "type": "Deck"
+    },
+    "game": {
+     "draw_overrides": [],
+     "draws_per_turn": 1,
+     "extra_draws": [],
+     "hand_size": 7,
+     "on_play": false,
+     "type": "GameConfig"
+    },
+    "mulligan": {
+     "draw_size": 7,
+     "free_mulligans": 1,
+     "keep_rule": {
+      "type": "Const",
+      "value": true
+     },
+     "max_mulligans": 0,
+     "priority": [
+      {
+       "name": null,
+       "quota": 2,
+       "selector": {
+        "name": "land",
+        "type": "Tag"
+       },
+       "type": "PriorityGroup"
+      }
+     ],
+     "type": "MulliganConfig"
+    },
+    "type": "Scenario"
+   }
   }
  ],
  "percentages": [
@@ -16014,291 +19466,6 @@
    "inWords": "almost never",
    "pct": "0.075%",
    "value": "3/4000"
-  },
-  {
-   "inWords": "about 3 games in 10",
-   "pct": "27.7%",
-   "value": "71/256"
-  },
-  {
-   "inWords": "about 6 games in 10",
-   "pct": "64.5%",
-   "value": "3248353936/5034995211"
-  },
-  {
-   "inWords": "about 7 games in 10",
-   "pct": "66.5%",
-   "value": "285680190269/429883621363"
-  },
-  {
-   "inWords": "about 7 games in 10",
-   "pct": "65.7%",
-   "value": "394680104761/600928130435"
-  },
-  {
-   "inWords": "about 8 games in 10",
-   "pct": "80.0%",
-   "value": "4/5"
-  },
-  {
-   "inWords": "about 2 games in 10",
-   "pct": "20.9%",
-   "value": "14/67"
-  },
-  {
-   "inWords": "about 3 games in 10",
-   "pct": "31.6%",
-   "value": "11485544/36341283"
-  },
-  {
-   "inWords": "about 2 games in 10",
-   "pct": "16.0%",
-   "value": "26327746/164505779"
-  },
-  {
-   "inWords": "about 5 games in 10",
-   "pct": "45.7%",
-   "value": "4217469/9220567"
-  },
-  {
-   "inWords": "about 5 games in 10",
-   "pct": "50.0%",
-   "value": "1/2"
-  },
-  {
-   "inWords": "about 2 games in 10",
-   "pct": "23.2%",
-   "value": "486/2099"
-  },
-  {
-   "inWords": "about 2 games in 10",
-   "pct": "22.6%",
-   "value": "141037/625199"
-  },
-  {
-   "inWords": "all but about 1 game in 26",
-   "pct": "96.1%",
-   "value": "76439068/79542965"
-  },
-  {
-   "inWords": "about 7 games in 10",
-   "pct": "71.4%",
-   "value": "5/7"
-  },
-  {
-   "inWords": "all but about 1 game in 7",
-   "pct": "85.7%",
-   "value": "6/7"
-  },
-  {
-   "inWords": "about 5 games in 10",
-   "pct": "52.3%",
-   "value": "9357142978/17901859349"
-  },
-  {
-   "inWords": "all but about 1 game in 9",
-   "pct": "88.9%",
-   "value": "8/9"
-  },
-  {
-   "inWords": "about 6 games in 10",
-   "pct": "56.7%",
-   "value": "29241/51529"
-  },
-  {
-   "inWords": "about 2 games in 10",
-   "pct": "21.1%",
-   "value": "107061164/507446281"
-  },
-  {
-   "inWords": "about 2 games in 10",
-   "pct": "21.2%",
-   "value": "1810732667/8530058790"
-  },
-  {
-   "inWords": "about 1 game in 42",
-   "pct": "2.4%",
-   "value": "653921627/27352704581"
-  },
-  {
-   "inWords": "about 3 games in 10",
-   "pct": "32.5%",
-   "value": "3072987251/9451948254"
-  },
-  {
-   "inWords": "about 4 games in 10",
-   "pct": "39.4%",
-   "value": "225275/571144"
-  },
-  {
-   "inWords": "about 7 games in 10",
-   "pct": "74.3%",
-   "value": "47438671/63826142"
-  },
-  {
-   "inWords": "all but about 1 game in 19",
-   "pct": "94.6%",
-   "value": "5803757382/6134992639"
-  },
-  {
-   "inWords": "about 3 games in 10",
-   "pct": "30.0%",
-   "value": "71/237"
-  },
-  {
-   "inWords": "about 4 games in 10",
-   "pct": "35.7%",
-   "value": "2033/5688"
-  },
-  {
-   "inWords": "about 7 games in 10",
-   "pct": "73.9%",
-   "value": "728068557662/985743972643"
-  },
-  {
-   "inWords": "all but about 1 game in 14",
-   "pct": "92.8%",
-   "value": "64/69"
-  },
-  {
-   "inWords": "about 1 game in 17",
-   "pct": "6.0%",
-   "value": "34867489/581973370"
-  },
-  {
-   "inWords": "about 1 game in 7",
-   "pct": "13.8%",
-   "value": "24418925395/177526162582"
-  },
-  {
-   "inWords": "about 1 game in 9",
-   "pct": "11.6%",
-   "value": "5734371232/49537886155"
-  },
-  {
-   "inWords": "about 1 game in 18",
-   "pct": "5.5%",
-   "value": "30833/564159"
-  },
-  {
-   "inWords": "about 4 games in 10",
-   "pct": "41.4%",
-   "value": "7841737/18933065"
-  },
-  {
-   "inWords": "never",
-   "pct": "0.0%",
-   "value": "0/1"
-  },
-  {
-   "inWords": "about 6 games in 10",
-   "pct": "57.2%",
-   "value": "24127302969/42192918697"
-  },
-  {
-   "inWords": "about 1 game in 12",
-   "pct": "8.7%",
-   "value": "1867927/21533113"
-  },
-  {
-   "inWords": "about 8 games in 10",
-   "pct": "78.2%",
-   "value": "1692730759/2164795911"
-  },
-  {
-   "inWords": "about 2 games in 10",
-   "pct": "23.2%",
-   "value": "770608/3322443"
-  },
-  {
-   "inWords": "about 2 games in 10",
-   "pct": "19.7%",
-   "value": "5817/29539"
-  },
-  {
-   "inWords": "about 7 games in 10",
-   "pct": "71.7%",
-   "value": "104/145"
-  },
-  {
-   "inWords": "about 5 games in 10",
-   "pct": "52.0%",
-   "value": "26045918/50041863"
-  },
-  {
-   "inWords": "about 3 games in 10",
-   "pct": "28.9%",
-   "value": "305/1056"
-  },
-  {
-   "inWords": "about 7 games in 10",
-   "pct": "71.9%",
-   "value": "57952482274/80622751381"
-  },
-  {
-   "inWords": "about 1 game in 9",
-   "pct": "11.1%",
-   "value": "1/9"
-  },
-  {
-   "inWords": "every game",
-   "pct": "100.0%",
-   "value": "1/1"
-  },
-  {
-   "inWords": "all but about 1 game in 9",
-   "pct": "88.9%",
-   "value": "1190966171/1340254370"
-  },
-  {
-   "inWords": "never",
-   "pct": "0.0%",
-   "value": "0/1"
-  },
-  {
-   "inWords": "about 4 games in 10",
-   "pct": "40.2%",
-   "value": "115/286"
-  },
-  {
-   "inWords": "all but about 1 game in 23",
-   "pct": "95.6%",
-   "value": "6928/7247"
-  },
-  {
-   "inWords": "about 7 games in 10",
-   "pct": "66.7%",
-   "value": "2/3"
-  },
-  {
-   "inWords": "never",
-   "pct": "0.0%",
-   "value": "0/1"
-  },
-  {
-   "inWords": "about 7 games in 10",
-   "pct": "68.7%",
-   "value": "198265843/288658554"
-  },
-  {
-   "inWords": "about 2 games in 10",
-   "pct": "16.7%",
-   "value": "1/6"
-  },
-  {
-   "inWords": "about 2 games in 10",
-   "pct": "15.2%",
-   "value": "119506036069/785863414485"
-  },
-  {
-   "inWords": "all but about 1 game in 8",
-   "pct": "87.6%",
-   "value": "39759/45379"
-  },
-  {
-   "inWords": "about 4 games in 10",
-   "pct": "40.2%",
-   "value": "43/107"
   },
   {
    "inWords": "about 4 games in 10",
@@ -17514,6 +20681,291 @@
    "inWords": "almost never",
    "pct": "0.004%",
    "value": "3/72662"
+  },
+  {
+   "inWords": "about 6 games in 10",
+   "pct": "56.5%",
+   "value": "42637/75482"
+  },
+  {
+   "inWords": "every game",
+   "pct": "100.0%",
+   "value": "1/1"
+  },
+  {
+   "inWords": "about 4 games in 10",
+   "pct": "37.0%",
+   "value": "17/46"
+  },
+  {
+   "inWords": "every game",
+   "pct": "100.0%",
+   "value": "1/1"
+  },
+  {
+   "inWords": "about 8 games in 10",
+   "pct": "77.1%",
+   "value": "37/48"
+  },
+  {
+   "inWords": "about 2 games in 10",
+   "pct": "24.5%",
+   "value": "719/2935"
+  },
+  {
+   "inWords": "about 2 games in 10",
+   "pct": "19.8%",
+   "value": "165/833"
+  },
+  {
+   "inWords": "every game",
+   "pct": "100.0%",
+   "value": "1/1"
+  },
+  {
+   "inWords": "all but about 1 game in 13",
+   "pct": "92.3%",
+   "value": "34382/37241"
+  },
+  {
+   "inWords": "all but about 1 game in 15",
+   "pct": "93.1%",
+   "value": "733/787"
+  },
+  {
+   "inWords": "about 8 games in 10",
+   "pct": "82.8%",
+   "value": "438/529"
+  },
+  {
+   "inWords": "about 8 games in 10",
+   "pct": "78.9%",
+   "value": "19528786373/24746491446"
+  },
+  {
+   "inWords": "about 3 games in 10",
+   "pct": "30.5%",
+   "value": "43/141"
+  },
+  {
+   "inWords": "about 1 game in 44",
+   "pct": "2.3%",
+   "value": "96616193/4227971761"
+  },
+  {
+   "inWords": "about 7 games in 10",
+   "pct": "70.6%",
+   "value": "3341082908/4735084893"
+  },
+  {
+   "inWords": "about 2 games in 10",
+   "pct": "17.8%",
+   "value": "5224093/29318631"
+  },
+  {
+   "inWords": "all but about 1 game in 15",
+   "pct": "93.4%",
+   "value": "8334/8923"
+  },
+  {
+   "inWords": "about 6 games in 10",
+   "pct": "61.1%",
+   "value": "1234367393/2020525735"
+  },
+  {
+   "inWords": "about 1 game in 13",
+   "pct": "8.0%",
+   "value": "5044249/63105682"
+  },
+  {
+   "inWords": "about 2 games in 10",
+   "pct": "22.2%",
+   "value": "803799/3618836"
+  },
+  {
+   "inWords": "about 7 games in 10",
+   "pct": "70.0%",
+   "value": "7/10"
+  },
+  {
+   "inWords": "about 7 games in 10",
+   "pct": "74.6%",
+   "value": "24871030/33323459"
+  },
+  {
+   "inWords": "all but about 1 game in 134",
+   "pct": "99.3%",
+   "value": "1727/1740"
+  },
+  {
+   "inWords": "about 4 games in 10",
+   "pct": "43.9%",
+   "value": "37225/84782"
+  },
+  {
+   "inWords": "about 7 games in 10",
+   "pct": "75.0%",
+   "value": "7006445739/9343468427"
+  },
+  {
+   "inWords": "about 6 games in 10",
+   "pct": "60.8%",
+   "value": "177201/291308"
+  },
+  {
+   "inWords": "all but about 1 game in 10",
+   "pct": "90.2%",
+   "value": "18939/20999"
+  },
+  {
+   "inWords": "about 1 game in 19",
+   "pct": "5.2%",
+   "value": "1541915857/29710930997"
+  },
+  {
+   "inWords": "about 5 games in 10",
+   "pct": "54.4%",
+   "value": "1261617101/2321007271"
+  },
+  {
+   "inWords": "never",
+   "pct": "0.0%",
+   "value": "0/1"
+  },
+  {
+   "inWords": "about 4 games in 10",
+   "pct": "38.8%",
+   "value": "12673713/32665811"
+  },
+  {
+   "inWords": "about 1 game in 8",
+   "pct": "11.9%",
+   "value": "19/159"
+  },
+  {
+   "inWords": "about 6 games in 10",
+   "pct": "64.6%",
+   "value": "323/500"
+  },
+  {
+   "inWords": "about 8 games in 10",
+   "pct": "78.6%",
+   "value": "4680883/5958350"
+  },
+  {
+   "inWords": "about 6 games in 10",
+   "pct": "60.1%",
+   "value": "2226564134/3707181923"
+  },
+  {
+   "inWords": "about 1 game in 7",
+   "pct": "13.8%",
+   "value": "133/967"
+  },
+  {
+   "inWords": "about 1 game in 27",
+   "pct": "3.6%",
+   "value": "51765/1422431"
+  },
+  {
+   "inWords": "about 1 game in 96",
+   "pct": "1.0%",
+   "value": "19626005/1883477742"
+  },
+  {
+   "inWords": "about 6 games in 10",
+   "pct": "56.9%",
+   "value": "1411/2478"
+  },
+  {
+   "inWords": "about 2 games in 10",
+   "pct": "24.3%",
+   "value": "39053/160484"
+  },
+  {
+   "inWords": "about 7 games in 10",
+   "pct": "65.2%",
+   "value": "1486167/2280094"
+  },
+  {
+   "inWords": "about 6 games in 10",
+   "pct": "59.0%",
+   "value": "23/39"
+  },
+  {
+   "inWords": "about 3 games in 10",
+   "pct": "34.5%",
+   "value": "9465/27448"
+  },
+  {
+   "inWords": "about 7 games in 10",
+   "pct": "66.1%",
+   "value": "113/171"
+  },
+  {
+   "inWords": "about 4 games in 10",
+   "pct": "36.9%",
+   "value": "143912307386/390374017351"
+  },
+  {
+   "inWords": "about 8 games in 10",
+   "pct": "82.0%",
+   "value": "304192979223/371022359056"
+  },
+  {
+   "inWords": "about 1 game in 14",
+   "pct": "7.3%",
+   "value": "1741370286/23927315947"
+  },
+  {
+   "inWords": "about 5 games in 10",
+   "pct": "46.7%",
+   "value": "25154/53905"
+  },
+  {
+   "inWords": "about 7 games in 10",
+   "pct": "71.4%",
+   "value": "6269337169/8784537881"
+  },
+  {
+   "inWords": "about 4 games in 10",
+   "pct": "37.5%",
+   "value": "3/8"
+  },
+  {
+   "inWords": "about 2 games in 10",
+   "pct": "17.9%",
+   "value": "977737207/5472125874"
+  },
+  {
+   "inWords": "about 7 games in 10",
+   "pct": "68.4%",
+   "value": "789/1154"
+  },
+  {
+   "inWords": "about 6 games in 10",
+   "pct": "60.6%",
+   "value": "195/322"
+  },
+  {
+   "inWords": "about 7 games in 10",
+   "pct": "74.2%",
+   "value": "1185/1598"
+  },
+  {
+   "inWords": "about 1 game in 17",
+   "pct": "5.9%",
+   "value": "34275/578462"
+  },
+  {
+   "inWords": "every game",
+   "pct": "100.0%",
+   "value": "1/1"
+  },
+  {
+   "inWords": "all but about 1 game in 52",
+   "pct": "98.1%",
+   "value": "51/52"
   }
  ],
  "questionCases": [
@@ -17548,9 +21000,19 @@
       "low": "14"
      }
     ],
-    "keepMax": "5",
-    "keepMin": "2",
-    "keepType": "land",
+    "keep": [
+     {
+      "id": "k0",
+      "rules": [
+       {
+        "cardType": "land",
+        "id": "k0r0",
+        "max": "5",
+        "min": "2"
+       }
+      ]
+     }
+    ],
     "lastTurn": "2",
     "maxMulligans": "2",
     "mulligans": false,
@@ -17720,9 +21182,19 @@
       "low": "14"
      }
     ],
-    "keepMax": "5",
-    "keepMin": "2",
-    "keepType": "land",
+    "keep": [
+     {
+      "id": "k0",
+      "rules": [
+       {
+        "cardType": "land",
+        "id": "k0r0",
+        "max": "5",
+        "min": "2"
+       }
+      ]
+     }
+    ],
     "lastTurn": "4",
     "maxMulligans": "2",
     "mulligans": false,
@@ -17817,9 +21289,19 @@
       "low": "14"
      }
     ],
-    "keepMax": "5",
-    "keepMin": "2",
-    "keepType": "land",
+    "keep": [
+     {
+      "id": "k0",
+      "rules": [
+       {
+        "cardType": "land",
+        "id": "k0r0",
+        "max": "5",
+        "min": "2"
+       }
+      ]
+     }
+    ],
     "lastTurn": "4",
     "maxMulligans": "2",
     "mulligans": false,
@@ -18269,9 +21751,19 @@
       "low": "14"
      }
     ],
-    "keepMax": "5",
-    "keepMin": "2",
-    "keepType": "land",
+    "keep": [
+     {
+      "id": "k0",
+      "rules": [
+       {
+        "cardType": "land",
+        "id": "k0r0",
+        "max": "5",
+        "min": "2"
+       }
+      ]
+     }
+    ],
     "lastTurn": "2",
     "maxMulligans": "2",
     "mulligans": false,
@@ -18354,9 +21846,19 @@
       "low": "14"
      }
     ],
-    "keepMax": "5",
-    "keepMin": "2",
-    "keepType": "land",
+    "keep": [
+     {
+      "id": "k0",
+      "rules": [
+       {
+        "cardType": "land",
+        "id": "k0r0",
+        "max": "5",
+        "min": "2"
+       }
+      ]
+     }
+    ],
     "lastTurn": "6",
     "maxMulligans": "2",
     "mulligans": false,
@@ -18882,9 +22384,19 @@
       "low": "14"
      }
     ],
-    "keepMax": "5",
-    "keepMin": "2",
-    "keepType": "land",
+    "keep": [
+     {
+      "id": "k0",
+      "rules": [
+       {
+        "cardType": "land",
+        "id": "k0r0",
+        "max": "5",
+        "min": "2"
+       }
+      ]
+     }
+    ],
     "lastTurn": "0",
     "maxMulligans": "2",
     "mulligans": false,
@@ -18955,9 +22467,19 @@
       "low": "14"
      }
     ],
-    "keepMax": "5",
-    "keepMin": "2",
-    "keepType": "land",
+    "keep": [
+     {
+      "id": "k0",
+      "rules": [
+       {
+        "cardType": "land",
+        "id": "k0r0",
+        "max": "5",
+        "min": "2"
+       }
+      ]
+     }
+    ],
     "lastTurn": "4",
     "maxMulligans": "2",
     "mulligans": false,
@@ -19311,9 +22833,19 @@
       "low": "14"
      }
     ],
-    "keepMax": "5",
-    "keepMin": "2",
-    "keepType": "land",
+    "keep": [
+     {
+      "id": "k0",
+      "rules": [
+       {
+        "cardType": "land",
+        "id": "k0r0",
+        "max": "5",
+        "min": "2"
+       }
+      ]
+     }
+    ],
     "lastTurn": "3",
     "maxMulligans": "2",
     "mulligans": false,
@@ -19402,9 +22934,19 @@
       "low": "14"
      }
     ],
-    "keepMax": "5",
-    "keepMin": "2",
-    "keepType": "land",
+    "keep": [
+     {
+      "id": "k0",
+      "rules": [
+       {
+        "cardType": "land",
+        "id": "k0r0",
+        "max": "5",
+        "min": "2"
+       }
+      ]
+     }
+    ],
     "lastTurn": "6",
     "maxMulligans": "2",
     "mulligans": false,
@@ -19912,9 +23454,19 @@
       "low": "14"
      }
     ],
-    "keepMax": "5",
-    "keepMin": "2",
-    "keepType": "land",
+    "keep": [
+     {
+      "id": "k0",
+      "rules": [
+       {
+        "cardType": "land",
+        "id": "k0r0",
+        "max": "5",
+        "min": "2"
+       }
+      ]
+     }
+    ],
     "lastTurn": "1",
     "maxMulligans": "2",
     "mulligans": false,
@@ -19991,9 +23543,19 @@
       "low": "14"
      }
     ],
-    "keepMax": "5",
-    "keepMin": "2",
-    "keepType": "land",
+    "keep": [
+     {
+      "id": "k0",
+      "rules": [
+       {
+        "cardType": "land",
+        "id": "k0r0",
+        "max": "5",
+        "min": "2"
+       }
+      ]
+     }
+    ],
     "lastTurn": "3",
     "maxMulligans": "2",
     "mulligans": false,
@@ -20282,9 +23844,19 @@
       "low": "14"
      }
     ],
-    "keepMax": "5",
-    "keepMin": "2",
-    "keepType": "land",
+    "keep": [
+     {
+      "id": "k0",
+      "rules": [
+       {
+        "cardType": "land",
+        "id": "k0r0",
+        "max": "5",
+        "min": "2"
+       }
+      ]
+     }
+    ],
     "lastTurn": "5",
     "maxMulligans": "2",
     "mulligans": false,

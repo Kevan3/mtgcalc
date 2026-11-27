@@ -128,11 +128,15 @@ Tick **I mulligan bad opening hands** to include mulligans. A **mulligan** means
 
 | Setting | What it means |
 |---|---|
-| **Keep a hand with 2 to 5 land** | Which hands you're happy with. Any other hand gets mulliganed. *Keep any hand* means you never mulligan. |
+| **Keep a hand with 2 to 5 land** | Which hands you're happy with. Any other hand gets mulliganed. With no kinds of hand listed, you keep every hand (you never mulligan). |
+| **And also** | Add another line to the same kind of hand. The hand needs **every** line, for example *2 to 5 land* **and** *1 to 7 ramp*. |
+| **Or keep another kind of hand** | Add a second kind of hand. A hand that fits **any** kind is kept, for example *3 to 5 land*, **or** *2 land and 1 to 7 ramp*. |
 | **When I put cards on the bottom, I keep these first** | Which cards you hold on to when you must put some on the bottom. Put the most important at the top. |
 | **keep up to 3** | Hold on to at most 3 of that type. Extras may go to the bottom. |
 | **Mulligan at most 2 times** | After the last mulligan you keep whatever you draw. |
 | **My first mulligan is free** | The multiplayer rule: the first mulligan costs no card. |
+
+Under your kinds of hand, the app says your rule in words, for example *keep a hand with 3 to 5 land, or with 2 land and 1 to 7 ramp*. The same rule is used after every mulligan.
 
 **How bottoming works, with an example.** Say your list is *land, keep up to 3*, then *removal, keep up to 1*. After one mulligan you draw 5 land, 1 removal and 1 other card, and must put 1 on the bottom:
 1. Cards you didn't list go first, so the **other card** goes to the bottom.

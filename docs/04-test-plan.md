@@ -206,6 +206,7 @@ Peak state counts are recorded to catch algorithmic regressions independently of
 | FR-93 | web/src/engine/scheduler.test.ts (incl. property), transport.test.ts, App.test.tsx (slow worker), e2e/quality (typing) |
 | FR-94, FR-96 | web/src/forms/parse.test.ts, App.test.tsx, e2e/newcomer (mistakes, jargon), e2e/quality (axe, keyboard) |
 | FR-98 | CI `pages.yml` (build) |
+| FR-105 | gui/test_forms (`keep_condition`, words, errors, more kinds keep more hands), gui/test_app_smoke (kinds of hand), web/src/forms/parity.test.ts (scenario JSON and words vs Python, every shape), web/src/app/state.test.ts, storage.test.ts (upgrade), App.test.tsx, e2e/quality (axe) |
 | FR-99 | web/src/forms/answer.test.ts, App.test.tsx (too big) |
 | NFR-16 | e2e/quality (first answer, typing pause + budget), WebAssembly size check in `npm run wasm` |
 | NFR-17 | e2e/quality (axe WCAG 2.2 AA light/dark, with problems; keyboard; descriptions) |

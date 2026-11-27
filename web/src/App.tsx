@@ -134,8 +134,18 @@ export function App({ core, makeWorker, remember = true }: Props): ReactNode {
       if (action.type === "protectRemoved") focusTarget.current = "#add-protect";
       if (action.type === "varyAdded") focusTarget.current = `[data-row="${String(state.nextId)}"] select`;
       if (action.type === "varyRemoved") focusTarget.current = "#add-vary";
+      if (action.type === "keepRuleAdded")
+        focusTarget.current = `[data-row="${String(state.nextId)}"] select`;
+      if (action.type === "keepGroupAdded")
+        focusTarget.current = `[data-row="${String(state.nextId + 1)}"] select`;
+      if (action.type === "keepRuleRemoved") {
+        // To the kind's "and also" button, or (if that was its last line) to "add a kind".
+        const group = state.form.keep.find((g) => g.rules.some((r) => r.id === action.id));
+        focusTarget.current =
+          group !== undefined && group.rules.length > 1 ? `#add-keep-line-${group.id}` : "#add-keep-kind";
+      }
     },
-    [state.nextId],
+    [state.nextId, state.form.keep],
   );
 
   const size = form.deckMode === "list" ? (decklist?.size ?? null) : parseWhole(form.deckSize);

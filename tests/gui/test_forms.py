@@ -7,8 +7,9 @@ from fractions import Fraction
 
 import pytest
 
-from mtgcalc import Deck, Query, Scenario, probability
+from mtgcalc import Deck, Query, Scenario, api, probability, tag
 from mtgcalc.errors import MtgCalcError, ParseError, ValidationError
+from mtgcalc.model.conditions import And, Between, Const, Or
 from mtgcalc.model.results import Probability
 from mtgcalc_gui import forms
 from mtgcalc_gui.forms import (
@@ -17,6 +18,7 @@ from mtgcalc_gui.forms import (
     DeckSetup,
     Goal,
     HowMany,
+    KeepRule,
     MulliganSetup,
     PlaySetup,
     Requirement,
@@ -92,7 +94,7 @@ def test_type_names() -> None:
 def test_build_scenario_play_and_mulligans() -> None:
     sc = forms.build_scenario(DECK, PlaySetup(False, 1, ((3, 2), (3, 1))), MulliganSetup())
     assert sc.game.draws_through(3) == 3 + 3 and sc.mulligan is None
-    sc = scenario(enabled=True, keep_type="", protect=(("land", 3),), free_first=True)
+    sc = scenario(enabled=True, keep=(), protect=(("land", 3),), free_first=True)
     assert sc.mulligan is not None and sc.mulligan.free_mulligans == 1
     assert "Mulligans allowed" in forms.describe_scenario(sc)
     assert "30 other cards" in forms.describe_scenario(sc)
@@ -102,7 +104,9 @@ def test_build_scenario_play_and_mulligans() -> None:
     "mull",
     [
         {"enabled": True, "protect": ()},
-        {"enabled": True, "keep_min": 5, "keep_max": 2},
+        {"enabled": True, "keep": ((KeepRule("land", 5, 2),),)},
+        {"enabled": True, "keep": ((KeepRule("land", 2, 5),), (KeepRule("removal", 3, 1),))},
+        {"enabled": True, "keep": ((KeepRule("land", 2, 5),), ())},
         {"enabled": True, "protect": (("land", 3), ("land", 1))},
     ],
 )
@@ -303,10 +307,45 @@ def test_how_many_needs_card_types() -> None:
         forms.how_many(listed, sc, HowMany())
 
 
+LAND = KeepRule("land", 2, 5)
+REMOVAL = KeepRule("removal", 1, 7)
+
+
 def test_keep_rule_words() -> None:
-    assert forms.keep_rule_words(MulliganSetup(keep_type="")) == "always keep your first hand"
+    assert forms.keep_rule_words(MulliganSetup(keep=())) == "always keep your first hand"
     assert forms.keep_rule_words(MulliganSetup()) == "keep a hand with 2 to 5 land"
-    assert forms.keep_rule_words(MulliganSetup(keep_type=ANY_CARD)).endswith("cards")
+    any_card = MulliganSetup(keep=((KeepRule(ANY_CARD, 7, 7),),))
+    assert forms.keep_rule_words(any_card) == "keep a hand with 7 cards"
+    kinds = MulliganSetup(keep=((KeepRule("land", 3, 4),), (KeepRule("land", 2, 2), REMOVAL)))
+    assert (
+        forms.keep_rule_words(kinds)
+        == "keep a hand with 3 to 4 land, or with 2 land and 1 to 7 removal"
+    )
+
+
+def test_keep_condition_is_any_kind_of_all_its_lines() -> None:
+    land, removal = Between(tag("land"), 2, 5), Between(tag("removal"), 1, 7)
+    assert forms.keep_condition(()) == Const(True)
+    assert forms.keep_condition(((LAND,),)) == land  # never wrapped needlessly
+    assert forms.keep_condition(((LAND, REMOVAL),)) == And((land, removal))
+    assert forms.keep_condition(((LAND,), (REMOVAL,))) == Or((land, removal))
+    assert forms.keep_condition(((LAND, REMOVAL), (REMOVAL,))) == Or(
+        (And((land, removal)), removal)
+    )
+    sc = scenario(enabled=True, keep=((LAND, REMOVAL), (REMOVAL,)))
+    assert sc.mulligan is not None and sc.mulligan.keep_rule == Or((And((land, removal)), removal))
+
+
+def test_more_kinds_of_hand_keep_more_hands() -> None:
+    """Adding a kind of hand can only keep more hands, so mulligans happen less often."""
+    goal = forms.goal_condition(GOAL)
+    one = api.mulligan_report(scenario(enabled=True, keep=((LAND, REMOVAL),)), goal)
+    two = api.mulligan_report(scenario(enabled=True, keep=((LAND, REMOVAL), (LAND,))), goal)
+    only_land = api.mulligan_report(scenario(enabled=True, keep=((LAND,),)), goal)
+    assert two.expected_mulligans < one.expected_mulligans
+    # "2-5 land and 1-7 removal, or 2-5 land" keeps exactly the hands "2-5 land" keeps.
+    assert two.p_success == only_land.p_success
+    assert two.expected_mulligans == only_land.expected_mulligans
 
 
 def test_every_error_is_a_library_error() -> None:
