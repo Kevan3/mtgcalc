@@ -59,7 +59,7 @@ A change merges only when every gate is green. The pipeline runs on GitHub Actio
 | Workflow | When | Jobs |
 |---|---|---|
 | `.github/workflows/ci.yml` | Every push to `main` and every pull request | `rust` (fmt, clippy for the core and the bindings, test, doc); `lint` (ruff, mypy, import contracts); `test` (Python 3.12 and 3.13 × native and Python engine, with coverage; GUI tests run under `xvfb`) |
-| `.github/workflows/nightly.yml` | Daily, and on demand | Hypothesis `ci-deep` on both engines, performance budgets, the live deck-site check |
+| `.github/workflows/nightly.yml` | Daily, and on demand | Hypothesis `ci-deep` on both engines, performance budgets |
 | `.github/workflows/ci.yml`, job `web` | Every push and pull request | WebAssembly build, `tsc`, ESLint + Prettier, Vitest with coverage (95/90), Playwright on Chromium, Firefox and a phone |
 | `.github/workflows/pages.yml` | Every push to `main` | Builds the web app and publishes it to GitHub Pages |
 | `.github/dependabot.yml` | Weekly | Update PRs for actions, cargo, pip and npm dependencies |

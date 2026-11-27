@@ -26,13 +26,12 @@ mtgcalc_online = ["py.typed"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["src", "."]
-addopts = "-m 'not perf and not network' --strict-markers"
+addopts = "-m 'not perf' --strict-markers"
 markers = [
     "slow: takes more than ~1s",
     "perf: performance budget tests (NFR-03..05)",
     "mc: Monte Carlo statistical tests",
     "gui: needs a display (Tk window smoke tests)",
-    "network: talks to real deck websites (run explicitly with -m network)",
 ]
 
 [tool.coverage.run]

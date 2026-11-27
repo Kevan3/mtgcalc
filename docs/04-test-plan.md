@@ -44,7 +44,6 @@ tests/
   online/test_archidekt.py                     # JSON -> Deck on trimmed real + edge-case fixtures (FR-65)
   online/test_sources.py                       # link recognition; nothing fetched for other text; Moxfield help
   online/test_http.py                          # get_json against a local HTTP server: codes, size cap, non-JSON, offline
-  online/test_live.py                          # marker `network` (opt-in): the real Archidekt API, to catch format changes
   docs/test_usage_numbers.py                   # recomputes every number quoted in docs/USAGE.md (FR-84)
   engine/test_native_conformance.py            # Rust == Python, bit for bit: run, mulligan, hand_values, errors (NFR-09; skipped if not built)
   engine/test_core_conformance.py              # Rust model/compiler/probability == Python via JSON; same errors; Unicode (FR-90, FR-91)
